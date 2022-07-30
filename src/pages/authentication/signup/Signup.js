@@ -1,6 +1,6 @@
 import React from 'react';
 
-function Signup() {
+function Signup({ switchAuth }) {
   return (
     <div>
       <h1>sign up</h1>
@@ -16,6 +16,7 @@ function Signup() {
         <button type='submit'>create account</button>
         <button type='button'>cancel</button>
       </form>
+      <button onClick={switchAuth}>log in</button>
     </div>
   );
 }

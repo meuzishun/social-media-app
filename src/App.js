@@ -11,14 +11,21 @@ import './App.css';
 
 function App() {
   const [user, setUser] = useState(null);
+  const [authPage, setAuthPage] = useState('login');
+
+  const switchAuth = () => {
+    if (authPage === 'login') setAuthPage('signup');
+    if (authPage === 'signup') setAuthPage('login');
+  };
 
   return (
     <div className='App'>
       {!user ? (
-        <>
-          <Login />
-          <Signup />
-        </>
+        authPage === 'login' ? (
+          <Login switchAuth={switchAuth} />
+        ) : (
+          <Signup switchAuth={switchAuth} />
+        )
       ) : (
         <>
           <Header />
