@@ -7,6 +7,7 @@
 
 # testing
 /coverage
+src/fake_data
 
 # production
 /build

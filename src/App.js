@@ -8,14 +8,31 @@ import Timeline from './pages/home/timeline/Timeline';
 import Feed from './pages/home/feed/Feed';
 import Footer from './components/Footer';
 import './App.css';
+import fake_users from './fake_data/fake_users';
+import posts from './fake_data/fake_posts';
+// const testUser = {
+//   username: 'meuzishun',
+//   fullName: 'Andrew Smith',
+//   email: 'meuzishun@gmail.com',
+//   avatar: 'image.jpg',
+//   bio: 'Some guy',
+//   id: 'fdlk4rfGTRSGH6tghb',
+//   friends: [],
+//   posts: [],
+// };
 
 function App() {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(fake_users[0]);
   const [authPage, setAuthPage] = useState('login');
+  const [homePage, setHomePage] = useState('profile');
 
   const switchAuth = () => {
     if (authPage === 'login') setAuthPage('signup');
     if (authPage === 'signup') setAuthPage('login');
+  };
+
+  const switchHomePage = (e) => {
+    setHomePage(e.target.innerText);
   };
 
   return (
@@ -28,11 +45,16 @@ function App() {
         )
       ) : (
         <>
-          <Header />
-          <Profile />
-          <Network />
-          <Timeline />
-          <Feed />
+          <Header user={user} switchHomePage={switchHomePage} />
+          {homePage === 'profile' ? (
+            <Profile user={user} />
+          ) : homePage === 'network' ? (
+            <Network user={user} />
+          ) : homePage === 'timeline' ? (
+            <Timeline user={user} />
+          ) : homePage === 'feed' ? (
+            <Feed user={user} />
+          ) : null}
           <Footer />
         </>
       )}
