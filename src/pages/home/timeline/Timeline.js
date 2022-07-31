@@ -6,10 +6,9 @@ function Timeline({ user }) {
   const [userPosts, setUserPosts] = useState([]);
 
   useEffect(() => {
-    const posts = fake_posts.filter((post) => post.author === user.id);
-    console.log(posts);
-    setUserPosts(posts);
+    setUserPosts(fake_posts.filter((post) => post.author === user.id));
   }, []);
+
   return (
     <div>
       {userPosts

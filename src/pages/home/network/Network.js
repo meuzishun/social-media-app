@@ -6,10 +6,11 @@ function Network({ user }) {
   const [friends, setFriends] = useState([]);
 
   useEffect(() => {
-    const foundFriends = user.friends.map((friendId) =>
-      fake_users.find((user) => user.id === friendId)
+    setFriends(
+      user.friends.map((friendId) =>
+        fake_users.find((user) => user.id === friendId)
+      )
     );
-    setFriends(foundFriends);
   }, []);
 
   return (
