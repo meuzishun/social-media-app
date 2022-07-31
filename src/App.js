@@ -17,7 +17,7 @@ function App() {
   const [user, setUser] = useState(fake_users[0]);
   const [friendIds, setFriendIds] = useState([]);
   const [userPostIds, setUserPostIds] = useState([]);
-  // const [friendPostIds, setFriendPostIds] = useState([]);
+  const [friendPostIds, setFriendPostIds] = useState([]);
   const [homePage, setHomePage] = useState('profile');
 
   const switchAuth = () => {
@@ -32,6 +32,11 @@ function App() {
   useEffect(() => {
     setFriendIds(user.friends);
     setUserPostIds(user.posts);
+    setFriendPostIds(
+      user.friends
+        .map((friendId) => fake_users.find((user) => user.id === friendId))
+        .reduce((prev, currentFriend) => [...prev, ...currentFriend.posts], [])
+    );
   }, [user]);
 
   return (
@@ -52,7 +57,7 @@ function App() {
           ) : homePage === 'timeline' ? (
             <Timeline userPostIds={userPostIds} />
           ) : homePage === 'feed' ? (
-            <Feed friendIds={friendIds} />
+            <Feed friendPostIds={friendPostIds} />
           ) : null}
           <Footer />
         </>
