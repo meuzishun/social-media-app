@@ -23,6 +23,7 @@ import posts from './fake_data/fake_posts';
 
 function App() {
   const [authPage, setAuthPage] = useState('login');
+  // const [user, setUser] = useState(null);
   const [user, setUser] = useState(fake_users[0]);
   const [homePage, setHomePage] = useState('profile');
 
