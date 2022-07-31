@@ -10,21 +10,11 @@ import Footer from './components/Footer';
 import './App.css';
 import fake_users from './fake_data/fake_users';
 import posts from './fake_data/fake_posts';
-// const testUser = {
-//   username: 'meuzishun',
-//   fullName: 'Andrew Smith',
-//   email: 'meuzishun@gmail.com',
-//   avatar: 'image.jpg',
-//   bio: 'Some guy',
-//   id: 'fdlk4rfGTRSGH6tghb',
-//   friends: [],
-//   posts: [],
-// };
 
 function App() {
   const [authPage, setAuthPage] = useState('login');
   // const [user, setUser] = useState(null);
-  const [user, setUser] = useState(fake_users[0]);
+  const [user, setUser] = useState(fake_users[1]);
   const [homePage, setHomePage] = useState('profile');
 
   const switchAuth = () => {
