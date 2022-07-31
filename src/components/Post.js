@@ -1,16 +1,32 @@
 import React, { useEffect, useState } from 'react';
-import fake_posts from '../fake_data/fake_posts';
-import fake_users from '../fake_data/fake_users';
+import { db } from '../services/firebaseApp';
+import { collection, getDocs } from 'firebase/firestore';
 
 function Post({ postId }) {
   const [post, setPost] = useState(null);
   const [user, setUser] = useState(null);
 
-  useEffect(() => {
-    const post = fake_posts.find((post) => post.id === postId);
-    const user = fake_users.find((user) => user.id === post.author);
+  const getPost = async () => {
+    let posts = [];
+    const postsQuery = await getDocs(collection(db, 'posts'));
+    postsQuery.forEach((doc) => {
+      const data = doc.data();
+      posts = [...posts, data];
+    });
+    const post = posts.find((post) => post.id === postId);
+    let users = [];
+    const usersQuery = await getDocs(collection(db, 'users'));
+    usersQuery.forEach((doc) => {
+      const data = doc.data();
+      users = [...users, data];
+    });
+    const user = users.find((user) => user.id === post.author);
     setPost(post);
     setUser(user);
+  };
+
+  useEffect(() => {
+    getPost();
   }, []);
 
   return (

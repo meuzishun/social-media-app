@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import Authentication from './pages/authentication/Authentication';
 import Home from './pages/home/Home';
 import './App.css';
-import fake_users from './fake_data/fake_users';
 
 function App() {
   const [user, setUser] = useState(null);

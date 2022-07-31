@@ -1,16 +1,25 @@
 import React, { useEffect, useState } from 'react';
 import Friend from '../../../components/Friend';
-import fake_users from '../../../fake_data/fake_users';
+import { db } from '../../../services/firebaseApp';
+import { collection, getDocs } from 'firebase/firestore';
 
 function Network({ friendIds }) {
   const [friends, setFriends] = useState([]);
 
+  const getFriends = async () => {
+    const querySnapshot = await getDocs(collection(db, 'users'));
+    let friends = [];
+    querySnapshot.forEach((doc) => {
+      const data = doc.data();
+      if (friendIds.includes(data.id)) {
+        friends = [...friends, data];
+      }
+    });
+    setFriends(friends);
+  };
+
   useEffect(() => {
-    setFriends(
-      friendIds.map((friendId) =>
-        fake_users.find((user) => user.id === friendId)
-      )
-    );
+    getFriends();
   }, []);
 
   return (

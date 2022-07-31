@@ -1,23 +1,32 @@
 import React, { useState, useEffect } from 'react';
 import { Routes, Route, useNavigate } from 'react-router-dom';
+import { db } from '../../services/firebaseApp';
+import { collection, getDocs } from 'firebase/firestore';
 import Header from '../../components/Header';
 import Profile from './profile/Profile';
 import Network from './network/Network';
 import Timeline from './timeline/Timeline';
 import Feed from './feed/Feed';
 import Footer from '../../components/Footer';
-import fake_users from '../../fake_data/fake_users';
 
 function Home({ user, changeUser }) {
   const navigate = useNavigate();
   const [friendPostIds, setFriendPostIds] = useState([]);
 
+  const getFriendPostIds = async () => {
+    const querySnapshot = await getDocs(collection(db, 'users'));
+    let postIds = [];
+    querySnapshot.forEach((doc) => {
+      const data = doc.data();
+      if (user.friends.includes(data.id)) {
+        postIds = [...postIds, ...data.posts];
+      }
+    });
+    setFriendPostIds(postIds);
+  };
+
   useEffect(() => {
-    setFriendPostIds(
-      user.friends
-        .map((friendId) => fake_users.find((user) => user.id === friendId))
-        .reduce((prev, currentFriend) => [...prev, ...currentFriend.posts], [])
-    );
+    getFriendPostIds();
   }, [user]);
 
   useEffect(() => {
