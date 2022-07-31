@@ -1,6 +1,7 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
-function Signup({ switchAuth }) {
+function Signup() {
   return (
     <div>
       <h1>sign up</h1>
@@ -16,7 +17,9 @@ function Signup({ switchAuth }) {
         <button type='submit'>create account</button>
         <button type='button'>cancel</button>
       </form>
-      <button onClick={switchAuth}>log in</button>
+      <button>
+        <Link to='/login'>log in</Link>
+      </button>
     </div>
   );
 }

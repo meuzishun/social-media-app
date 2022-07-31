@@ -1,12 +1,31 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import Welcome from '../../../components/Welcome';
+import fake_users from '../../../fake_data/fake_users';
 
-function Login({ switchAuth }) {
+function Login({ changeUser }) {
+  const handleLoginSubmit = (e) => {
+    e.preventDefault();
+    const username = e.target.username.value;
+    const user = fake_users.find((user) => user.username === username);
+    if (!user) {
+      alert('No user with that username');
+      return;
+    }
+    if (user.password !== e.target.password.value) {
+      alert('Incorrect password');
+      return;
+    }
+    if (user && user.password === e.target.password.value) {
+      changeUser(user);
+    }
+  };
+
   return (
     <div>
       <Welcome />
       <h1>log in</h1>
-      <form className='loginForm'>
+      <form className='loginForm' onSubmit={handleLoginSubmit}>
         <label htmlFor='username'>username</label>
         <input type='text' id='username' name='username' />
         <label htmlFor='password'>password</label>
@@ -14,7 +33,9 @@ function Login({ switchAuth }) {
         <button type='submit'>log in</button>
         <button type='button'>cancel</button>
       </form>
-      <button onClick={switchAuth}>sign up</button>
+      <button>
+        <Link to='/signup'>sign up</Link>
+      </button>
     </div>
   );
 }

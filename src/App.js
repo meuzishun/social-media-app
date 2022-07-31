@@ -1,66 +1,22 @@
-import { useEffect, useState } from 'react';
-import Login from './pages/authentication/login/Login';
-import Signup from './pages/authentication/signup/Signup';
-import Header from './components/Header';
-import Profile from './pages/home/profile/Profile';
-import Network from './pages/home/network/Network';
-import Timeline from './pages/home/timeline/Timeline';
-import Feed from './pages/home/feed/Feed';
-import Footer from './components/Footer';
+import React, { useState } from 'react';
+import Authentication from './pages/authentication/Authentication';
+import Home from './pages/home/Home';
 import './App.css';
 import fake_users from './fake_data/fake_users';
-import posts from './fake_data/fake_posts';
 
 function App() {
-  const [authPage, setAuthPage] = useState('login');
-  // const [user, setUser] = useState(null);
-  const [user, setUser] = useState(fake_users[0]);
-  const [friendIds, setFriendIds] = useState([]);
-  const [userPostIds, setUserPostIds] = useState([]);
-  const [friendPostIds, setFriendPostIds] = useState([]);
-  const [homePage, setHomePage] = useState('profile');
+  const [user, setUser] = useState(null);
 
-  const switchAuth = () => {
-    if (authPage === 'login') setAuthPage('signup');
-    if (authPage === 'signup') setAuthPage('login');
+  const changeUser = (user) => {
+    setUser(user);
   };
-
-  const switchHomePage = (e) => {
-    setHomePage(e.target.innerText);
-  };
-
-  useEffect(() => {
-    setFriendIds(user.friends);
-    setUserPostIds(user.posts);
-    setFriendPostIds(
-      user.friends
-        .map((friendId) => fake_users.find((user) => user.id === friendId))
-        .reduce((prev, currentFriend) => [...prev, ...currentFriend.posts], [])
-    );
-  }, [user]);
 
   return (
     <div className='App'>
       {!user ? (
-        authPage === 'login' ? (
-          <Login switchAuth={switchAuth} />
-        ) : (
-          <Signup switchAuth={switchAuth} />
-        )
+        <Authentication changeUser={changeUser} />
       ) : (
-        <>
-          <Header user={user} switchHomePage={switchHomePage} />
-          {homePage === 'profile' ? (
-            <Profile user={user} />
-          ) : homePage === 'network' ? (
-            <Network friendIds={friendIds} />
-          ) : homePage === 'timeline' ? (
-            <Timeline userPostIds={userPostIds} />
-          ) : homePage === 'feed' ? (
-            <Feed friendPostIds={friendPostIds} />
-          ) : null}
-          <Footer />
-        </>
+        <Home user={user} changeUser={changeUser} />
       )}
     </div>
   );
