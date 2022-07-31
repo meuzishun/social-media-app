@@ -2,12 +2,12 @@ import React, { useEffect, useState } from 'react';
 import Friend from '../../../components/Friend';
 import fake_users from '../../../fake_data/fake_users';
 
-function Network({ user }) {
+function Network({ friendIds }) {
   const [friends, setFriends] = useState([]);
 
   useEffect(() => {
     setFriends(
-      user.friends.map((friendId) =>
+      friendIds.map((friendId) =>
         fake_users.find((user) => user.id === friendId)
       )
     );

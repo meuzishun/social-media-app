@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Login from './pages/authentication/login/Login';
 import Signup from './pages/authentication/signup/Signup';
 import Header from './components/Header';
@@ -14,7 +14,10 @@ import posts from './fake_data/fake_posts';
 function App() {
   const [authPage, setAuthPage] = useState('login');
   // const [user, setUser] = useState(null);
-  const [user, setUser] = useState(fake_users[1]);
+  const [user, setUser] = useState(fake_users[0]);
+  const [friendIds, setFriendIds] = useState([]);
+  const [userPostIds, setUserPostIds] = useState([]);
+  // const [friendPostIds, setFriendPostIds] = useState([]);
   const [homePage, setHomePage] = useState('profile');
 
   const switchAuth = () => {
@@ -25,6 +28,11 @@ function App() {
   const switchHomePage = (e) => {
     setHomePage(e.target.innerText);
   };
+
+  useEffect(() => {
+    setFriendIds(user.friends);
+    setUserPostIds(user.posts);
+  }, [user]);
 
   return (
     <div className='App'>
@@ -40,11 +48,11 @@ function App() {
           {homePage === 'profile' ? (
             <Profile user={user} />
           ) : homePage === 'network' ? (
-            <Network user={user} />
+            <Network friendIds={friendIds} />
           ) : homePage === 'timeline' ? (
-            <Timeline user={user} />
+            <Timeline userPostIds={userPostIds} />
           ) : homePage === 'feed' ? (
-            <Feed user={user} />
+            <Feed friendIds={friendIds} />
           ) : null}
           <Footer />
         </>

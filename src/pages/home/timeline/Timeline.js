@@ -1,11 +1,11 @@
 import React from 'react';
 import Post from '../../../components/Post';
 
-function Timeline({ user }) {
+function Timeline({ userPostIds }) {
   return (
     <div>
-      {user.posts
-        ? user.posts.map((post) => <Post key={post} postId={post} />)
+      {userPostIds
+        ? userPostIds.map((postId) => <Post key={postId} postId={postId} />)
         : null}
     </div>
   );

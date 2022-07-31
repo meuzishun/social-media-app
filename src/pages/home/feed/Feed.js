@@ -3,12 +3,12 @@ import Post from '../../../components/Post';
 import fake_posts from '../../../fake_data/fake_posts';
 import fake_users from '../../../fake_data/fake_users';
 
-function Feed({ user }) {
+function Feed({ friendIds }) {
   const [friendPosts, setFriendPosts] = useState([]);
 
   useEffect(() => {
-    const friends = user.friends.map((friend) =>
-      fake_users.find((user) => user.id === friend)
+    const friends = friendIds.map((friendId) =>
+      fake_users.find((user) => user.id === friendId)
     );
     const friendPosts = friends.map((friend) => friend.posts);
     setFriendPosts(friendPosts.flat());
