@@ -1,15 +1,85 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 function Profile({ user }) {
+  console.log(user);
+  const [edit, setEdit] = useState(false);
+  const [userState, setUserState] = useState(null);
+
+  const toggleEdit = () => {
+    setEdit(!edit);
+  };
+
+  const handleInputChange = (e) => {
+    const userProp = e.target.name;
+    const userValue = e.target.value;
+    setUserState({ ...userState, [userProp]: userValue });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log(e);
+  };
+
+  const handleCancelClick = () => {
+    setUserState(user);
+    toggleEdit();
+  };
+
+  useEffect(() => {
+    setUserState(user);
+  }, []);
+
   return (
-    <div>
-      <h1>name: {user.fullName}</h1>
-      <h2>username: {user.username}</h2>
-      <p>id: {user.id}</p>
-      <p>email: {user.email}</p>
-      <p>bio: {user.bio}</p>
-      <img src={user.avatar} alt='user avatar' />
-    </div>
+    <>
+      {!userState ? null : !edit ? (
+        <div>
+          <h1>name: {userState.fullName}</h1>
+          <h2>username: {userState.username}</h2>
+          <p>email: {userState.email}</p>
+          <p>bio: {userState.bio}</p>
+          <img src={user.avatar} alt='user avatar' />
+          <button onClick={toggleEdit}>edit</button>
+        </div>
+      ) : (
+        <form onSubmit={handleSubmit}>
+          <label htmlFor='fullName'>full name</label>
+          <input
+            type='text'
+            id='fullName'
+            name='fullName'
+            value={userState.fullName}
+            onChange={handleInputChange}
+          />
+          <label htmlFor='username'>username</label>
+          <input
+            type='text'
+            id='username'
+            name='username'
+            value={userState.username}
+            onChange={handleInputChange}
+          />
+          <label htmlFor='email'>email</label>
+          <input
+            type='email'
+            id='email'
+            name='email'
+            value={userState.email}
+            onChange={handleInputChange}
+          />
+          <label htmlFor='bio'>bio</label>
+          <textarea
+            id='bio'
+            name='bio'
+            onChange={handleInputChange}
+            value={userState.bio}
+          ></textarea>
+          <button type='submit'>submit</button>
+          <button type='button' onClick={handleCancelClick}>
+            cancel
+          </button>
+        </form>
+      )}
+    </>
   );
 }
 
