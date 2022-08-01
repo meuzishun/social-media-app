@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react';
+import { db } from '../../../services/firebaseApp';
+import { doc, updateDoc } from 'firebase/firestore';
 
 function Profile({ user }) {
   const [edit, setEdit] = useState(false);
@@ -14,9 +16,17 @@ function Profile({ user }) {
     setUserState({ ...userState, [userProp]: userValue });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(e);
+    const form = e.target;
+    const userRef = doc(db, 'users', user.id);
+    await updateDoc(userRef, {
+      fullName: form.fullName.value,
+      username: form.username.value,
+      email: form.email.value,
+      bio: form.bio.value,
+    });
+    setEdit(false);
   };
 
   const handleCancelClick = () => {
