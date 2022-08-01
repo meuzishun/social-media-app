@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
 function Profile({ user }) {
-  console.log(user);
   const [edit, setEdit] = useState(false);
   const [userState, setUserState] = useState(null);
 
