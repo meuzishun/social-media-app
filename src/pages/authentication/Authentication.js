@@ -3,7 +3,7 @@ import { Routes, Route, useNavigate } from 'react-router-dom';
 import Login from './login/Login';
 import Signup from './signup/Signup';
 
-function Authentication({ changeUser }) {
+function Authentication() {
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -13,7 +13,7 @@ function Authentication({ changeUser }) {
   return (
     <>
       <Routes>
-        <Route path='/login' element={<Login changeUser={changeUser} />} />
+        <Route path='/login' element={<Login />} />
         <Route path='/signup' element={<Signup />} />
       </Routes>
     </>

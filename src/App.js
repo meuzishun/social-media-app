@@ -5,14 +5,17 @@ import Home from './pages/home/Home';
 import './App.css';
 import { db } from './services/firebaseApp';
 import { doc, onSnapshot } from 'firebase/firestore';
+import uniqid from 'uniqid';
 import { fake_posts, fake_users } from './fake_data/fake_data';
 
 export const UserContext = createContext();
 export const NetworkContext = createContext();
 export const TimelineContext = createContext();
 export const FeedContext = createContext();
+export const LoginFunction = createContext();
 export const LogoutFunction = createContext();
 export const ChangeUserFunction = createContext();
+export const SubmitReplyFunction = createContext();
 
 function App() {
   const [user, setUser] = useState(null);
@@ -22,6 +25,36 @@ function App() {
 
   const navigate = useNavigate();
 
+  const handleLoginSubmit = async (e) => {
+    e.preventDefault();
+    const username = e.target.username.value;
+    //! DO NOT REMOVE - FIREBASE CODE
+    // const querySnapshot = await getDocs(collection(db, 'users'));
+    // let user;
+    // querySnapshot.forEach((doc) => {
+    //   const data = doc.data();
+    //   if (data.username === username) {
+    //     user = data;
+    //     return;
+    //   }
+    // });
+
+    //! MOCKED VERSION
+    const user = fake_users.find((user) => user.username === username);
+
+    if (!user) {
+      alert('No user with that username');
+      return;
+    }
+    if (user.password !== e.target.password.value) {
+      alert('Incorrect password');
+      return;
+    }
+    if (user && user.password === e.target.password.value) {
+      setUser(user);
+    }
+  };
+
   const changeUser = (user) => {
     setUser(user);
   };
@@ -29,6 +62,28 @@ function App() {
   const logoutUser = () => {
     setUser(null);
     navigate('/login');
+  };
+
+  const submitPostReply = async (postId, content) => {
+    const now = new Date();
+    const reply = {
+      author: user.id,
+      content,
+      id: uniqid(),
+      replies: [],
+      timestamp: now.toISOString(),
+    };
+    console.log(reply);
+    //! DO NOT REMOVE - FIREBASE CODE
+    // post reply to posts
+    // setDoc(doc(db, 'posts', reply.id), reply);
+    // // add reply to original post replies
+    // const originalPostDoc = doc(db, 'posts', postId);
+    // const originalPostSnap = await getDoc(originalPostDoc);
+    // const originalPostData = originalPostSnap.data();
+    // originalPostData.replies = [...originalPostData.replies, reply.id];
+    // updateDoc(originalPostDoc, originalPostData);
+    //TODO: refresh timeline somehow
   };
 
   // if (user) {
@@ -51,12 +106,6 @@ function App() {
 
   useEffect(() => {
     if (network) {
-      // const friendPostIds = network.map((friend) => friend.posts).flat();
-      // const friendPosts = network
-      //   .map((friend) => friend.posts)
-      //   .flat()
-      //   .map((id) => fake_posts.find((post) => post.id === id));
-      // console.log(friendPosts);
       setFeed(
         network
           .map((friend) => friend.posts)
@@ -66,27 +115,32 @@ function App() {
     }
   }, [network]);
 
-  useEffect(() => {
-    setUser(fake_users[2]);
-  }, []);
+  //* FOR TESTING PURPOSES
+  // useEffect(() => {
+  //   setUser(fake_users[0]);
+  // }, []);
 
   return (
     <div className='App'>
-      <LogoutFunction.Provider value={logoutUser}>
-        {!user ? (
-          <Authentication />
-        ) : (
-          <UserContext.Provider value={user}>
-            <NetworkContext.Provider value={network}>
-              <TimelineContext.Provider value={timeline}>
-                <FeedContext.Provider value={feed}>
-                  <Home />
-                </FeedContext.Provider>
-              </TimelineContext.Provider>
-            </NetworkContext.Provider>
-          </UserContext.Provider>
-        )}
-      </LogoutFunction.Provider>
+      <LoginFunction.Provider value={handleLoginSubmit}>
+        <LogoutFunction.Provider value={logoutUser}>
+          <SubmitReplyFunction.Provider value={submitPostReply}>
+            {!user ? (
+              <Authentication />
+            ) : (
+              <UserContext.Provider value={user}>
+                <NetworkContext.Provider value={network}>
+                  <TimelineContext.Provider value={timeline}>
+                    <FeedContext.Provider value={feed}>
+                      <Home />
+                    </FeedContext.Provider>
+                  </TimelineContext.Provider>
+                </NetworkContext.Provider>
+              </UserContext.Provider>
+            )}
+          </SubmitReplyFunction.Provider>
+        </LogoutFunction.Provider>
+      </LoginFunction.Provider>
     </div>
   );
 }

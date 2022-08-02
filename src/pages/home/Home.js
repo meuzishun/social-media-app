@@ -45,27 +45,6 @@ function Home({ changeUser }) {
     setFriendPostIds(friendPostIds);
   };
 
-  const submitPostReply = async (postId, content) => {
-    const now = new Date();
-    const reply = {
-      author: user.id,
-      content,
-      id: uniqid(),
-      replies: [],
-      timestamp: now.toISOString(),
-    };
-    //! DO NOT REMOVE - FIREBASE CODE
-    // post reply to posts
-    // setDoc(doc(db, 'posts', reply.id), reply);
-    // // add reply to original post replies
-    // const originalPostDoc = doc(db, 'posts', postId);
-    // const originalPostSnap = await getDoc(originalPostDoc);
-    // const originalPostData = originalPostSnap.data();
-    // originalPostData.replies = [...originalPostData.replies, reply.id];
-    // updateDoc(originalPostDoc, originalPostData);
-    //TODO: refresh timeline somehow
-  };
-
   useEffect(() => {
     getFriendPostIds();
   }, [user]);
@@ -80,19 +59,8 @@ function Home({ changeUser }) {
       <Routes>
         <Route path='/profile' element={<Profile />} />
         <Route path='/network' element={<Network />} />
-        <Route
-          path='/timeline'
-          element={<Timeline submitPostReply={submitPostReply} />}
-        />
-        <Route
-          path='/feed'
-          element={
-            <Feed
-              friendPostIds={friendPostIds}
-              submitPostReply={submitPostReply}
-            />
-          }
-        />
+        <Route path='/timeline' element={<Timeline />} />
+        <Route path='/feed' element={<Feed />} />
       </Routes>
       {/* <Navigate to='/profile' /> */}
       <Footer />

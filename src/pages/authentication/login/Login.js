@@ -1,40 +1,12 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import Welcome from '../../../components/Welcome';
 import { db } from '../../../services/firebaseApp';
 import { collection, getDocs } from 'firebase/firestore';
-import { fake_users, fake_posts } from '../../../fake_data/fake_data';
+import { LoginFunction } from '../../../App';
 
-function Login({ changeUser }) {
-  const handleLoginSubmit = async (e) => {
-    e.preventDefault();
-    const username = e.target.username.value;
-    //! DO NOT REMOVE - FIREBASE CODE
-    // const querySnapshot = await getDocs(collection(db, 'users'));
-    // let user;
-    // querySnapshot.forEach((doc) => {
-    //   const data = doc.data();
-    //   if (data.username === username) {
-    //     user = data;
-    //     return;
-    //   }
-    // });
-
-    //! MOCKED VERSION
-    const user = fake_users.find((user) => user.username === username);
-
-    if (!user) {
-      alert('No user with that username');
-      return;
-    }
-    if (user.password !== e.target.password.value) {
-      alert('Incorrect password');
-      return;
-    }
-    if (user && user.password === e.target.password.value) {
-      changeUser(user);
-    }
-  };
+function Login() {
+  const handleLoginSubmit = useContext(LoginFunction);
 
   return (
     <div>

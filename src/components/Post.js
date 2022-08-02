@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { db } from '../services/firebaseApp';
 import { collection, getDocs } from 'firebase/firestore';
 import { fake_users, fake_posts } from '../fake_data/fake_data';
+import { SubmitReplyFunction } from '../App';
 
-function Post({ post, submitPostReply }) {
+function Post({ post }) {
   // const [post, setPost] = useState(null);
   // const [user, setUser] = useState(null);
   const [author, setAuthor] = useState(null);
@@ -31,6 +32,8 @@ function Post({ post, submitPostReply }) {
     // setPost(post);
     // setUser(user);
   };
+
+  const submitPostReply = useContext(SubmitReplyFunction);
 
   const handleReplyClick = () => {
     setReply(true);
