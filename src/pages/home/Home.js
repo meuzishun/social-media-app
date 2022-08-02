@@ -39,10 +39,7 @@ function Home({ user, changeUser }) {
       <Routes>
         <Route path='/profile' element={<Profile user={user} />} />
         <Route path='/network' element={<Network friendIds={user.friends} />} />
-        <Route
-          path='/timeline'
-          element={<Timeline userPostIds={user.posts} />}
-        />
+        <Route path='/timeline' element={<Timeline user={user} />} />
         <Route path='/feed' element={<Feed friendPostIds={friendPostIds} />} />
       </Routes>
       {/* <Navigate to='/profile' /> */}
