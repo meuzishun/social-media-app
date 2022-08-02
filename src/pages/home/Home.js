@@ -8,6 +8,7 @@ import {
   getDoc,
   setDoc,
   updateDoc,
+  onSnapshot,
 } from 'firebase/firestore';
 import Header from '../../components/Header';
 import Profile from './profile/Profile';
