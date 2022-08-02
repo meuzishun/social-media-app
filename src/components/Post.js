@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { db } from '../services/firebaseApp';
 import { collection, getDocs } from 'firebase/firestore';
+import { fake_users, fake_posts } from '../fake_data/fake_data';
 
 function Post({ postId, submitPostReply }) {
   const [post, setPost] = useState(null);
@@ -8,20 +9,26 @@ function Post({ postId, submitPostReply }) {
   const [reply, setReply] = useState(false);
 
   const getPost = async () => {
-    let posts = [];
-    const postsQuery = await getDocs(collection(db, 'posts'));
-    postsQuery.forEach((doc) => {
-      const data = doc.data();
-      posts = [...posts, data];
-    });
-    const post = posts.find((post) => post.id === postId);
-    let users = [];
-    const usersQuery = await getDocs(collection(db, 'users'));
-    usersQuery.forEach((doc) => {
-      const data = doc.data();
-      users = [...users, data];
-    });
-    const user = users.find((user) => user.id === post.author);
+    //! DO NOT REMOVE - FIREBASE CODE
+    // let posts = [];
+    // const postsQuery = await getDocs(collection(db, 'posts'));
+    // postsQuery.forEach((doc) => {
+    //   const data = doc.data();
+    //   posts = [...posts, data];
+    // });
+    // const post = posts.find((post) => post.id === postId);
+    // let users = [];
+    // const usersQuery = await getDocs(collection(db, 'users'));
+    // usersQuery.forEach((doc) => {
+    //   const data = doc.data();
+    //   users = [...users, data];
+    // });
+    // const user = users.find((user) => user.id === post.author);
+
+    //! MOCKED VERSIONS
+    const post = fake_posts.find((post) => post.id === postId);
+    const user = fake_users.find((user) => user.id === post.author);
+
     setPost(post);
     setUser(user);
   };
