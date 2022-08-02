@@ -1,12 +1,12 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { UserContext, LogoutFunction } from '../App';
 
-function Header({ user, changeUser }) {
+function Header() {
+  const user = useContext(UserContext);
+  const logout = useContext(LogoutFunction);
   const navigate = useNavigate();
-  const logout = () => {
-    changeUser(null);
-    navigate('/login');
-  };
+
   return (
     <header>
       <div>social media logo</div>

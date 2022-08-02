@@ -76,13 +76,13 @@ function Home({ changeUser }) {
 
   return (
     <>
-      <Header user={user} changeUser={changeUser} />
+      <Header />
       <Routes>
-        <Route path='/profile' element={<Profile user={user} />} />
-        <Route path='/network' element={<Network friendIds={user.friends} />} />
+        <Route path='/profile' element={<Profile />} />
+        <Route path='/network' element={<Network />} />
         <Route
           path='/timeline'
-          element={<Timeline user={user} submitPostReply={submitPostReply} />}
+          element={<Timeline submitPostReply={submitPostReply} />}
         />
         <Route
           path='/feed'

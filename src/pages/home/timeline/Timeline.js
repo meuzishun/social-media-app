@@ -1,16 +1,15 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { TimelineContext } from '../../../App';
 import Post from '../../../components/Post';
 
-function Timeline({ user, submitPostReply }) {
+function Timeline({ submitPostReply }) {
+  const timeline = useContext(TimelineContext);
+
   return (
     <div>
-      {user
-        ? user.posts.map((postId) => (
-            <Post
-              key={postId}
-              postId={postId}
-              submitPostReply={submitPostReply}
-            />
+      {timeline
+        ? timeline.map((post) => (
+            <Post key={post.id} post={post} submitPostReply={submitPostReply} />
           ))
         : null}
     </div>

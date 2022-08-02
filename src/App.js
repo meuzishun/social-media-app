@@ -1,4 +1,5 @@
 import React, { useEffect, useState, createContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Authentication from './pages/authentication/Authentication';
 import Home from './pages/home/Home';
 import './App.css';
@@ -8,13 +9,18 @@ import { fake_posts, fake_users } from './fake_data/fake_data';
 
 export const UserContext = createContext();
 export const NetworkContext = createContext();
+export const TimelineContext = createContext();
+export const FeedContext = createContext();
+export const LogoutFunction = createContext();
+export const ChangeUserFunction = createContext();
 
 function App() {
   const [user, setUser] = useState(null);
-  // const [user, setUser] = useState(fake_users[0]);
   const [network, setNetwork] = useState([]);
-  // const [userPosts, setUserPosts] = useState([]);
-  const [friendPosts, setFriendPosts] = useState([]);
+  const [timeline, setTimeline] = useState([]);
+  const [feed, setFeed] = useState([]);
+
+  const navigate = useNavigate();
 
   const changeUser = (user) => {
     setUser(user);
@@ -22,6 +28,7 @@ function App() {
 
   const logoutUser = () => {
     setUser(null);
+    navigate('/login');
   };
 
   // if (user) {
@@ -33,40 +40,53 @@ function App() {
 
   useEffect(() => {
     if (user) {
-      const friendIds = user.friends;
-      const friendProfiles = friendIds.map((id) =>
-        fake_users.find((user) => user.id === id)
+      setNetwork(
+        user.friends.map((id) => fake_users.find((user) => user.id === id))
       );
-      // console.log(friendProfiles);
-      setNetwork(friendProfiles);
+      setTimeline(
+        user.posts.map((id) => fake_posts.find((post) => post.id === id))
+      );
     }
   }, [user]);
 
   useEffect(() => {
     if (network) {
-      const friendPostIds = network.map((friend) => friend.posts).flat();
-      const friendPosts = friendPostIds.map((id) =>
-        fake_posts.find((post) => post.id === id)
+      // const friendPostIds = network.map((friend) => friend.posts).flat();
+      // const friendPosts = network
+      //   .map((friend) => friend.posts)
+      //   .flat()
+      //   .map((id) => fake_posts.find((post) => post.id === id));
+      // console.log(friendPosts);
+      setFeed(
+        network
+          .map((friend) => friend.posts)
+          .flat()
+          .map((id) => fake_posts.find((post) => post.id === id))
       );
-      console.log(friendPosts);
     }
   }, [network]);
 
   useEffect(() => {
-    changeUser(fake_users[0]);
+    setUser(fake_users[2]);
   }, []);
 
   return (
     <div className='App'>
-      {!user ? (
-        <Authentication changeUser={changeUser} />
-      ) : (
-        <UserContext.Provider value={user}>
-          <NetworkContext.Provider value={network}>
-            <Home changeUser={changeUser} />
-          </NetworkContext.Provider>
-        </UserContext.Provider>
-      )}
+      <LogoutFunction.Provider value={logoutUser}>
+        {!user ? (
+          <Authentication />
+        ) : (
+          <UserContext.Provider value={user}>
+            <NetworkContext.Provider value={network}>
+              <TimelineContext.Provider value={timeline}>
+                <FeedContext.Provider value={feed}>
+                  <Home />
+                </FeedContext.Provider>
+              </TimelineContext.Provider>
+            </NetworkContext.Provider>
+          </UserContext.Provider>
+        )}
+      </LogoutFunction.Provider>
     </div>
   );
 }

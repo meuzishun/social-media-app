@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { db } from '../../../services/firebaseApp';
 import { doc, updateDoc } from 'firebase/firestore';
+import { UserContext } from '../../../App';
 
-function Profile({ user }) {
+function Profile() {
+  const user = useContext(UserContext);
   const [edit, setEdit] = useState(false);
-  const [userState, setUserState] = useState(null);
+  const [userState, setUserState] = useState(null); //? Needed?
 
   const toggleEdit = () => {
     setEdit(!edit);

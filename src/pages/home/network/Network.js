@@ -1,11 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Friend from '../../../components/Friend';
 import { db } from '../../../services/firebaseApp';
 import { collection, getDocs } from 'firebase/firestore';
-import { fake_users, fake_posts } from '../../../fake_data/fake_data';
+import { NetworkContext } from '../../../App';
 
-function Network({ friendIds }) {
-  const [friends, setFriends] = useState([]);
+function Network() {
+  const network = useContext(NetworkContext);
+  // const [friends, setFriends] = useState([]);
 
   const getFriends = async () => {
     //! DO NOT REMOVE - FIREBASE CODE
@@ -17,22 +18,20 @@ function Network({ friendIds }) {
     //     friends = [...friends, data];
     //   }
     // });
-
     //! MOCKED VERSION
-    const friends = friendIds.map((id) =>
-      fake_users.find((user) => user.id === id)
-    );
-
-    setFriends(friends);
+    // const friends = friendIds.map((id) =>
+    //   fake_users.find((user) => user.id === id)
+    // );
+    // setFriends(friends);
   };
 
-  useEffect(() => {
-    getFriends();
-  }, []);
+  // useEffect(() => {
+  //   getFriends();
+  // }, []);
 
   return (
     <div>
-      {friends.map((friend) => (
+      {network.map((friend) => (
         <Friend key={friend.id} friend={friend} />
       ))}
     </div>

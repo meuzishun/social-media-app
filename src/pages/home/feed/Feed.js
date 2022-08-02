@@ -1,16 +1,15 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { FeedContext } from '../../../App';
 import Post from '../../../components/Post';
 
-function Feed({ friendPostIds, submitPostReply }) {
+function Feed({ submitPostReply }) {
+  const feed = useContext(FeedContext);
+
   return (
     <div>
-      {friendPostIds
-        ? friendPostIds.map((postId) => (
-            <Post
-              key={postId}
-              postId={postId}
-              submitPostReply={submitPostReply}
-            />
+      {feed
+        ? feed.map((post) => (
+            <Post key={post.id} post={post} submitPostReply={submitPostReply} />
           ))
         : null}
     </div>

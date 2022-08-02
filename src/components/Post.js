@@ -3,9 +3,10 @@ import { db } from '../services/firebaseApp';
 import { collection, getDocs } from 'firebase/firestore';
 import { fake_users, fake_posts } from '../fake_data/fake_data';
 
-function Post({ postId, submitPostReply }) {
-  const [post, setPost] = useState(null);
-  const [user, setUser] = useState(null);
+function Post({ post, submitPostReply }) {
+  // const [post, setPost] = useState(null);
+  // const [user, setUser] = useState(null);
+  const [author, setAuthor] = useState(null);
   const [reply, setReply] = useState(false);
 
   const getPost = async () => {
@@ -24,13 +25,11 @@ function Post({ postId, submitPostReply }) {
     //   users = [...users, data];
     // });
     // const user = users.find((user) => user.id === post.author);
-
     //! MOCKED VERSIONS
-    const post = fake_posts.find((post) => post.id === postId);
-    const user = fake_users.find((user) => user.id === post.author);
-
-    setPost(post);
-    setUser(user);
+    // const post = fake_posts.find((post) => post.id === postId);
+    // const user = fake_users.find((user) => user.id === post.author);
+    // setPost(post);
+    // setUser(user);
   };
 
   const handleReplyClick = () => {
@@ -47,16 +46,20 @@ function Post({ postId, submitPostReply }) {
     setReply(false);
   };
 
+  // useEffect(() => {
+  //   getPost();
+  // }, []);
+
   useEffect(() => {
-    getPost();
+    setAuthor(fake_users.find((user) => user.id === post.author));
   }, []);
 
   return (
     <div>
-      {post ? (
+      {author ? (
         <div>
           <p>
-            <span>{user.username}:</span> {post.content}
+            <span>{author.username}:</span> {post.content}
           </p>
           {reply ? (
             <form onSubmit={handleReplySubmit}>
@@ -73,8 +76,8 @@ function Post({ postId, submitPostReply }) {
             {post.replies.map((reply) => {
               return (
                 <Post
-                  key={reply}
-                  postId={reply}
+                  key={reply.id}
+                  post={reply}
                   submitPostReply={submitPostReply}
                 />
               );
