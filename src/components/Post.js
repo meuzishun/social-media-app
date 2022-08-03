@@ -24,6 +24,7 @@ function Post({ post }) {
   const handleReplySubmit = (e) => {
     e.preventDefault();
     submitPostReply(post, replyContent);
+    setReplyContent('');
     setReplyState(false);
   };
 
