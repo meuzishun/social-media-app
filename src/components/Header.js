@@ -1,11 +1,10 @@
 import React, { useContext } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { UserContext, LogoutFunction } from '../App';
+import { Link } from 'react-router-dom';
+import { UserContext, AppFunctions } from '../App';
 
 function Header() {
   const user = useContext(UserContext);
-  const logout = useContext(LogoutFunction);
-  const navigate = useNavigate();
+  const { logoutUser } = useContext(AppFunctions);
 
   return (
     <header>
@@ -28,7 +27,7 @@ function Header() {
           </li>
         </ul>
       </nav>
-      <button onClick={logout}>log out</button>
+      <button onClick={logoutUser}>log out</button>
     </header>
   );
 }

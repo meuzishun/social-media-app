@@ -12,10 +12,7 @@ export const UserContext = createContext();
 export const NetworkContext = createContext();
 export const TimelineContext = createContext();
 export const FeedContext = createContext();
-export const LoginFunction = createContext();
-export const LogoutFunction = createContext();
-export const ChangeUserFunction = createContext();
-export const SubmitReplyFunction = createContext();
+export const AppFunctions = createContext();
 
 function App() {
   const [user, setUser] = useState(null);
@@ -25,65 +22,74 @@ function App() {
 
   const navigate = useNavigate();
 
-  const handleLoginSubmit = async (e) => {
-    e.preventDefault();
-    const username = e.target.username.value;
-    //! DO NOT REMOVE - FIREBASE CODE
-    // const querySnapshot = await getDocs(collection(db, 'users'));
-    // let user;
-    // querySnapshot.forEach((doc) => {
-    //   const data = doc.data();
-    //   if (data.username === username) {
-    //     user = data;
-    //     return;
-    //   }
-    // });
+  const appFunctions = {
+    submitSignup: (form) => {
+      console.log(form);
+    },
+    logoutUser: () => {
+      setUser(null);
+      navigate('/login');
+    },
+    submitLogin: async (form) => {
+      console.log(form);
+      // e.preventDefault();
+      // const username = e.target.username.value;
+      //! DO NOT REMOVE - FIREBASE CODE
+      // const querySnapshot = await getDocs(collection(db, 'users'));
+      // let user;
+      // querySnapshot.forEach((doc) => {
+      //   const data = doc.data();
+      //   if (data.username === username) {
+      //     user = data;
+      //     return;
+      //   }
+      // });
 
-    //! MOCKED VERSION
-    const user = fake_users.find((user) => user.username === username);
+      //! MOCKED VERSION
+      // const user = fake_users.find((user) => user.username === username);
 
-    if (!user) {
-      alert('No user with that username');
-      return;
-    }
-    if (user.password !== e.target.password.value) {
-      alert('Incorrect password');
-      return;
-    }
-    if (user && user.password === e.target.password.value) {
-      setUser(user);
-    }
-  };
-
-  const changeUser = (user) => {
-    setUser(user);
-  };
-
-  const logoutUser = () => {
-    setUser(null);
-    navigate('/login');
-  };
-
-  const submitPostReply = async (postId, content) => {
-    const now = new Date();
-    const reply = {
-      author: user.id,
-      content,
-      id: uniqid(),
-      replies: [],
-      timestamp: now.toISOString(),
-    };
-    console.log(reply);
-    //! DO NOT REMOVE - FIREBASE CODE
-    // post reply to posts
-    // setDoc(doc(db, 'posts', reply.id), reply);
-    // // add reply to original post replies
-    // const originalPostDoc = doc(db, 'posts', postId);
-    // const originalPostSnap = await getDoc(originalPostDoc);
-    // const originalPostData = originalPostSnap.data();
-    // originalPostData.replies = [...originalPostData.replies, reply.id];
-    // updateDoc(originalPostDoc, originalPostData);
-    //TODO: refresh timeline somehow
+      // if (!user) {
+      //   alert('No user with that username');
+      //   return;
+      // }
+      // if (user.password !== e.target.password.value) {
+      //   alert('Incorrect password');
+      //   return;
+      // }
+      // if (user && user.password === e.target.password.value) {
+      //   setUser(user);
+      // }
+    },
+    editUserProfile: async (newProfile) => {
+      console.log(newProfile);
+      // const userRef = doc(db, 'users', user.id);
+      // await updateDoc(userRef, newProfile);
+    },
+    findUserById: (id) => {
+      return fake_users.find((user) => user.id === id);
+    },
+    submitPostReply: async (post, replyContent) => {
+      const now = new Date();
+      const reply = {
+        author: user.id,
+        content: replyContent,
+        id: uniqid(),
+        replies: [],
+        timestamp: now.toISOString(),
+      };
+      console.log(post, reply);
+      //? Just add reply to post's replies and update the data?
+      //! DO NOT REMOVE - FIREBASE CODE
+      // post reply to posts
+      // setDoc(doc(db, 'posts', reply.id), reply);
+      // // add reply to original post replies
+      // const originalPostDoc = doc(db, 'posts', postId);
+      // const originalPostSnap = await getDoc(originalPostDoc);
+      // const originalPostData = originalPostSnap.data();
+      // originalPostData.replies = [...originalPostData.replies, reply.id];
+      // updateDoc(originalPostDoc, originalPostData);
+      //TODO: refresh timeline somehow
+    },
   };
 
   useEffect(() => {
@@ -109,31 +115,27 @@ function App() {
   }, [network]);
 
   //* FOR TESTING PURPOSES
-  // useEffect(() => {
-  //   setUser(fake_users[0]);
-  // }, []);
+  useEffect(() => {
+    setUser(fake_users[0]);
+  }, []);
 
   return (
     <div className='App'>
-      <LoginFunction.Provider value={handleLoginSubmit}>
-        <LogoutFunction.Provider value={logoutUser}>
-          <SubmitReplyFunction.Provider value={submitPostReply}>
-            {!user ? (
-              <Authentication />
-            ) : (
-              <UserContext.Provider value={user}>
-                <NetworkContext.Provider value={network}>
-                  <TimelineContext.Provider value={timeline}>
-                    <FeedContext.Provider value={feed}>
-                      <Home />
-                    </FeedContext.Provider>
-                  </TimelineContext.Provider>
-                </NetworkContext.Provider>
-              </UserContext.Provider>
-            )}
-          </SubmitReplyFunction.Provider>
-        </LogoutFunction.Provider>
-      </LoginFunction.Provider>
+      <AppFunctions.Provider value={appFunctions}>
+        {!user ? (
+          <Authentication />
+        ) : (
+          <UserContext.Provider value={user}>
+            <NetworkContext.Provider value={network}>
+              <TimelineContext.Provider value={timeline}>
+                <FeedContext.Provider value={feed}>
+                  <Home />
+                </FeedContext.Provider>
+              </TimelineContext.Provider>
+            </NetworkContext.Provider>
+          </UserContext.Provider>
+        )}
+      </AppFunctions.Provider>
     </div>
   );
 }
