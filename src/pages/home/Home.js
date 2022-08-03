@@ -1,53 +1,14 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { UserContext } from '../../App';
+import React, { useEffect } from 'react';
 import { Routes, Route, useNavigate } from 'react-router-dom';
-import { db } from '../../services/firebaseApp';
-import {
-  collection,
-  getDocs,
-  doc,
-  getDoc,
-  setDoc,
-  updateDoc,
-  onSnapshot,
-} from 'firebase/firestore';
 import Header from '../../components/Header';
 import Profile from './profile/Profile';
 import Network from './network/Network';
 import Timeline from './timeline/Timeline';
 import Feed from './feed/Feed';
 import Footer from '../../components/Footer';
-import uniqid from 'uniqid';
-import { fake_users, fake_posts } from '../../fake_data/fake_data';
 
-function Home({ changeUser }) {
-  const user = useContext(UserContext);
+function Home() {
   const navigate = useNavigate();
-  const [friendPostIds, setFriendPostIds] = useState([]);
-
-  const getFriendPostIds = async () => {
-    //! DO NOT REMOVE - FIREBASE CODE
-    // const querySnapshot = await getDocs(collection(db, 'users'));
-    // let postIds = [];
-    // querySnapshot.forEach((doc) => {
-    //   const data = doc.data();
-    //   if (user.friends.includes(data.id)) {
-    //     postIds = [...postIds, ...data.posts];
-    //   }
-    // });
-
-    //! MOCKED VERSION
-    const friendPostIds = user.friends
-      .map((id) => fake_users.find((user) => user.id === id))
-      .map((profile) => profile.posts)
-      .flat();
-
-    setFriendPostIds(friendPostIds);
-  };
-
-  useEffect(() => {
-    getFriendPostIds();
-  }, [user]);
 
   useEffect(() => {
     navigate('/profile');
@@ -62,7 +23,6 @@ function Home({ changeUser }) {
         <Route path='/timeline' element={<Timeline />} />
         <Route path='/feed' element={<Feed />} />
       </Routes>
-      {/* <Navigate to='/profile' /> */}
       <Footer />
     </>
   );

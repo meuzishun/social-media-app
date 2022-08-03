@@ -86,13 +86,6 @@ function App() {
     //TODO: refresh timeline somehow
   };
 
-  // if (user) {
-  // onSnapshot(doc(db, 'users', user.id), (doc) => {
-  //   // console.log(doc.data());
-  //   changeUser(doc.data());
-  // });
-  // }
-
   useEffect(() => {
     if (user) {
       setNetwork(
