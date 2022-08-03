@@ -3,11 +3,11 @@ import { Link } from 'react-router-dom';
 import Welcome from '../../../components/Welcome';
 import { db } from '../../../services/firebaseApp';
 import { collection, getDocs } from 'firebase/firestore';
-import { AppFunctions } from '../../../App';
+import { AuthFunctions } from '../../../App';
 
 function Login() {
   const [formState, setFormState] = useState({});
-  const { submitLogin } = useContext(AppFunctions);
+  const { submitLogin } = useContext(AuthFunctions);
 
   const handleInputChange = (e) => {
     setFormState({ ...formState, [e.target.name]: e.target.value });

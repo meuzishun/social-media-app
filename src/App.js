@@ -12,6 +12,7 @@ export const UserContext = createContext();
 export const NetworkContext = createContext();
 export const TimelineContext = createContext();
 export const FeedContext = createContext();
+export const AuthFunctions = createContext();
 export const AppFunctions = createContext();
 
 function App() {
@@ -22,14 +23,7 @@ function App() {
 
   const navigate = useNavigate();
 
-  const appFunctions = {
-    submitSignup: (form) => {
-      console.log(form);
-    },
-    logoutUser: () => {
-      setUser(null);
-      navigate('/login');
-    },
+  const authFunctions = {
     submitLogin: async (form) => {
       console.log(form);
       // e.preventDefault();
@@ -59,6 +53,16 @@ function App() {
       // if (user && user.password === e.target.password.value) {
       //   setUser(user);
       // }
+    },
+    submitSignup: (form) => {
+      console.log(form);
+    },
+  };
+
+  const appFunctions = {
+    logoutUser: () => {
+      setUser(null);
+      navigate('/login');
     },
     editUserProfile: async (newProfile) => {
       console.log(newProfile);
@@ -121,10 +125,12 @@ function App() {
 
   return (
     <div className='App'>
-      <AppFunctions.Provider value={appFunctions}>
-        {!user ? (
+      {!user ? (
+        <AuthFunctions.Provider value={authFunctions}>
           <Authentication />
-        ) : (
+        </AuthFunctions.Provider>
+      ) : (
+        <AppFunctions.Provider value={appFunctions}>
           <UserContext.Provider value={user}>
             <NetworkContext.Provider value={network}>
               <TimelineContext.Provider value={timeline}>
@@ -134,8 +140,8 @@ function App() {
               </TimelineContext.Provider>
             </NetworkContext.Provider>
           </UserContext.Provider>
-        )}
-      </AppFunctions.Provider>
+        </AppFunctions.Provider>
+      )}
     </div>
   );
 }

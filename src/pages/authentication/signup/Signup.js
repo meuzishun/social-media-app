@@ -1,10 +1,10 @@
 import React, { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { AppFunctions } from '../../../App';
+import { AuthFunctions } from '../../../App';
 
 function Signup() {
   const [formState, setFormState] = useState({});
-  const { submitSignup } = useContext(AppFunctions);
+  const { submitSignup } = useContext(AuthFunctions);
 
   const handleInputChange = (e) => {
     setFormState({ ...formState, [e.target.name]: e.target.value });
