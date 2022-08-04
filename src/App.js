@@ -131,6 +131,30 @@ function App() {
       const userSnap = await getDoc(userRef);
       setUser(userSnap.data());
     },
+    submitAddFriend: async (username) => {
+      let response;
+
+      const userQuery = query(
+        collection(db, 'users'),
+        where('username', '==', username)
+      );
+
+      const querySnapshot = await getDocs(userQuery);
+
+      if (querySnapshot.docs.length === 0) {
+        response = 'no users';
+      }
+      querySnapshot.forEach((doc) => {
+        const newFriend = doc.data();
+        response = 'found user';
+        const newFriends = [...user.friends, newFriend.id];
+        const newProfile = { ...user, friends: newFriends };
+        appFunctions.updateUserProfile(newProfile);
+      });
+
+      navigate('/network'); //! NOT WORKING
+      return response;
+    },
     submitPostReply: async (post, replyContent) => {
       const now = new Date();
       const reply = {
@@ -237,8 +261,8 @@ function App() {
     //! MOCKED VERSION
     // setUser(fake_users[0]);
 
-    // authFunctions.submitLogin({ username: 'meuzishun', password: 'password' });
-    navigate('/signup');
+    authFunctions.submitLogin({ username: 'meuzishun', password: 'password' });
+    // navigate('/signup');
   }, []);
 
   return (
