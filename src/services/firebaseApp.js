@@ -1,6 +1,13 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from 'firebase/app';
-import { collection, doc, getFirestore, onSnapshot } from 'firebase/firestore';
+import {
+  collection,
+  doc,
+  getDoc,
+  setDoc.
+  getFirestore,
+  onSnapshot,
+} from 'firebase/firestore';
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -18,8 +25,55 @@ const firebaseConfig = {
 export const firebaseApp = initializeApp(firebaseConfig);
 
 export const db = getFirestore(firebaseApp);
+const userCollection = collection(db, 'users');
+const postCollection = collection(db, 'posts');
+
+export const addUser = async (user) => {
+  const newRef = doc(db, 'users', user.id);
+  await setDoc(newRef, user);
+  const newUserSnap = await getDoc(newRef);
+  return newUserSnap.data();
+}
+
+export const getUserById = async (id) => {
+  const docSnap = await getDoc(doc(db, 'users', id));
+  if (docSnap.exists()) {
+    return docSnap.data();
+  } else {
+    return false;
+  }
+};
+
+export const getPostById = async (id) => {
+  const docSnap = await getDoc(doc(db, 'posts', id));
+  if (docSnap.exists()) {
+    return docSnap.data();
+  } else {
+    return false;
+  }
+};
 
 // onSnapshot(collection(db, 'users'), (usersCollection) => {
 //   usersCollection.forEach((doc) => console.log(doc.data()));
 //   //TODO: import and call a function here... from Home, trickles down
 // });
+
+//? Should we house (and export) all the functions that read, write, update, delete from the database here?
+
+//? addUser
+//? getUserById
+//? getUserByUsername
+//? updateUserById
+//? deleteUserById
+
+//? addPost
+//? getPostById
+//? updatePostById
+//? deletePostById
+
+//? addFriendToUserNetwork
+//? deleteFriendFromUserNetwork
+
+//? addReplyToPost
+//? updateReplyToPost
+//? deleteReplyFromPost
