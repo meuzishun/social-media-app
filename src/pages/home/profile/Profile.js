@@ -1,6 +1,4 @@
 import React, { useEffect, useState, useContext } from 'react';
-import { db } from '../../../services/firebaseApp';
-import { doc, updateDoc } from 'firebase/firestore';
 import { UserContext, AppFunctions } from '../../../App';
 
 function Profile() {
@@ -8,21 +6,19 @@ function Profile() {
   const [editProfile, setEditProfile] = useState(false);
   const [userState, setUserState] = useState(null);
 
-  const { editUserProfile } = useContext(AppFunctions);
+  const { updateUserProfile } = useContext(AppFunctions);
 
   const toggleEdit = () => {
     setEditProfile(!editProfile);
   };
 
   const handleInputChange = (e) => {
-    // const userProp = e.target.name;
-    // const userValue = e.target.value;
     setUserState({ ...userState, [e.target.name]: e.target.value });
   };
 
   const handleProfileEditSubmit = (e) => {
     e.preventDefault();
-    editUserProfile(userState);
+    updateUserProfile(userState);
     setEditProfile(false);
   };
 

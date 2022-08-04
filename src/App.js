@@ -12,6 +12,7 @@ import {
   query,
   where,
   getDoc,
+  updateDoc,
 } from 'firebase/firestore';
 import uniqid from 'uniqid';
 import { fake_posts, fake_users } from './fake_data/fake_data';
@@ -100,11 +101,6 @@ function App() {
       setUser(null);
       navigate('/login');
     },
-    editUserProfile: async (newProfile) => {
-      console.log(newProfile);
-      // const userRef = doc(db, 'users', user.id);
-      // await updateDoc(userRef, newProfile);
-    },
     findUserById: async (id) => {
       //! MOCKED VERSION
       // return fake_users.find((user) => user.id === id);
@@ -120,6 +116,13 @@ function App() {
       const docSnap = await getDoc(doc(db, 'posts', id));
       const post = docSnap.data();
       return post;
+    },
+    updateUserProfile: async (newProfile) => {
+      const userRef = doc(db, 'users', user.id);
+      setUser(null);
+      await updateDoc(userRef, newProfile);
+      const userSnap = await getDoc(userRef);
+      setUser(userSnap.data());
     },
     submitPostReply: async (post, replyContent) => {
       const now = new Date();
@@ -227,7 +230,7 @@ function App() {
     //! MOCKED VERSION
     // setUser(fake_users[0]);
 
-    authFunctions.submitLogin({ username: 'JMH2', password: 'password' });
+    authFunctions.submitLogin({ username: 'meuzishun', password: 'password' });
   }, []);
 
   return (
