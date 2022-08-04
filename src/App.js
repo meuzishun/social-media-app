@@ -13,6 +13,7 @@ import {
   where,
   getDoc,
   updateDoc,
+  setDoc,
 } from 'firebase/firestore';
 import uniqid from 'uniqid';
 import { fake_posts, fake_users } from './fake_data/fake_data';
@@ -91,8 +92,14 @@ function App() {
       //   setUser(user);
       // }
     },
-    submitSignup: (form) => {
-      console.log(form);
+    submitSignup: async (form) => {
+      const user = { ...form, id: uniqid(), friends: [], posts: [] };
+      const newRef = doc(db, 'users', user.id);
+      await setDoc(newRef, user);
+      const newUserSnap = await getDoc(newRef);
+      const newUser = newUserSnap.data();
+      setUser(newUser);
+      navigate('/profile');
     },
   };
 
@@ -149,7 +156,7 @@ function App() {
   };
 
   useEffect(() => {
-    if (user) {
+    if (user && user.posts.length > 0) {
       //! MOCKED VERSION
       // setTimeline(
       //   user.posts.map((id) => fake_posts.find((post) => post.id === id))
@@ -170,7 +177,7 @@ function App() {
   }, [user]);
 
   useEffect(() => {
-    if (user) {
+    if (user && user.friends.length > 0) {
       //! MOCKED VERSION
       // setNetwork(
       //   user.friends.map((id) => fake_users.find((user) => user.id === id))
@@ -230,7 +237,8 @@ function App() {
     //! MOCKED VERSION
     // setUser(fake_users[0]);
 
-    authFunctions.submitLogin({ username: 'meuzishun', password: 'password' });
+    // authFunctions.submitLogin({ username: 'meuzishun', password: 'password' });
+    navigate('/signup');
   }, []);
 
   return (

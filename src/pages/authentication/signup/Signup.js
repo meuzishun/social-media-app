@@ -26,12 +26,12 @@ function Signup() {
     <div>
       <h1>sign up</h1>
       <form className='signupForm' onSubmit={handleSignupSubmit}>
-        <label htmlFor='email'>email</label>
+        <label htmlFor='fullName'>full name</label>
         <input
-          type='email'
-          id='email'
-          name='email'
-          defaultValue={formState.email}
+          type='text'
+          id='fullName'
+          name='fullName'
+          defaultValue={formState.fullName}
           onChange={handleInputChange}
         />
         <label htmlFor='username'>create username</label>
@@ -42,6 +42,21 @@ function Signup() {
           defaultValue={formState.username}
           onChange={handleInputChange}
         />
+        <label htmlFor='email'>email</label>
+        <input
+          type='email'
+          id='email'
+          name='email'
+          defaultValue={formState.email}
+          onChange={handleInputChange}
+        />
+        <label htmlFor='bio'>bio</label>
+        <textarea
+          id='bio'
+          name='bio'
+          onChange={handleInputChange}
+          defaultValue={formState.bio}
+        ></textarea>
         <label htmlFor='password'>create password</label>
         <input
           type='password'
