@@ -1,15 +1,16 @@
 import React, { useContext } from 'react';
-import { TimelineContext } from '../../../App';
 import Post from '../../../components/Post';
+import { TimelineContext } from '../../../App';
 
 function Timeline() {
   const timeline = useContext(TimelineContext);
 
   return (
     <div>
-      {timeline
-        ? timeline.map((post) => <Post key={post.id} post={post} />)
-        : null}
+      {console.log(timeline)}
+      {timeline.map((post) => (
+        <Post key={post.id} post={post} />
+      ))}
     </div>
   );
 }

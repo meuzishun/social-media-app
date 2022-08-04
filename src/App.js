@@ -11,6 +11,7 @@ import {
   onSnapshot,
   query,
   where,
+  getDoc,
 } from 'firebase/firestore';
 import uniqid from 'uniqid';
 import { fake_posts, fake_users } from './fake_data/fake_data';
@@ -32,7 +33,7 @@ function App() {
 
   const authFunctions = {
     submitLogin: async (form) => {
-      console.log(form);
+      // console.log(form);
       // e.preventDefault();
       // const username = e.target.username.value;
       //! DO NOT REMOVE - FIREBASE CODE
@@ -64,7 +65,6 @@ function App() {
 
       querySnapshot.forEach((doc) => {
         const user = doc.data();
-        console.log(user);
         if (user.password !== form.password) {
           response = 'wrong password';
         } else {
@@ -105,8 +105,21 @@ function App() {
       // const userRef = doc(db, 'users', user.id);
       // await updateDoc(userRef, newProfile);
     },
-    findUserById: (id) => {
-      return fake_users.find((user) => user.id === id);
+    findUserById: async (id) => {
+      //! MOCKED VERSION
+      // return fake_users.find((user) => user.id === id);
+
+      const docSnap = await getDoc(doc(db, 'users', id));
+      const user = docSnap.data();
+      return user;
+    },
+    findPostById: async (id) => {
+      //! MOCKED VERSION
+      // return fake_posts.find((post) => post.id === id);
+
+      const docSnap = await getDoc(doc(db, 'posts', id));
+      const post = docSnap.data();
+      return post;
     },
     submitPostReply: async (post, replyContent) => {
       const now = new Date();
@@ -134,33 +147,88 @@ function App() {
 
   useEffect(() => {
     if (user) {
-      //TODO: change this to tap firebase
-      // setNetwork(
-      //   user.friends.map((id) => fake_users.find((user) => user.id === id))
-      // );
-      //TODO: change this to tap firebase
+      //! MOCKED VERSION
       // setTimeline(
       //   user.posts.map((id) => fake_posts.find((post) => post.id === id))
       // );
-      console.log(user);
+      const timelineQuery = query(
+        collection(db, 'posts'),
+        where('id', 'in', user.posts)
+      );
+      getDocs(timelineQuery).then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          const post = doc.data();
+          setTimeline((prev) => {
+            return [...prev, post];
+          });
+        });
+      });
     }
   }, [user]);
 
   useEffect(() => {
-    if (network) {
-      setFeed(
-        network
-          .map((friend) => friend.posts)
-          .flat()
-          .map((id) => fake_posts.find((post) => post.id === id))
+    if (user) {
+      //! MOCKED VERSION
+      // setNetwork(
+      //   user.friends.map((id) => fake_users.find((user) => user.id === id))
+      // );
+
+      const networkQuery = query(
+        collection(db, 'users'),
+        where('id', 'in', user.friends)
       );
+      getDocs(networkQuery).then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          const user = doc.data();
+          setNetwork((prev) => {
+            return [...prev, user];
+          });
+        });
+      });
+    }
+  }, [user]);
+
+  useEffect(() => {
+    if (network.length > 0) {
+      //! MOCKED VERSION
+      // setFeed(
+      //   network
+      //     .map((friend) => friend.posts)
+      //     .flat()
+      //     .map((id) => fake_posts.find((post) => post.id === id))
+      // );
+
+      const friendPosts = network.map((friend) => friend.posts).flat();
+      const feedQuery = query(
+        collection(db, 'posts'),
+        where('id', 'in', friendPosts)
+      );
+      getDocs(feedQuery).then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          const post = doc.data();
+          setFeed((prev) => {
+            return [...prev, post];
+          });
+        });
+      });
     }
   }, [network]);
 
+  useEffect(() => {
+    if (!user) {
+      setTimeline([]);
+      setNetwork([]);
+      setFeed([]);
+    }
+  }, [user]);
+
   //* FOR TESTING PURPOSES
-  // useEffect(() => {
-  //   setUser(fake_users[0]);
-  // }, []);
+  useEffect(() => {
+    //! MOCKED VERSION
+    // setUser(fake_users[0]);
+
+    authFunctions.submitLogin({ username: 'JMH2', password: 'password' });
+  }, []);
 
   return (
     <div className='App'>

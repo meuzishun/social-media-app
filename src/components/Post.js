@@ -1,7 +1,4 @@
 import React, { useEffect, useState, useContext } from 'react';
-import { db } from '../services/firebaseApp';
-import { collection, getDocs } from 'firebase/firestore';
-import { fake_users, fake_posts } from '../fake_data/fake_data';
 import { AppFunctions } from '../App';
 
 function Post({ post }) {
@@ -9,9 +6,7 @@ function Post({ post }) {
   const [replyState, setReplyState] = useState(false);
   const [replyContent, setReplyContent] = useState();
 
-  const { findUserById } = useContext(AppFunctions);
-
-  const { submitPostReply } = useContext(AppFunctions);
+  const { findUserById, submitPostReply } = useContext(AppFunctions);
 
   const handleReplyClick = () => {
     setReplyState(true);
@@ -34,7 +29,14 @@ function Post({ post }) {
   };
 
   useEffect(() => {
-    setAuthor(findUserById(post.author));
+    //! MOCKED VERSION
+    // setAuthor(findUserById(post.author));
+
+    const findAuthor = async () => {
+      const user = await findUserById(post.author);
+      setAuthor(user);
+    };
+    findAuthor();
   }, []);
 
   return (
