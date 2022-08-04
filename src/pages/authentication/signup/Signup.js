@@ -1,10 +1,12 @@
 import React, { useContext, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { AuthFunctions } from '../../../App';
 
 function Signup() {
   const [formState, setFormState] = useState({});
   const { submitSignup } = useContext(AuthFunctions);
+
+  const navigate = useNavigate();
 
   const handleInputChange = (e) => {
     setFormState({ ...formState, [e.target.name]: e.target.value });
@@ -14,6 +16,10 @@ function Signup() {
     e.preventDefault();
     submitSignup(formState);
     setFormState({}); //! Either not changing the formState or not causing a rerender
+  };
+
+  const handleLoginClick = () => {
+    navigate('/login');
   };
 
   return (
@@ -54,9 +60,9 @@ function Signup() {
         />
         <button type='submit'>create account</button>
       </form>
-      <Link to='/login'>
-        <button>log in</button>
-      </Link>
+      <button type='button' onClick={handleLoginClick}>
+        log in
+      </button>
     </div>
   );
 }

@@ -1,12 +1,11 @@
 import React, { useContext, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Welcome from '../../../components/Welcome';
-import { db } from '../../../services/firebaseApp';
-import { collection, getDocs } from 'firebase/firestore';
 import { AuthFunctions } from '../../../App';
 
 function Login() {
   const [formState, setFormState] = useState({});
+  const navigate = useNavigate();
   const { submitLogin } = useContext(AuthFunctions);
 
   const handleInputChange = (e) => {
@@ -17,6 +16,10 @@ function Login() {
     e.preventDefault();
     submitLogin(formState);
     setFormState({}); //! Either not changing the formState or not causing a rerender
+  };
+
+  const handleSignupClick = () => {
+    navigate('/signup');
   };
 
   return (
@@ -42,9 +45,9 @@ function Login() {
         />
         <button type='submit'>log in</button>
       </form>
-      <Link to='/signup'>
-        <button>sign up</button>
-      </Link>
+      <button type='button' onClick={handleSignupClick}>
+        sign up
+      </button>
     </div>
   );
 }
