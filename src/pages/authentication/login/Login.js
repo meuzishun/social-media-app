@@ -12,10 +12,11 @@ function Login() {
     setFormState({ ...formState, [e.target.name]: e.target.value });
   };
 
-  const handleLoginSubmit = (e) => {
+  const handleLoginSubmit = async (e) => {
     e.preventDefault();
-    submitLogin(formState);
-    setFormState({}); //! Either not changing the formState or not causing a rerender
+    const response = await submitLogin(formState);
+    console.log(response);
+    // setFormState({}); //! Either not changing the formState or not causing a rerender
   };
 
   const handleSignupClick = () => {

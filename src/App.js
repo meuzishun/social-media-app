@@ -4,7 +4,14 @@ import Authentication from './pages/authentication/Authentication';
 import Home from './pages/home/Home';
 import './App.css';
 import { db } from './services/firebaseApp';
-import { doc, onSnapshot } from 'firebase/firestore';
+import {
+  doc,
+  getDocs,
+  collection,
+  onSnapshot,
+  query,
+  where,
+} from 'firebase/firestore';
 import uniqid from 'uniqid';
 import { fake_posts, fake_users } from './fake_data/fake_data';
 
@@ -33,11 +40,40 @@ function App() {
       // let user;
       // querySnapshot.forEach((doc) => {
       //   const data = doc.data();
-      //   if (data.username === username) {
-      //     user = data;
+      //   if (data.username === form.username) {
+      //     // user = data;
+      //     setUser(data);
       //     return;
       //   }
       // });
+      // console.log(user);
+      // setUser(user);
+
+      let response;
+
+      const q = query(
+        collection(db, 'users'),
+        where('username', '==', form.username)
+      );
+
+      const querySnapshot = await getDocs(q);
+
+      if (querySnapshot.docs.length === 0) {
+        response = 'no user';
+      }
+
+      querySnapshot.forEach((doc) => {
+        const user = doc.data();
+        console.log(user);
+        if (user.password !== form.password) {
+          response = 'wrong password';
+        } else {
+          response = 'success';
+          setUser(user);
+        }
+      });
+
+      return response;
 
       //! MOCKED VERSION
       // const user = fake_users.find((user) => user.username === username);
@@ -98,12 +134,15 @@ function App() {
 
   useEffect(() => {
     if (user) {
-      setNetwork(
-        user.friends.map((id) => fake_users.find((user) => user.id === id))
-      );
-      setTimeline(
-        user.posts.map((id) => fake_posts.find((post) => post.id === id))
-      );
+      //TODO: change this to tap firebase
+      // setNetwork(
+      //   user.friends.map((id) => fake_users.find((user) => user.id === id))
+      // );
+      //TODO: change this to tap firebase
+      // setTimeline(
+      //   user.posts.map((id) => fake_posts.find((post) => post.id === id))
+      // );
+      console.log(user);
     }
   }, [user]);
 
@@ -119,9 +158,9 @@ function App() {
   }, [network]);
 
   //* FOR TESTING PURPOSES
-  useEffect(() => {
-    setUser(fake_users[0]);
-  }, []);
+  // useEffect(() => {
+  //   setUser(fake_users[0]);
+  // }, []);
 
   return (
     <div className='App'>
