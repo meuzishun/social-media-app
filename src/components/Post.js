@@ -1,47 +1,20 @@
 import React, { useEffect, useState, useContext } from 'react';
+import ReplyForm from './ReplyForm';
 import { AppFunctions } from '../App';
 import { getUserById } from '../services/firebaseApp';
 
 function Post({ post }) {
   const [author, setAuthor] = useState(null);
   const [replyState, setReplyState] = useState(false);
-  const [replyContent, setReplyContent] = useState();
-
-  const { submitPostReply } = useContext(AppFunctions);
 
   const handleReplyClick = () => {
     setReplyState(true);
   };
 
-  const handleReplyChange = (e) => {
-    setReplyContent(e.target.value);
-  };
-
-  const handleReplySubmit = (e) => {
-    e.preventDefault();
-    submitPostReply(post, replyContent);
-    setReplyContent('');
-    setReplyState(false);
-  };
-
-  const handleReplyCancel = () => {
-    setReplyContent('');
-    setReplyState(false);
-  };
-
   useEffect(() => {
-    //! MOCKED VERSION
-    // setAuthor(findUserById(post.author));
-
-    const findAuthor = async () => {
-      const user = await getUserById(post.author);
-      if (user) {
-        setAuthor(user);
-      } else {
-        throw new Error(`Cannot find user ${post.author}`);
-      }
-    };
-    findAuthor();
+    getUserById(post.author)
+      .then((author) => setAuthor(author))
+      .catch((err) => console.log(err));
   }, []);
 
   return (
@@ -52,18 +25,7 @@ function Post({ post }) {
             <span>{author.username}:</span> {post.content}
           </p>
           {replyState ? (
-            <form onSubmit={handleReplySubmit}>
-              <input
-                type='text'
-                name='content'
-                defaultValue={replyContent}
-                onChange={handleReplyChange}
-              />
-              <button type='submit'>submit</button>
-              <button type='button' onClick={handleReplyCancel}>
-                cancel
-              </button>
-            </form>
+            <ReplyForm postId={post.id} setReplyState={setReplyState} />
           ) : (
             <button onClick={handleReplyClick}>reply</button>
           )}

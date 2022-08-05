@@ -13,6 +13,7 @@ import {
   updateUserById,
   getUsersByIdList,
   getPostsByIdList,
+  addReplyToPost,
 } from './services/firebaseApp';
 import {
   doc,
@@ -83,14 +84,6 @@ function App() {
       setUser(null);
       navigate('/login');
     },
-    findUserById: async (id) => {
-      //! MOCKED VERSION
-      // return fake_users.find((user) => user.id === id);
-
-      const docSnap = await getDoc(doc(db, 'users', id));
-      const user = docSnap.data();
-      return user;
-    },
     findPostById: async (id) => {
       //! MOCKED VERSION
       // return fake_posts.find((post) => post.id === id);
@@ -146,7 +139,8 @@ function App() {
       setUser(alteredUser);
       return `friend with id ${friendId} has been removed`;
     },
-    submitPostReply: async (post, replyContent) => {
+    submitPostReply: async (postId, replyContent) => {
+      //! This is a problem if the postId is a reply!
       const now = new Date();
       const reply = {
         author: user.id,
@@ -155,7 +149,13 @@ function App() {
         replies: [],
         timestamp: now.toISOString(),
       };
-      console.log(post, reply);
+      console.log(postId, reply);
+      const alteredPost = await addReplyToPost(postId, reply);
+      // return alteredPost;
+      // setFeed([]);
+      const friendPostIds = network.map((friend) => friend.posts).flat();
+      getPostsByIdList(friendPostIds).then((posts) => setFeed(posts));
+
       //? Just add reply to post's replies and update the data?
       //! DO NOT REMOVE - FIREBASE CODE
       // post reply to posts
@@ -217,7 +217,7 @@ function App() {
     //! MOCKED VERSION
     // setUser(fake_users[0]);
 
-    authFunctions.submitLogin({ username: 'meuzishun', password: 'password' });
+    authFunctions.submitLogin({ username: 'Andrew', password: 'password' });
     // navigate('/signup');
   }, []);
 

@@ -157,6 +157,7 @@ export const getPostsByIdList = async (array) => {
 };
 
 export const addReplyToPost = async (postId, reply) => {
+  //! This is a problem if the postId is a reply!
   const postRef = doc(db, 'posts', postId);
   await updateDoc(postRef, {
     replies: arrayUnion(reply),
