@@ -3,7 +3,12 @@ import { useNavigate } from 'react-router-dom';
 import Authentication from './pages/authentication/Authentication';
 import Home from './pages/home/Home';
 import './App.css';
-import { db } from './services/firebaseApp';
+import {
+  db,
+  addUser,
+  getUserById,
+  getUserByUsername,
+} from './services/firebaseApp';
 import {
   doc,
   getDocs,
@@ -35,47 +40,15 @@ function App() {
 
   const authFunctions = {
     submitLogin: async (form) => {
-      // console.log(form);
-      // e.preventDefault();
-      // const username = e.target.username.value;
-      //! DO NOT REMOVE - FIREBASE CODE
-      // const querySnapshot = await getDocs(collection(db, 'users'));
-      // let user;
-      // querySnapshot.forEach((doc) => {
-      //   const data = doc.data();
-      //   if (data.username === form.username) {
-      //     // user = data;
-      //     setUser(data);
-      //     return;
-      //   }
-      // });
-      // console.log(user);
-      // setUser(user);
-
-      let response;
-
-      const q = query(
-        collection(db, 'users'),
-        where('username', '==', form.username)
-      );
-
-      const querySnapshot = await getDocs(q);
-
-      if (querySnapshot.docs.length === 0) {
-        response = 'no user';
+      const user = await getUserByUsername(form.username);
+      if (!user) {
+        return 'no user found';
       }
-
-      querySnapshot.forEach((doc) => {
-        const user = doc.data();
-        if (user.password !== form.password) {
-          response = 'wrong password';
-        } else {
-          response = 'success';
-          setUser(user);
-        }
-      });
-
-      return response;
+      if (user.password !== form.password) {
+        return 'incorrect password';
+      }
+      setUser(user);
+      return 'login successful';
 
       //! MOCKED VERSION
       // const user = fake_users.find((user) => user.username === username);
@@ -94,10 +67,7 @@ function App() {
     },
     submitSignup: async (form) => {
       const user = { ...form, id: uniqid(), friends: [], posts: [] };
-      const newRef = doc(db, 'users', user.id);
-      await setDoc(newRef, user);
-      const newUserSnap = await getDoc(newRef);
-      const newUser = newUserSnap.data();
+      const newUser = await addUser(user);
       setUser(newUser);
       navigate('/profile');
     },
@@ -261,8 +231,8 @@ function App() {
     //! MOCKED VERSION
     // setUser(fake_users[0]);
 
-    authFunctions.submitLogin({ username: 'meuzishun', password: 'password' });
-    // navigate('/signup');
+    // authFunctions.submitLogin({ username: 'meuzishun', password: 'password' });
+    navigate('/login');
   }, []);
 
   return (

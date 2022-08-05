@@ -4,9 +4,16 @@ import {
   collection,
   doc,
   getDoc,
-  setDoc.
+  setDoc,
   getFirestore,
   onSnapshot,
+  query,
+  where,
+  getDocs,
+  updateDoc,
+  deleteDoc,
+  arrayUnion,
+  arrayRemove,
 } from 'firebase/firestore';
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -29,11 +36,14 @@ const userCollection = collection(db, 'users');
 const postCollection = collection(db, 'posts');
 
 export const addUser = async (user) => {
+  console.log(`adding new user: ${user.username}, ${user.id}`);
   const newRef = doc(db, 'users', user.id);
   await setDoc(newRef, user);
   const newUserSnap = await getDoc(newRef);
-  return newUserSnap.data();
-}
+  const newUser = newUserSnap.data();
+  console.log(newUser);
+  return newUser;
+};
 
 export const getUserById = async (id) => {
   const docSnap = await getDoc(doc(db, 'users', id));
@@ -44,6 +54,45 @@ export const getUserById = async (id) => {
   }
 };
 
+export const getUserByUsername = async (username) => {
+  const userQuery = query(userCollection, where('username', '==', username));
+  const querySnapshot = await getDocs(userQuery);
+  let user;
+  querySnapshot.forEach((doc) => {
+    user = doc.data();
+  });
+  return user || false;
+};
+
+export const getAllUsers = async () => {
+  const users = [];
+  const userSnapshot = await getDocs(userCollection);
+  userSnapshot.forEach((doc) => {
+    users.push(doc.data());
+  });
+  return users;
+};
+
+export const updateUserById = async (userId, dataUpdate) => {
+  const userRef = doc(db, 'users', userId);
+  await updateDoc(userRef, dataUpdate);
+  const userSnap = await getDoc(userRef);
+  return userSnap.data();
+};
+
+export const deleteUserById = async (userId) => {
+  await deleteDoc(doc(db, 'users', userId));
+  const users = await getAllUsers();
+  return users;
+};
+
+export const addPost = async (post) => {
+  const newRef = doc(db, 'users', post.id);
+  await setDoc(newRef, post);
+  const newPostSnap = await getDoc(newRef);
+  return newPostSnap.data();
+};
+
 export const getPostById = async (id) => {
   const docSnap = await getDoc(doc(db, 'posts', id));
   if (docSnap.exists()) {
@@ -51,6 +100,61 @@ export const getPostById = async (id) => {
   } else {
     return false;
   }
+};
+
+export const updatePostById = async (postId, dataUpdate) => {
+  const postRef = doc(db, 'posts', postId);
+  await updateDoc(postRef, dataUpdate);
+  const postSnap = await getDoc(postRef);
+  const alteredPost = postSnap.data();
+  return alteredPost;
+};
+
+export const deletePostById = async (id) => {
+  const postRef = doc(db, 'posts', id);
+  await deleteDoc(postRef);
+};
+
+export const addFriendToUserNetwork = async (userId, friendId) => {
+  const userRef = doc(db, 'users', userId);
+  await updateDoc(userRef, {
+    friends: arrayUnion(friendId),
+  });
+  const userSnap = await getDoc(userRef);
+  const alteredUser = userSnap.data();
+  return alteredUser;
+};
+
+export const deleteFriendFromUserNetwork = async (userId, friendId) => {
+  const userRef = doc(db, 'users', userId);
+  await updateDoc(userRef, {
+    friends: arrayRemove(friendId),
+  });
+  const userSnap = await getDoc(userRef);
+  const alteredUser = userSnap.data();
+  return alteredUser;
+};
+
+export const addReplyToPost = async (postId, reply) => {
+  const postRef = doc(db, 'posts', postId);
+  await updateDoc(postRef, {
+    replies: arrayUnion(reply),
+  });
+  const postSnap = await getDoc(postRef);
+  const alteredPost = postSnap.data();
+  return alteredPost;
+};
+
+export const updateReplyToPost = async (postId, reply) => {};
+
+export const deleteReplyFromPost = async (postId, reply) => {
+  const postRef = doc(db, 'posts', postId);
+  await updateDoc(postRef, {
+    replies: arrayRemove(reply),
+  });
+  const postSnap = await getDoc(postRef);
+  const alteredPost = postSnap.data();
+  return alteredPost;
 };
 
 // onSnapshot(collection(db, 'users'), (usersCollection) => {
@@ -63,6 +167,7 @@ export const getPostById = async (id) => {
 //? addUser
 //? getUserById
 //? getUserByUsername
+//? getAllUsers
 //? updateUserById
 //? deleteUserById
 

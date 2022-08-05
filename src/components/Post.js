@@ -1,12 +1,13 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { AppFunctions } from '../App';
+import { getUserById } from '../services/firebaseApp';
 
 function Post({ post }) {
   const [author, setAuthor] = useState(null);
   const [replyState, setReplyState] = useState(false);
   const [replyContent, setReplyContent] = useState();
 
-  const { findUserById, submitPostReply } = useContext(AppFunctions);
+  const { submitPostReply } = useContext(AppFunctions);
 
   const handleReplyClick = () => {
     setReplyState(true);
@@ -33,8 +34,12 @@ function Post({ post }) {
     // setAuthor(findUserById(post.author));
 
     const findAuthor = async () => {
-      const user = await findUserById(post.author);
-      setAuthor(user);
+      const user = await getUserById(post.author);
+      if (user) {
+        setAuthor(user);
+      } else {
+        throw new Error(`Cannot find user ${post.author}`);
+      }
     };
     findAuthor();
   }, []);

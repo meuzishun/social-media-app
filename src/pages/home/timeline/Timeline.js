@@ -7,7 +7,7 @@ function Timeline() {
 
   return (
     <div>
-      {console.log(timeline)}
+      {/* {console.log(timeline)} */}
       {timeline.map((post) => (
         <Post key={post.id} post={post} />
       ))}
