@@ -16,9 +16,10 @@ function Profile() {
     setUserState({ ...userState, [e.target.name]: e.target.value });
   };
 
-  const handleProfileEditSubmit = (e) => {
+  const handleProfileEditSubmit = async (e) => {
     e.preventDefault();
-    updateUserProfile(userState);
+    const response = await updateUserProfile(userState);
+    console.log(response);
     setEditProfile(false);
   };
 

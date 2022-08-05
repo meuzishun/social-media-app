@@ -75,7 +75,8 @@ export const updateUserById = async (userId, dataUpdate) => {
   const userRef = doc(db, 'users', userId);
   await updateDoc(userRef, dataUpdate);
   const userSnap = await getDoc(userRef);
-  return userSnap.data();
+  const alteredUser = userSnap.data();
+  return alteredUser;
 };
 
 export const deleteUserById = async (userId) => {

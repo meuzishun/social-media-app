@@ -10,6 +10,7 @@ import {
   getUserByUsername,
   addFriendToUserNetwork,
   deleteFriendFromUserNetwork,
+  updateUserById,
 } from './services/firebaseApp';
 import {
   doc,
@@ -97,11 +98,10 @@ function App() {
       return post;
     },
     updateUserProfile: async (newProfile) => {
-      const userRef = doc(db, 'users', user.id);
-      setUser(null);
-      await updateDoc(userRef, newProfile);
-      const userSnap = await getDoc(userRef);
-      setUser(userSnap.data());
+      const alteredUser = await updateUserById(user.id, newProfile);
+      setUser(null); //! I don't like this... should be another way to reset other states
+      setUser(alteredUser);
+      return 'user altered';
     },
     submitAddFriend: async (username) => {
       // let response;
