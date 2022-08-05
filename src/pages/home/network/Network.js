@@ -14,7 +14,7 @@ function Network() {
 
   return (
     <div>
-      {console.log(network)}
+      {/* {console.log(network)} */}
       {network.map((friend) => (
         <Friend key={friend.id} friend={friend} />
       ))}

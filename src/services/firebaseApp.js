@@ -36,12 +36,10 @@ const userCollection = collection(db, 'users');
 const postCollection = collection(db, 'posts');
 
 export const addUser = async (user) => {
-  console.log(`adding new user: ${user.username}, ${user.id}`);
   const newRef = doc(db, 'users', user.id);
   await setDoc(newRef, user);
   const newUserSnap = await getDoc(newRef);
   const newUser = newUserSnap.data();
-  console.log(newUser);
   return newUser;
 };
 

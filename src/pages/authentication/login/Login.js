@@ -14,6 +14,9 @@ function Login() {
 
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
+    //TODO: check to make sure password and repassword match
+    //TODO: other form validation
+    //TODO: delete repassword prop
     const response = await submitLogin(formState);
     console.log(response);
     // setFormState({}); //! Either not changing the formState or not causing a rerender

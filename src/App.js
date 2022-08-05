@@ -69,7 +69,7 @@ function App() {
       const user = { ...form, id: uniqid(), friends: [], posts: [] };
       const newUser = await addUser(user);
       setUser(newUser);
-      navigate('/profile');
+      // navigate('/profile');
     },
   };
 
@@ -232,7 +232,7 @@ function App() {
     // setUser(fake_users[0]);
 
     // authFunctions.submitLogin({ username: 'meuzishun', password: 'password' });
-    navigate('/login');
+    navigate('/signup');
   }, []);
 
   return (
