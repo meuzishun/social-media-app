@@ -8,6 +8,8 @@ import {
   addUser,
   getUserById,
   getUserByUsername,
+  addFriendToUserNetwork,
+  deleteFriendFromUserNetwork,
 } from './services/firebaseApp';
 import {
   doc,
@@ -102,28 +104,46 @@ function App() {
       setUser(userSnap.data());
     },
     submitAddFriend: async (username) => {
-      let response;
+      // let response;
 
-      const userQuery = query(
-        collection(db, 'users'),
-        where('username', '==', username)
-      );
+      // const userQuery = query(
+      //   collection(db, 'users'),
+      //   where('username', '==', username)
+      // );
 
-      const querySnapshot = await getDocs(userQuery);
+      // const querySnapshot = await getDocs(userQuery);
 
-      if (querySnapshot.docs.length === 0) {
-        response = 'no users';
+      // if (querySnapshot.docs.length === 0) {
+      //   response = 'no users';
+      // }
+      // querySnapshot.forEach((doc) => {
+      //   const newFriend = doc.data();
+      //   response = 'found user';
+      //   const newFriends = [...user.friends, newFriend.id];
+      //   const newProfile = { ...user, friends: newFriends };
+      //   appFunctions.updateUserProfile(newProfile);
+      // });
+
+      // navigate('/network'); //! NOT WORKING
+      // return response;
+      const friend = await getUserByUsername(username);
+      if (!friend) {
+        return 'no user found';
       }
-      querySnapshot.forEach((doc) => {
-        const newFriend = doc.data();
-        response = 'found user';
-        const newFriends = [...user.friends, newFriend.id];
-        const newProfile = { ...user, friends: newFriends };
-        appFunctions.updateUserProfile(newProfile);
-      });
-
-      navigate('/network'); //! NOT WORKING
-      return response;
+      if (user.friends.includes(friend.id)) {
+        return 'user already in network';
+      }
+      const alteredUser = await addFriendToUserNetwork(user.id, friend.id);
+      setUser(alteredUser);
+      return 'friend added';
+    },
+    submitFriendRemove: async (friendId) => {
+      if (!user.friends.includes(friendId)) {
+        return 'friend not in network';
+      }
+      const alteredUser = await deleteFriendFromUserNetwork(user.id, friendId);
+      setUser(alteredUser);
+      return `friend with id ${friendId} has been removed`;
     },
     submitPostReply: async (post, replyContent) => {
       const now = new Date();
@@ -177,6 +197,7 @@ function App() {
       //   user.friends.map((id) => fake_users.find((user) => user.id === id))
       // );
 
+      setNetwork([]);
       const networkQuery = query(
         collection(db, 'users'),
         where('id', 'in', user.friends)
@@ -231,8 +252,8 @@ function App() {
     //! MOCKED VERSION
     // setUser(fake_users[0]);
 
-    // authFunctions.submitLogin({ username: 'meuzishun', password: 'password' });
-    navigate('/signup');
+    authFunctions.submitLogin({ username: 'meuzishun', password: 'password' });
+    // navigate('/signup');
   }, []);
 
   return (

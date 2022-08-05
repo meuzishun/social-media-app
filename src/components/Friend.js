@@ -1,8 +1,12 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { AppFunctions } from '../App';
 
 function Friend({ friend }) {
-  const handleRemoveClick = () => {
-    console.log(friend.id);
+  const { submitFriendRemove } = useContext(AppFunctions);
+
+  const handleRemoveClick = async () => {
+    const response = await submitFriendRemove(friend.id);
+    console.log(response);
   };
 
   return (
