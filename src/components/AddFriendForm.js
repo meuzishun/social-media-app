@@ -13,8 +13,10 @@ function AddFriendForm({ handleAddState }) {
   const handleAddFriendSubmit = async (e) => {
     e.preventDefault();
     const response = await submitAddFriend(usernameSearch);
+    handleAddState();
     console.log(response);
   };
+
   return (
     <form onSubmit={handleAddFriendSubmit}>
       <label>search for username</label>

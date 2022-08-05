@@ -52,6 +52,17 @@ export const getUserById = async (id) => {
   }
 };
 
+export const getUsersByIdList = async (array) => {
+  const usersQuery = query(userCollection, where('id', 'in', array));
+  const querySnapshot = await getDocs(usersQuery);
+  const users = [];
+  querySnapshot.forEach((doc) => {
+    const user = doc.data();
+    users.push(user);
+  });
+  return users;
+};
+
 export const getUserByUsername = async (username) => {
   const userQuery = query(userCollection, where('username', '==', username));
   const querySnapshot = await getDocs(userQuery);
@@ -132,6 +143,17 @@ export const deleteFriendFromUserNetwork = async (userId, friendId) => {
   const userSnap = await getDoc(userRef);
   const alteredUser = userSnap.data();
   return alteredUser;
+};
+
+export const getPostsByIdList = async (array) => {
+  const postQuery = query(postCollection, where('id', 'in', array));
+  const querySnapshot = await getDocs(postQuery);
+  const posts = [];
+  querySnapshot.forEach((doc) => {
+    const post = doc.data();
+    posts.push(post);
+  });
+  return posts;
 };
 
 export const addReplyToPost = async (postId, reply) => {

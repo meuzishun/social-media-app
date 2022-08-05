@@ -11,6 +11,8 @@ import {
   addFriendToUserNetwork,
   deleteFriendFromUserNetwork,
   updateUserById,
+  getUsersByIdList,
+  getPostsByIdList,
 } from './services/firebaseApp';
 import {
   doc,
@@ -99,7 +101,6 @@ function App() {
     },
     updateUserProfile: async (newProfile) => {
       const alteredUser = await updateUserById(user.id, newProfile);
-      setUser(null); //! I don't like this... should be another way to reset other states
       setUser(alteredUser);
       return 'user altered';
     },
@@ -170,51 +171,29 @@ function App() {
   };
 
   useEffect(() => {
-    if (user && user.posts.length > 0) {
-      //! MOCKED VERSION
-      // setTimeline(
-      //   user.posts.map((id) => fake_posts.find((post) => post.id === id))
-      // );
-      const timelineQuery = query(
-        collection(db, 'posts'),
-        where('id', 'in', user.posts)
-      );
-      getDocs(timelineQuery).then((querySnapshot) => {
-        querySnapshot.forEach((doc) => {
-          const post = doc.data();
-          setTimeline((prev) => {
-            return [...prev, post];
-          });
-        });
-      });
-    }
-  }, [user]);
-
-  useEffect(() => {
+    setNetwork([]);
     if (user && user.friends.length > 0) {
+      getUsersByIdList(user.friends).then((friends) => setNetwork(friends));
       //! MOCKED VERSION
       // setNetwork(
       //   user.friends.map((id) => fake_users.find((user) => user.id === id))
       // );
-
-      setNetwork([]);
-      const networkQuery = query(
-        collection(db, 'users'),
-        where('id', 'in', user.friends)
-      );
-      getDocs(networkQuery).then((querySnapshot) => {
-        querySnapshot.forEach((doc) => {
-          const user = doc.data();
-          setNetwork((prev) => {
-            return [...prev, user];
-          });
-        });
-      });
+    }
+    setTimeline([]);
+    if (user && user.posts.length > 0) {
+      getPostsByIdList(user.posts).then((posts) => setTimeline(posts));
+      //! MOCKED VERSION
+      // setTimeline(
+      //   user.posts.map((id) => fake_posts.find((post) => post.id === id))
+      // );
     }
   }, [user]);
 
   useEffect(() => {
+    setFeed([]);
     if (network.length > 0) {
+      const friendPostIds = network.map((friend) => friend.posts).flat();
+      getPostsByIdList(friendPostIds).then((posts) => setFeed(posts));
       //! MOCKED VERSION
       // setFeed(
       //   network
@@ -222,20 +201,6 @@ function App() {
       //     .flat()
       //     .map((id) => fake_posts.find((post) => post.id === id))
       // );
-
-      const friendPosts = network.map((friend) => friend.posts).flat();
-      const feedQuery = query(
-        collection(db, 'posts'),
-        where('id', 'in', friendPosts)
-      );
-      getDocs(feedQuery).then((querySnapshot) => {
-        querySnapshot.forEach((doc) => {
-          const post = doc.data();
-          setFeed((prev) => {
-            return [...prev, post];
-          });
-        });
-      });
     }
   }, [network]);
 
