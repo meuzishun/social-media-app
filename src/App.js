@@ -78,7 +78,6 @@ function App() {
       const user = { ...form, id: uniqid(), friends: [], posts: [] };
       const newUser = await addUser(user);
       setUser(newUser);
-      // navigate('/profile');
     },
   };
 
@@ -126,7 +125,6 @@ function App() {
     },
 
     submitPostReply: async (postId, replyContent) => {
-      //! This is a problem if the postId is a reply!
       const now = new Date();
       const reply = {
         author: user.id,
@@ -135,29 +133,9 @@ function App() {
         replies: [],
         timestamp: now.toISOString(),
       };
-      console.log(postId, reply);
-      //TODO: add reply to db
       await addPost(reply);
-      //TODO: add reply id to original post
       const alteredPost = await addReplyIdToPostById(postId, reply.id);
       return alteredPost;
-      // const alteredPost = await addReplyToPost(postId, reply);
-      // return alteredPost;
-      // setFeed([]);
-      // const friendPostIds = network.map((friend) => friend.posts).flat();
-      // getPostsByIdList(friendPostIds).then((posts) => setFeed(posts));
-
-      //? Just add reply to post's replies and update the data?
-      //! DO NOT REMOVE - FIREBASE CODE
-      // post reply to posts
-      // setDoc(doc(db, 'posts', reply.id), reply);
-      // // add reply to original post replies
-      // const originalPostDoc = doc(db, 'posts', postId);
-      // const originalPostSnap = await getDoc(originalPostDoc);
-      // const originalPostData = originalPostSnap.data();
-      // originalPostData.replies = [...originalPostData.replies, reply.id];
-      // updateDoc(originalPostDoc, originalPostData);
-      //TODO: refresh timeline somehow
     },
   };
 
