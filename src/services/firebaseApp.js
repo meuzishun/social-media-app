@@ -166,6 +166,16 @@ export const getPostsByIdList = async (array) => {
   return posts;
 };
 
+export const addPostIdToUserById = async (userId, postId) => {
+  const userRef = doc(db, 'users', userId);
+  await updateDoc(userRef, {
+    posts: arrayUnion(postId),
+  });
+  const userSnap = await getDoc(userRef);
+  const alteredUser = userSnap.data();
+  return alteredUser;
+};
+
 export const addReplyToPost = async (postId, reply) => {
   //! This is a problem if the postId is a reply!
   const postRef = doc(db, 'posts', postId);

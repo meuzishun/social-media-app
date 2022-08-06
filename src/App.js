@@ -16,6 +16,7 @@ import {
   addReplyToPost,
   addReplyIdToPostById,
   addPost,
+  addPostIdToUserById,
 } from './services/firebaseApp';
 import {
   doc,
@@ -122,6 +123,20 @@ function App() {
       const alteredUser = await deleteFriendFromUserNetwork(user.id, friendId);
       setUser(alteredUser);
       return `friend with id ${friendId} has been removed`;
+    },
+
+    submitPost: async (postContent) => {
+      const now = new Date();
+      const postData = {
+        author: user.id,
+        content: postContent,
+        id: uniqid(),
+        replies: [],
+        timestamp: now.toISOString(),
+      };
+      await addPost(postData);
+      const alteredUser = await addPostIdToUserById(user.id, postData.id);
+      setUser(alteredUser);
     },
 
     submitPostReply: async (postId, replyContent) => {
