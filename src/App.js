@@ -4,19 +4,17 @@ import Authentication from './pages/authentication/Authentication';
 import Home from './pages/home/Home';
 import './App.css';
 import {
-  db,
   addUser,
-  getUserById,
   getUserByUsername,
   addFriendToUserNetwork,
   deleteFriendFromUserNetwork,
   updateUserById,
   getUsersByIdList,
   getPostsByIdList,
-  addReplyToPost,
   addReplyIdToPostById,
   addPost,
   addPostIdToUserById,
+  getPostById,
 } from './services/firebaseApp';
 import {
   doc,
@@ -92,8 +90,7 @@ function App() {
       //! MOCKED VERSION
       // return fake_posts.find((post) => post.id === id);
 
-      const docSnap = await getDoc(doc(db, 'posts', id));
-      const post = docSnap.data();
+      const post = await getPostById(id);
       return post;
     },
 
