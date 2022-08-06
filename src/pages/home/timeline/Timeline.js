@@ -8,8 +8,8 @@ function Timeline() {
   return (
     <div>
       {/* {console.log(timeline)} */}
-      {timeline.map((post) => (
-        <Post key={post.id} post={post} />
+      {timeline.map((postId) => (
+        <Post key={postId} postId={postId} />
       ))}
     </div>
   );

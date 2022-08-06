@@ -7,7 +7,9 @@ function Feed() {
 
   return (
     <div>
-      {feed ? feed.map((post) => <Post key={post.id} post={post} />) : null}
+      {feed
+        ? feed.map((postId) => <Post key={postId} postId={postId} />)
+        : null}
     </div>
   );
 }

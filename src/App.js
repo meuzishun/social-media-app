@@ -14,6 +14,8 @@ import {
   getUsersByIdList,
   getPostsByIdList,
   addReplyToPost,
+  addReplyIdToPostById,
+  addPost,
 } from './services/firebaseApp';
 import {
   doc,
@@ -71,6 +73,7 @@ function App() {
       //   setUser(user);
       // }
     },
+
     submitSignup: async (form) => {
       const user = { ...form, id: uniqid(), friends: [], posts: [] };
       const newUser = await addUser(user);
@@ -84,6 +87,7 @@ function App() {
       setUser(null);
       navigate('/login');
     },
+
     findPostById: async (id) => {
       //! MOCKED VERSION
       // return fake_posts.find((post) => post.id === id);
@@ -92,34 +96,14 @@ function App() {
       const post = docSnap.data();
       return post;
     },
+
     updateUserProfile: async (newProfile) => {
       const alteredUser = await updateUserById(user.id, newProfile);
       setUser(alteredUser);
       return 'user altered';
     },
+
     submitAddFriend: async (username) => {
-      // let response;
-
-      // const userQuery = query(
-      //   collection(db, 'users'),
-      //   where('username', '==', username)
-      // );
-
-      // const querySnapshot = await getDocs(userQuery);
-
-      // if (querySnapshot.docs.length === 0) {
-      //   response = 'no users';
-      // }
-      // querySnapshot.forEach((doc) => {
-      //   const newFriend = doc.data();
-      //   response = 'found user';
-      //   const newFriends = [...user.friends, newFriend.id];
-      //   const newProfile = { ...user, friends: newFriends };
-      //   appFunctions.updateUserProfile(newProfile);
-      // });
-
-      // navigate('/network'); //! NOT WORKING
-      // return response;
       const friend = await getUserByUsername(username);
       if (!friend) {
         return 'no user found';
@@ -131,6 +115,7 @@ function App() {
       setUser(alteredUser);
       return 'friend added';
     },
+
     submitFriendRemove: async (friendId) => {
       if (!user.friends.includes(friendId)) {
         return 'friend not in network';
@@ -139,6 +124,7 @@ function App() {
       setUser(alteredUser);
       return `friend with id ${friendId} has been removed`;
     },
+
     submitPostReply: async (postId, replyContent) => {
       //! This is a problem if the postId is a reply!
       const now = new Date();
@@ -150,11 +136,16 @@ function App() {
         timestamp: now.toISOString(),
       };
       console.log(postId, reply);
-      const alteredPost = await addReplyToPost(postId, reply);
+      //TODO: add reply to db
+      await addPost(reply);
+      //TODO: add reply id to original post
+      const alteredPost = await addReplyIdToPostById(postId, reply.id);
+      return alteredPost;
+      // const alteredPost = await addReplyToPost(postId, reply);
       // return alteredPost;
       // setFeed([]);
-      const friendPostIds = network.map((friend) => friend.posts).flat();
-      getPostsByIdList(friendPostIds).then((posts) => setFeed(posts));
+      // const friendPostIds = network.map((friend) => friend.posts).flat();
+      // getPostsByIdList(friendPostIds).then((posts) => setFeed(posts));
 
       //? Just add reply to post's replies and update the data?
       //! DO NOT REMOVE - FIREBASE CODE
@@ -179,9 +170,13 @@ function App() {
       //   user.friends.map((id) => fake_users.find((user) => user.id === id))
       // );
     }
+
     setTimeline([]);
     if (user && user.posts.length > 0) {
-      getPostsByIdList(user.posts).then((posts) => setTimeline(posts));
+      //* Put actual posts in timeline:
+      // getPostsByIdList(user.posts).then((posts) => setTimeline(posts));
+      //* Put post ids in timeline:
+      setTimeline(user.posts);
       //! MOCKED VERSION
       // setTimeline(
       //   user.posts.map((id) => fake_posts.find((post) => post.id === id))
@@ -193,7 +188,10 @@ function App() {
     setFeed([]);
     if (network.length > 0) {
       const friendPostIds = network.map((friend) => friend.posts).flat();
-      getPostsByIdList(friendPostIds).then((posts) => setFeed(posts));
+      //* Put actual posts in feed:
+      // getPostsByIdList(friendPostIds).then((posts) => setFeed(posts));
+      //* Put post ids in feed:
+      setFeed(friendPostIds);
       //! MOCKED VERSION
       // setFeed(
       //   network
@@ -217,7 +215,7 @@ function App() {
     //! MOCKED VERSION
     // setUser(fake_users[0]);
 
-    authFunctions.submitLogin({ username: 'Andrew', password: 'password' });
+    authFunctions.submitLogin({ username: 'meuzishun', password: 'password' });
     // navigate('/signup');
   }, []);
 

@@ -97,9 +97,9 @@ export const deleteUserById = async (userId) => {
 };
 
 export const addPost = async (post) => {
-  const newRef = doc(db, 'users', post.id);
-  await setDoc(newRef, post);
-  const newPostSnap = await getDoc(newRef);
+  const newPostRef = doc(db, 'posts', post.id);
+  await setDoc(newPostRef, post);
+  const newPostSnap = await getDoc(newPostRef);
   return newPostSnap.data();
 };
 
@@ -108,7 +108,7 @@ export const getPostById = async (id) => {
   if (docSnap.exists()) {
     return docSnap.data();
   } else {
-    return false;
+    return null;
   }
 };
 
@@ -117,6 +117,16 @@ export const updatePostById = async (postId, dataUpdate) => {
   await updateDoc(postRef, dataUpdate);
   const postSnap = await getDoc(postRef);
   const alteredPost = postSnap.data();
+  return alteredPost;
+};
+
+export const addReplyIdToPostById = async (postId, replyId) => {
+  const postRef = doc(db, 'posts', postId);
+  await updateDoc(postRef, {
+    replies: arrayUnion(replyId),
+  });
+  const userSnap = await getDoc(postRef);
+  const alteredPost = userSnap.data();
   return alteredPost;
 };
 

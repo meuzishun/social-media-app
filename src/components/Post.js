@@ -1,10 +1,10 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useState } from 'react';
 import ReplyForm from './ReplyForm';
-import { AppFunctions } from '../App';
-import { getUserById } from '../services/firebaseApp';
+import { getPostById, getUserById } from '../services/firebaseApp';
 
-function Post({ post }) {
-  const [author, setAuthor] = useState(null);
+function Post({ postId }) {
+  const [post, setPost] = useState(null);
+  const [authorName, setAuthorName] = useState(null);
   const [replyState, setReplyState] = useState(false);
 
   const handleReplyClick = () => {
@@ -12,26 +12,36 @@ function Post({ post }) {
   };
 
   useEffect(() => {
-    getUserById(post.author)
-      .then((author) => setAuthor(author))
+    getPostById(postId)
+      .then((post) => setPost(post))
       .catch((err) => console.log(err));
   }, []);
 
+  useEffect(() => {
+    if (post) {
+      getUserById(post.author).then((user) => setAuthorName(user.username));
+    }
+  }, [post]);
+
   return (
     <div>
-      {author ? (
+      {authorName ? (
         <div>
           <p>
-            <span>{author.username}:</span> {post.content}
+            <span>{authorName}:</span> {post.content}
           </p>
           {replyState ? (
-            <ReplyForm postId={post.id} setReplyState={setReplyState} />
+            <ReplyForm
+              postId={post.id}
+              setReplyState={setReplyState}
+              setPost={setPost}
+            />
           ) : (
             <button onClick={handleReplyClick}>reply</button>
           )}
           <div className='replies'>
-            {post.replies.map((reply) => {
-              return <Post key={reply.id} post={reply} />;
+            {post.replies.map((replyId) => {
+              return <Post key={replyId} postId={replyId} />;
             })}
           </div>
         </div>

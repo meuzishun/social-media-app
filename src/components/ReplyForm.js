@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { AppFunctions } from '../App';
 
-function ReplyForm({ postId, setReplyState }) {
+function ReplyForm({ postId, setReplyState, setPost }) {
   const [replyContent, setReplyContent] = useState();
 
   const { submitPostReply } = useContext(AppFunctions);
@@ -10,16 +10,16 @@ function ReplyForm({ postId, setReplyState }) {
     setReplyContent(e.target.value);
   };
 
-  const handleReplySubmit = (e) => {
+  const handleReplySubmit = async (e) => {
     e.preventDefault();
-    //! This is a problem if the postId is a reply!
-    submitPostReply(postId, replyContent);
-    //TODO: maybe set a post state initially as a copy of the post? Then push reply to postState.replies and update the post on the backend with the post state?
+    const alteredPost = await submitPostReply(postId, replyContent);
+    setPost(alteredPost);
     setReplyContent('');
     setReplyState(false);
   };
 
   const handleReplyCancel = () => {
+    setReplyContent('');
     setReplyState(false);
   };
   return (
