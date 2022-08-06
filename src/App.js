@@ -193,8 +193,8 @@ function App() {
     //! MOCKED VERSION
     // setUser(fake_users[0]);
 
-    // authFunctions.submitLogin({ username: 'meuzishun', password: 'password' });
-    navigate('/login');
+    authFunctions.submitLogin({ username: 'meuzishun', password: 'password' });
+    // navigate('/login');
   }, []);
 
   return (
