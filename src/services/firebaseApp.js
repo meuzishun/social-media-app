@@ -176,8 +176,8 @@ export const addPostIdToUserById = async (userId, postId) => {
   return alteredUser;
 };
 
+//! DO NOT USE IF POST REPLIES ARE AN ARRAY OF IDS
 export const addReplyToPost = async (postId, reply) => {
-  //! This is a problem if the postId is a reply!
   const postRef = doc(db, 'posts', postId);
   await updateDoc(postRef, {
     replies: arrayUnion(reply),
