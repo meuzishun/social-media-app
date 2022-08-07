@@ -1,7 +1,13 @@
 import React, { useEffect, useState, createContext } from 'react';
-import { useNavigate } from 'react-router-dom';
-import Authentication from './pages/authentication/Authentication';
-import Home from './pages/home/Home';
+import { Routes, Route, useNavigate } from 'react-router-dom';
+import Login from './pages/authentication/login/Login';
+import Signup from './pages/authentication/signup/Signup';
+import Header from './components/Header';
+import Profile from './pages/home/profile/Profile';
+import Network from './pages/home/network/Network';
+import Timeline from './pages/home/timeline/Timeline';
+import Feed from './pages/home/feed/Feed';
+import Footer from './components/Footer';
 import './App.css';
 import {
   addUser,
@@ -16,17 +22,6 @@ import {
   addPostIdToUserById,
   getPostById,
 } from './services/firebaseApp';
-import {
-  doc,
-  getDocs,
-  collection,
-  onSnapshot,
-  query,
-  where,
-  getDoc,
-  updateDoc,
-  setDoc,
-} from 'firebase/firestore';
 import uniqid from 'uniqid';
 import { fake_posts, fake_users } from './fake_data/fake_data';
 
@@ -34,7 +29,7 @@ export const UserContext = createContext();
 export const NetworkContext = createContext();
 export const TimelineContext = createContext();
 export const FeedContext = createContext();
-export const AuthFunctions = createContext();
+// export const AuthFunctions = createContext();
 export const AppFunctions = createContext();
 
 function App() {
@@ -212,16 +207,38 @@ function App() {
   return (
     <div className='App'>
       {!user ? (
-        <AuthFunctions.Provider value={authFunctions}>
-          <Authentication />
-        </AuthFunctions.Provider>
+        <Routes>
+          <Route
+            path='/login'
+            element={<Login submitLogin={authFunctions.submitLogin} />}
+          />
+          <Route
+            path='/signup'
+            element={<Signup submitSignup={authFunctions.submitSignup} />}
+          />
+        </Routes>
       ) : (
         <AppFunctions.Provider value={appFunctions}>
           <UserContext.Provider value={user}>
             <NetworkContext.Provider value={network}>
               <TimelineContext.Provider value={timeline}>
                 <FeedContext.Provider value={feed}>
-                  <Home />
+                  <Header user={user} logoutUser={appFunctions.logoutUser} />
+                  <Routes>
+                    <Route
+                      path='/profile'
+                      element={
+                        <Profile
+                          user={user}
+                          updateUserProfile={appFunctions.updateUserProfile}
+                        />
+                      }
+                    />
+                    <Route path='/network' element={<Network />} />
+                    <Route path='/timeline' element={<Timeline />} />
+                    <Route path='/feed' element={<Feed />} />
+                  </Routes>
+                  <Footer />
                 </FeedContext.Provider>
               </TimelineContext.Provider>
             </NetworkContext.Provider>

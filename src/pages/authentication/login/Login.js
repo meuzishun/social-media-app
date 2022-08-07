@@ -3,10 +3,10 @@ import { useNavigate } from 'react-router-dom';
 import Welcome from '../../../components/Welcome';
 import { AuthFunctions } from '../../../App';
 
-function Login() {
+function Login({ submitLogin }) {
   const [formState, setFormState] = useState({});
   const navigate = useNavigate();
-  const { submitLogin } = useContext(AuthFunctions);
+  // const { submitLogin } = useContext(AuthFunctions);
 
   const handleInputChange = (e) => {
     setFormState({ ...formState, [e.target.name]: e.target.value });

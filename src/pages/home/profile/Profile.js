@@ -1,12 +1,12 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { UserContext, AppFunctions } from '../../../App';
 
-function Profile() {
-  const user = useContext(UserContext);
+function Profile({ user, updateUserProfile }) {
+  // const user = useContext(UserContext);
   const [editProfile, setEditProfile] = useState(false);
   const [userState, setUserState] = useState(null);
 
-  const { updateUserProfile } = useContext(AppFunctions);
+  // const { updateUserProfile } = useContext(AppFunctions);
 
   const toggleEdit = () => {
     setEditProfile(!editProfile);
