@@ -234,9 +234,15 @@ function App() {
                         />
                       }
                     />
-                    <Route path='/network' element={<Network />} />
-                    <Route path='/timeline' element={<Timeline />} />
-                    <Route path='/feed' element={<Feed />} />
+                    <Route
+                      path='/network'
+                      element={<Network network={network} />}
+                    />
+                    <Route
+                      path='/timeline'
+                      element={<Timeline timeline={timeline} />}
+                    />
+                    <Route path='/feed' element={<Feed feed={feed} />} />
                   </Routes>
                   <Footer />
                 </FeedContext.Provider>

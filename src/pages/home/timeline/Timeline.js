@@ -3,9 +3,9 @@ import AddPostForm from '../../../components/AddPostForm';
 import Post from '../../../components/Post';
 import { TimelineContext } from '../../../App';
 
-function Timeline() {
+function Timeline({ timeline }) {
   const [viewNewPostForm, setViewNewPostForm] = useState(false);
-  const timeline = useContext(TimelineContext);
+  // const timeline = useContext(TimelineContext);
 
   const showNewPostForm = () => {
     setViewNewPostForm(true);

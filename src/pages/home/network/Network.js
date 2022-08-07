@@ -3,10 +3,10 @@ import Friend from '../../../components/Friend';
 import AddFriendForm from '../../../components/AddFriendForm';
 import { NetworkContext } from '../../../App';
 
-function Network() {
+function Network({ network }) {
   const [addFriendState, setAddFriendState] = useState(false);
 
-  const network = useContext(NetworkContext);
+  // const network = useContext(NetworkContext);
 
   const handleAddState = () => {
     setAddFriendState(!addFriendState);
