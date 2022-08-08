@@ -1,12 +1,11 @@
 import React, { useEffect, useState, useContext } from 'react';
-import { UserContext, AppFunctions } from '../../../App';
+import { AppFunctions } from '../../../App';
 
-function Profile({ user, updateUserProfile }) {
-  // const user = useContext(UserContext);
+function Profile({ user }) {
   const [editProfile, setEditProfile] = useState(false);
   const [userState, setUserState] = useState(null);
 
-  // const { updateUserProfile } = useContext(AppFunctions);
+  const { updateUserProfile } = useContext(AppFunctions);
 
   const toggleEdit = () => {
     setEditProfile(!editProfile);
@@ -18,8 +17,7 @@ function Profile({ user, updateUserProfile }) {
 
   const handleProfileEditSubmit = async (e) => {
     e.preventDefault();
-    const response = await updateUserProfile(userState);
-    console.log(response);
+    await updateUserProfile(userState);
     setEditProfile(false);
   };
 

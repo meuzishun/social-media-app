@@ -1,7 +1,10 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
+import { AppFunctions } from '../App';
 
-function Header({ user, logoutUser }) {
+function Header({ user }) {
+  const { logoutUser } = useContext(AppFunctions);
+
   return (
     <header>
       <div>social media logo</div>

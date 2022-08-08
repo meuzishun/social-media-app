@@ -5,8 +5,7 @@ function Friend({ friend }) {
   const { submitFriendRemove } = useContext(AppFunctions);
 
   const handleRemoveClick = async () => {
-    const response = await submitFriendRemove(friend.id);
-    console.log(response);
+    await submitFriendRemove(friend.id);
   };
 
   return (

@@ -1,10 +1,10 @@
 import React, { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-// import { AuthFunctions } from '../../../App';
+import { AuthFunctions } from '../../../App';
 
-function Signup({ submitSignup }) {
+function Signup() {
   const [formState, setFormState] = useState({});
-  // const { submitSignup } = useContext(AuthFunctions);
+  const { submitSignup } = useContext(AuthFunctions);
 
   const navigate = useNavigate();
 

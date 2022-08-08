@@ -1,5 +1,8 @@
+//* React imports
 import React, { useEffect, useState, createContext } from 'react';
 import { Routes, Route, useNavigate } from 'react-router-dom';
+
+//* Component imports
 import Login from './pages/authentication/login/Login';
 import Signup from './pages/authentication/signup/Signup';
 import Header from './components/Header';
@@ -8,7 +11,10 @@ import Network from './pages/home/network/Network';
 import Timeline from './pages/home/timeline/Timeline';
 import Feed from './pages/home/feed/Feed';
 import Footer from './components/Footer';
+
 import './App.css';
+
+//* Database imports
 import {
   addUser,
   getUserByUsername,
@@ -16,28 +22,25 @@ import {
   deleteFriendFromUserNetwork,
   updateUserById,
   getUsersByIdList,
-  getPostsByIdList,
   addReplyIdToPostById,
   addPost,
   addPostIdToUserById,
   getPostById,
 } from './services/firebaseApp';
-import uniqid from 'uniqid';
-import { fake_posts, fake_users } from './fake_data/fake_data';
 
-export const UserContext = createContext();
-export const NetworkContext = createContext();
-export const TimelineContext = createContext();
-export const FeedContext = createContext();
-// export const AuthFunctions = createContext();
+//* Library imports
+import uniqid from 'uniqid';
+// import { fake_posts, fake_users } from './fake_data/fake_data';
+
+export const AuthFunctions = createContext();
 export const AppFunctions = createContext();
 
 function App() {
+  //* Hooks
   const [user, setUser] = useState(null);
   const [network, setNetwork] = useState([]);
   const [timeline, setTimeline] = useState([]);
   const [feed, setFeed] = useState([]);
-
   const navigate = useNavigate();
 
   const authFunctions = {
@@ -132,6 +135,7 @@ function App() {
     },
 
     submitPostReply: async (postId, replyContent) => {
+      //? Can this be housed in the ReplyForm component?
       const now = new Date();
       const reply = {
         author: user.id,
@@ -187,6 +191,7 @@ function App() {
     }
   }, [network]);
 
+  //? Is this still needed?
   useEffect(() => {
     if (!user) {
       setTimeline([]);
@@ -207,48 +212,25 @@ function App() {
   return (
     <div className='App'>
       {!user ? (
-        <Routes>
-          <Route
-            path='/login'
-            element={<Login submitLogin={authFunctions.submitLogin} />}
-          />
-          <Route
-            path='/signup'
-            element={<Signup submitSignup={authFunctions.submitSignup} />}
-          />
-        </Routes>
+        <AuthFunctions.Provider value={authFunctions}>
+          <Routes>
+            <Route path='/login' element={<Login />} />
+            <Route path='/signup' element={<Signup />} />
+          </Routes>
+        </AuthFunctions.Provider>
       ) : (
         <AppFunctions.Provider value={appFunctions}>
-          <UserContext.Provider value={user}>
-            <NetworkContext.Provider value={network}>
-              <TimelineContext.Provider value={timeline}>
-                <FeedContext.Provider value={feed}>
-                  <Header user={user} logoutUser={appFunctions.logoutUser} />
-                  <Routes>
-                    <Route
-                      path='/profile'
-                      element={
-                        <Profile
-                          user={user}
-                          updateUserProfile={appFunctions.updateUserProfile}
-                        />
-                      }
-                    />
-                    <Route
-                      path='/network'
-                      element={<Network network={network} />}
-                    />
-                    <Route
-                      path='/timeline'
-                      element={<Timeline timeline={timeline} />}
-                    />
-                    <Route path='/feed' element={<Feed feed={feed} />} />
-                  </Routes>
-                  <Footer />
-                </FeedContext.Provider>
-              </TimelineContext.Provider>
-            </NetworkContext.Provider>
-          </UserContext.Provider>
+          <Header user={user} />
+          <Routes>
+            <Route path='/profile' element={<Profile user={user} />} />
+            <Route path='/network' element={<Network network={network} />} />
+            <Route
+              path='/timeline'
+              element={<Timeline timeline={timeline} />}
+            />
+            <Route path='/feed' element={<Feed feed={feed} />} />
+          </Routes>
+          <Footer />
         </AppFunctions.Provider>
       )}
     </div>
