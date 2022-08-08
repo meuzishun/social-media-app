@@ -1,10 +1,14 @@
 import React, { useState, useContext } from 'react';
-import { AppFunctions } from '../App';
+// import { AppFunctions } from '../App';
+import { UserContext } from '../App';
+import { addPost, addReplyIdToPostById } from '../services/firebaseApp';
+import uniqid from 'uniqid';
 
 function ReplyForm({ postId, setReplyState, setPost }) {
   const [replyContent, setReplyContent] = useState();
+  const { user } = useContext(UserContext);
 
-  const { submitPostReply } = useContext(AppFunctions);
+  // const { submitPostReply } = useContext(AppFunctions);
 
   const handleReplyChange = (e) => {
     setReplyContent(e.target.value);
@@ -12,7 +16,17 @@ function ReplyForm({ postId, setReplyState, setPost }) {
 
   const handleReplySubmit = async (e) => {
     e.preventDefault();
-    const alteredPost = await submitPostReply(postId, replyContent);
+    // const alteredPost = await submitPostReply(postId, replyContent);
+    const now = new Date();
+    const reply = {
+      author: user.id,
+      content: replyContent,
+      id: uniqid(),
+      replies: [],
+      timestamp: now.toISOString(),
+    };
+    await addPost(reply);
+    const alteredPost = await addReplyIdToPostById(postId, reply.id);
     setPost(alteredPost);
     setReplyContent('');
     setReplyState(false);

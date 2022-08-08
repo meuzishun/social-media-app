@@ -1,10 +1,14 @@
 import React, { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { AuthFunctions } from '../../../App';
+// import { AuthFunctions } from '../../../App';
+import { UserContext } from '../../../App';
+import { addUser } from '../../../services/firebaseApp';
+import uniqid from 'uniqid';
 
 function Signup() {
   const [formState, setFormState] = useState({});
-  const { submitSignup } = useContext(AuthFunctions);
+  // const { submitSignup } = useContext(AuthFunctions);
+  const { setUser } = useContext(UserContext);
 
   const navigate = useNavigate();
 
@@ -12,10 +16,13 @@ function Signup() {
     setFormState({ ...formState, [e.target.name]: e.target.value });
   };
 
-  const handleSignupSubmit = (e) => {
+  const handleSignupSubmit = async (e) => {
     e.preventDefault();
-    submitSignup(formState);
-    setFormState({}); //! Either not changing the formState or not causing a rerender
+    // submitSignup(formState);
+    const user = { ...formState, id: uniqid(), friends: [], posts: [] };
+    const newUser = await addUser(user);
+    setUser(newUser);
+    // setFormState({}); //! Either not changing the formState or not causing a rerender
   };
 
   const handleLoginClick = () => {

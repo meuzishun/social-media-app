@@ -1,12 +1,15 @@
 import React, { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Welcome from '../../../components/Welcome';
-import { AuthFunctions } from '../../../App';
+// import { AuthFunctions } from '../../../App';
+import { UserContext } from '../../../App';
+import { getUserByUsername } from '../../../services/firebaseApp';
 
 function Login() {
   const [formState, setFormState] = useState({});
   const navigate = useNavigate();
-  const { submitLogin } = useContext(AuthFunctions);
+  // const { submitLogin } = useContext(AuthFunctions);
+  const { setUser } = useContext(UserContext);
 
   const handleInputChange = (e) => {
     setFormState({ ...formState, [e.target.name]: e.target.value });
@@ -14,11 +17,17 @@ function Login() {
 
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
-    //TODO: check to make sure password and repassword match
-    //TODO: other form validation
-    //TODO: delete repassword prop
-    const response = await submitLogin(formState);
-    console.log(response);
+    // const response = await submitLogin(formState);
+    const foundUser = await getUserByUsername(formState.username);
+    if (!foundUser) {
+      return 'no user found';
+    }
+    if (foundUser.password !== formState.password) {
+      return 'incorrect password';
+    }
+    setUser(foundUser);
+    return 'login successful';
+    // console.log(response);
     // setFormState({}); //! Either not changing the formState or not causing a rerender
   };
 

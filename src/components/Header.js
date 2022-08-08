@@ -1,9 +1,18 @@
 import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
-import { AppFunctions } from '../App';
+// import { AppFunctions } from '../App';
+import { UserContext } from '../App';
+import { useNavigate } from 'react-router-dom';
 
-function Header({ user }) {
-  const { logoutUser } = useContext(AppFunctions);
+function Header() {
+  // const { logoutUser } = useContext(AppFunctions);
+  const { user, setUser } = useContext(UserContext);
+  const navigate = useNavigate();
+
+  const logoutUser = () => {
+    setUser(null);
+    navigate('/login');
+  };
 
   return (
     <header>
