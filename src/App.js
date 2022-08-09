@@ -207,14 +207,12 @@ function App() {
     <div className='App'>
       <UserContext.Provider value={{ user, setUser }}>
         {!user ? (
-          <AuthFunctions.Provider value={authFunctions}>
-            <Routes>
-              <Route path='/login' element={<Login />} />
-              <Route path='/signup' element={<Signup />} />
-            </Routes>
-          </AuthFunctions.Provider>
+          <Routes>
+            <Route path='/login' element={<Login />} />
+            <Route path='/signup' element={<Signup />} />
+          </Routes>
         ) : (
-          <AppFunctions.Provider value={appFunctions}>
+          <>
             <Header user={user} />
             <Routes>
               <Route path='/profile' element={<Profile user={user} />} />
@@ -226,7 +224,7 @@ function App() {
               <Route path='/feed' element={<Feed feed={feed} />} />
             </Routes>
             <Footer />
-          </AppFunctions.Provider>
+          </>
         )}
       </UserContext.Provider>
     </div>
