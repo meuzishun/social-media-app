@@ -29,8 +29,11 @@
   transition: all 200ms ease-in-out;
 }
 
-.loginForm > input:focus {
+.loginForm > input:focus,
+button:focus,
+button:hover {
   transform: scale(1.025);
+  box-shadow: 0.25rem 0.25rem 0.25rem rgba(0, 0, 0, 0.259);
 }
 
 button {
@@ -41,11 +44,6 @@ button {
   border: none;
   color: #fff;
   transition: all 200ms ease-in-out;
-}
-
-button:hover {
-  transform: scale(1.025);
-  box-shadow: 0.25rem 0.25rem 0.25rem rgba(0, 0, 0, 0.259);
 }
 
 button[type='submit'] {
