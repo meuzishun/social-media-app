@@ -30,13 +30,13 @@
 }
 
 .loginForm > input:focus,
-button:focus,
-button:hover {
+.loginPage button:focus,
+.loginPage button:hover {
   transform: scale(1.025);
   box-shadow: 0.25rem 0.25rem 0.25rem rgba(0, 0, 0, 0.259);
 }
 
-button {
+.loginPage button {
   margin: 1rem;
   align-self: center;
   padding: 0.5rem 1rem;
@@ -46,10 +46,10 @@ button {
   transition: all 200ms ease-in-out;
 }
 
-button[type='submit'] {
+.loginPage button[type='submit'] {
   background-color: #6190e8;
 }
 
-button[type='button'] {
+.loginPage button[type='button'] {
   background-color: #1ecc92;
 }

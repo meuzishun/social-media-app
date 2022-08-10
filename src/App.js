@@ -78,16 +78,16 @@ function App() {
   }, [network]);
 
   useEffect(() => {
-    ((async) => {
-      navigate('/login');
-    })();
+    // ((async) => {
+    //   navigate('/login');
+    // })();
 
     //* FOR TESTING PURPOSES
-    // (async () => {
-    //   const user = await getUserByUsername('meuzishun');
-    //   setUser(user);
-    //   navigate('/feed');
-    // })();
+    (async () => {
+      const user = await getUserByUsername('meuzishun');
+      setUser(user);
+      navigate('/feed');
+    })();
 
     //! MOCKED VERSION
     // setUser(fake_users[0]);

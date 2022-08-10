@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { UserContext } from '../App';
 import { useNavigate } from 'react-router-dom';
+import './Header.css';
 
 function Header() {
   const { user, setUser } = useContext(UserContext);
@@ -15,8 +16,10 @@ function Header() {
   return (
     <header>
       <div>social media logo</div>
-      <p>{user.fullName}</p>
-      <img src={user.avatar} alt='user avatar' />
+      <div className='userContainer'>
+        <img src={user.avatar} alt='user avatar' />
+        <p>{user.username}</p>
+      </div>
       <nav>
         <ul>
           <li>
@@ -33,7 +36,9 @@ function Header() {
           </li>
         </ul>
       </nav>
-      <button onClick={logoutUser}>log out</button>
+      <button className='logoutButton' onClick={logoutUser}>
+        log out
+      </button>
     </header>
   );
 }

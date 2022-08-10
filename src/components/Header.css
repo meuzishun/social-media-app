@@ -1,0 +1,52 @@
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem;
+}
+
+header * {
+  font-size: 1.25rem;
+}
+
+header > .userContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+header > nav > ul {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+header a,
+header a:visited {
+  text-transform: capitalize;
+  text-decoration: none;
+  color: #000;
+}
+
+header a:hover {
+  text-decoration: underline;
+}
+
+.logoutButton {
+  font-size: 0.9rem;
+  text-transform: capitalize;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 1000px;
+  background-color: #555;
+  color: #fff;
+  transition: all 200ms ease-in-out;
+}
+
+.logoutButton:hover {
+  font-size: 0.9rem;
+  transform: scale(1.025);
+  box-shadow: 0.25rem 0.25rem 0.25rem rgba(0, 0, 0, 0.25);
+}
