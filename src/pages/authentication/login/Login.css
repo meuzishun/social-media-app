@@ -29,9 +29,7 @@
   transition: all 200ms ease-in-out;
 }
 
-.loginForm > input:focus,
-.loginPage button:focus,
-.loginPage button:hover {
+.loginForm > input:focus {
   transform: scale(1.025);
   box-shadow: 0.25rem 0.25rem 0.25rem rgba(0, 0, 0, 0.259);
 }
@@ -39,11 +37,6 @@
 .loginPage button {
   margin: 1rem;
   align-self: center;
-  padding: 0.5rem 1rem;
-  border-radius: 1000px;
-  border: none;
-  color: #fff;
-  transition: all 200ms ease-in-out;
 }
 
 .loginPage button[type='submit'] {

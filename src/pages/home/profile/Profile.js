@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { UserContext } from '../../../App';
 import { updateUserById } from '../../../services/firebaseApp';
+import './Profile.css';
 
 function Profile() {
   const [editProfile, setEditProfile] = useState(false);
@@ -34,7 +35,7 @@ function Profile() {
   return (
     <>
       {!userState ? null : !editProfile ? (
-        <div>
+        <div className='profileContainer'>
           <h1>name: {user.fullName}</h1>
           <h2>username: {user.username}</h2>
           <p>email: {user.email}</p>
@@ -43,7 +44,7 @@ function Profile() {
           <button onClick={toggleEdit}>edit</button>
         </div>
       ) : (
-        <form onSubmit={handleProfileEditSubmit}>
+        <form className='profileForm' onSubmit={handleProfileEditSubmit}>
           <label htmlFor='fullName'>full name</label>
           <input
             type='text'

@@ -35,7 +35,7 @@ function App() {
 
   useEffect(() => {
     if (user) {
-      navigate('/feed');
+      navigate('/profile');
     }
     setNetwork([]);
     if (user && user.friends.length > 0) {
@@ -86,7 +86,7 @@ function App() {
     (async () => {
       const user = await getUserByUsername('meuzishun');
       setUser(user);
-      navigate('/feed');
+      navigate('/profile');
     })();
 
     //! MOCKED VERSION
