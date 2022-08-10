@@ -1,11 +1,9 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import AddPostForm from '../../../components/AddPostForm';
 import Post from '../../../components/Post';
-import { TimelineContext } from '../../../App';
 
 function Timeline({ timeline }) {
   const [viewNewPostForm, setViewNewPostForm] = useState(false);
-  // const timeline = useContext(TimelineContext);
 
   const showNewPostForm = () => {
     setViewNewPostForm(true);
@@ -17,7 +15,6 @@ function Timeline({ timeline }) {
 
   return (
     <div>
-      {/* {console.log(timeline)} */}
       {viewNewPostForm ? (
         <AddPostForm hideNewPostForm={hideNewPostForm} />
       ) : (

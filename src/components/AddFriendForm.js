@@ -1,5 +1,4 @@
 import React, { useContext, useState } from 'react';
-import { AppFunctions } from '../App';
 import { UserContext } from '../App';
 import {
   getUserByUsername,
@@ -8,8 +7,6 @@ import {
 
 function AddFriendForm({ handleAddState }) {
   const [usernameSearch, setUsernameSearch] = useState(null);
-
-  // const { submitAddFriend } = useContext(AppFunctions);
   const { user, setUser } = useContext(UserContext);
 
   const handleInputChange = (e) => {
@@ -18,7 +15,6 @@ function AddFriendForm({ handleAddState }) {
 
   const handleAddFriendSubmit = async (e) => {
     e.preventDefault();
-    // const response = await submitAddFriend(usernameSearch);
     const friend = await getUserByUsername(usernameSearch);
     if (!friend) {
       console.log('no user found');
@@ -28,9 +24,7 @@ function AddFriendForm({ handleAddState }) {
     }
     const alteredUser = await addFriendToUserNetwork(user.id, friend.id);
     setUser(alteredUser);
-    // return 'friend added';
     handleAddState();
-    // console.log(response);
   };
 
   return (

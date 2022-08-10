@@ -1,10 +1,7 @@
-import React, { useContext } from 'react';
-// import { FeedContext } from '../../../App';
+import React from 'react';
 import Post from '../../../components/Post';
 
 function Feed({ feed }) {
-  // const feed = useContext(FeedContext);
-
   return (
     <div>
       {feed

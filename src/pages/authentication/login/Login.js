@@ -1,14 +1,12 @@
 import React, { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Welcome from '../../../components/Welcome';
-// import { AuthFunctions } from '../../../App';
 import { UserContext } from '../../../App';
 import { getUserByUsername } from '../../../services/firebaseApp';
 
 function Login() {
   const [formState, setFormState] = useState({});
   const navigate = useNavigate();
-  // const { submitLogin } = useContext(AuthFunctions);
   const { setUser } = useContext(UserContext);
 
   const handleInputChange = (e) => {
@@ -17,18 +15,15 @@ function Login() {
 
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
-    // const response = await submitLogin(formState);
     const foundUser = await getUserByUsername(formState.username);
     if (!foundUser) {
-      return 'no user found';
+      console.log('no user found');
     }
     if (foundUser.password !== formState.password) {
-      return 'incorrect password';
+      console.log('incorrect password');
     }
     setUser(foundUser);
-    return 'login successful';
-    // console.log(response);
-    // setFormState({}); //! Either not changing the formState or not causing a rerender
+    console.log('login successful');
   };
 
   const handleSignupClick = () => {

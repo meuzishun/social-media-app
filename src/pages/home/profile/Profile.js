@@ -1,5 +1,4 @@
 import React, { useEffect, useState, useContext } from 'react';
-// import { AppFunctions } from '../../../App';
 import { UserContext } from '../../../App';
 import { updateUserById } from '../../../services/firebaseApp';
 
@@ -7,8 +6,6 @@ function Profile() {
   const [editProfile, setEditProfile] = useState(false);
   const [userState, setUserState] = useState(null);
   const { user, setUser } = useContext(UserContext);
-
-  // const { updateUserProfile } = useContext(AppFunctions);
 
   const toggleEdit = () => {
     setEditProfile(!editProfile);
@@ -20,7 +17,6 @@ function Profile() {
 
   const handleProfileEditSubmit = async (e) => {
     e.preventDefault();
-    // await updateUserProfile(userState);
     const alteredUser = await updateUserById(user.id, userState);
     setUser(alteredUser);
     setEditProfile(false);

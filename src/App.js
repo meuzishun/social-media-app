@@ -15,21 +15,10 @@ import Footer from './components/Footer';
 import './App.css';
 
 //* Database imports
-import {
-  addUser,
-  getUserByUsername,
-  addFriendToUserNetwork,
-  deleteFriendFromUserNetwork,
-  updateUserById,
-  getUsersByIdList,
-  addReplyIdToPostById,
-  addPost,
-  addPostIdToUserById,
-  getPostById,
-} from './services/firebaseApp';
+import { getUserByUsername, getUsersByIdList } from './services/firebaseApp';
 
 //* Library imports
-import uniqid from 'uniqid';
+// import uniqid from 'uniqid';
 // import { fake_posts, fake_users } from './fake_data/fake_data';
 
 export const AuthFunctions = createContext();
@@ -44,107 +33,10 @@ function App() {
   const [feed, setFeed] = useState([]);
   const navigate = useNavigate();
 
-  const authFunctions = {
-    submitLogin: async (form) => {
-      const user = await getUserByUsername(form.username);
-      if (!user) {
-        return 'no user found';
-      }
-      if (user.password !== form.password) {
-        return 'incorrect password';
-      }
-      setUser(user);
-      return 'login successful';
-
-      //! MOCKED VERSION
-      // const user = fake_users.find((user) => user.username === username);
-
-      // if (!user) {
-      //   alert('No user with that username');
-      //   return;
-      // }
-      // if (user.password !== e.target.password.value) {
-      //   alert('Incorrect password');
-      //   return;
-      // }
-      // if (user && user.password === e.target.password.value) {
-      //   setUser(user);
-      // }
-    },
-
-    // submitSignup: async (form) => {
-    //   const user = { ...form, id: uniqid(), friends: [], posts: [] };
-    //   const newUser = await addUser(user);
-    //   setUser(newUser);
-    // },
-  };
-
-  const appFunctions = {
-    // logoutUser: () => {
-    //   setUser(null);
-    //   navigate('/login');
-    // },
-    // findPostById: async (id) => {
-    //   //! MOCKED VERSION
-    //   // return fake_posts.find((post) => post.id === id);
-    //   const post = await getPostById(id);
-    //   return post;
-    // },
-    // updateUserProfile: async (newProfile) => {
-    //   const alteredUser = await updateUserById(user.id, newProfile);
-    //   setUser(alteredUser);
-    //   return 'user altered';
-    // },
-    // submitAddFriend: async (username) => {
-    //   const friend = await getUserByUsername(username);
-    //   if (!friend) {
-    //     return 'no user found';
-    //   }
-    //   if (user.friends.includes(friend.id)) {
-    //     return 'user already in network';
-    //   }
-    //   const alteredUser = await addFriendToUserNetwork(user.id, friend.id);
-    //   setUser(alteredUser);
-    //   return 'friend added';
-    // },
-    // submitFriendRemove: async (friendId) => {
-    //   if (!user.friends.includes(friendId)) {
-    //     return 'friend not in network';
-    //   }
-    //   const alteredUser = await deleteFriendFromUserNetwork(user.id, friendId);
-    //   setUser(alteredUser);
-    //   return `friend with id ${friendId} has been removed`;
-    // },
-    // submitPost: async (postContent) => {
-    //   const now = new Date();
-    //   const postData = {
-    //     author: user.id,
-    //     content: postContent,
-    //     id: uniqid(),
-    //     replies: [],
-    //     timestamp: now.toISOString(),
-    //   };
-    //   await addPost(postData);
-    //   const alteredUser = await addPostIdToUserById(user.id, postData.id);
-    //   setUser(alteredUser);
-    // },
-    // submitPostReply: async (postId, replyContent) => {
-    //   //? Can this be housed in the ReplyForm component?
-    //   const now = new Date();
-    //   const reply = {
-    //     author: user.id,
-    //     content: replyContent,
-    //     id: uniqid(),
-    //     replies: [],
-    //     timestamp: now.toISOString(),
-    //   };
-    //   await addPost(reply);
-    //   const alteredPost = await addReplyIdToPostById(postId, reply.id);
-    //   return alteredPost;
-    // },
-  };
-
   useEffect(() => {
+    if (user) {
+      navigate('/feed');
+    }
     setNetwork([]);
     if (user && user.friends.length > 0) {
       getUsersByIdList(user.friends).then((friends) => setNetwork(friends));
@@ -185,22 +77,20 @@ function App() {
     }
   }, [network]);
 
-  //? Is this still needed?
   useEffect(() => {
-    if (!user) {
-      setTimeline([]);
-      setNetwork([]);
-      setFeed([]);
-    }
-  }, [user]);
+    ((async) => {
+      navigate('/login');
+    })();
 
-  //* FOR TESTING PURPOSES
-  useEffect(() => {
+    //* FOR TESTING PURPOSES
+    // (async () => {
+    //   const user = await getUserByUsername('meuzishun');
+    //   setUser(user);
+    //   navigate('/feed');
+    // })();
+
     //! MOCKED VERSION
     // setUser(fake_users[0]);
-
-    authFunctions.submitLogin({ username: 'meuzishun', password: 'password' });
-    // navigate('/login');
   }, []);
 
   return (
