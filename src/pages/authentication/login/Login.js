@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import Welcome from '../../../components/Welcome';
 import { UserContext } from '../../../App';
 import { getUserByUsername } from '../../../services/firebaseApp';
+import '../login/Login.css';
 
 function Login() {
   const [formState, setFormState] = useState({});
@@ -31,9 +32,9 @@ function Login() {
   };
 
   return (
-    <div>
+    <div className='loginPage'>
       <Welcome />
-      <h1>log in</h1>
+      <h1 className='loginHeading'>log in</h1>
       <form className='loginForm' onSubmit={handleLoginSubmit}>
         <label htmlFor='username'>username</label>
         <input
