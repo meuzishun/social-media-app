@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Friend from '../../../components/Friend';
 import AddFriendForm from '../../../components/AddFriendForm';
+import './Network.css';
 
 function Network({ network }) {
   const [addFriendState, setAddFriendState] = useState(false);
@@ -10,11 +11,7 @@ function Network({ network }) {
   };
 
   return (
-    <div>
-      {network.map((friend) => (
-        <Friend key={friend.id} friend={friend} />
-      ))}
-
+    <div className='networkContainer'>
       {addFriendState ? (
         <AddFriendForm handleAddState={handleAddState} />
       ) : (
@@ -22,6 +19,9 @@ function Network({ network }) {
           add friend
         </button>
       )}
+      {network.map((friend) => (
+        <Friend key={friend.id} friend={friend} />
+      ))}
     </div>
   );
 }

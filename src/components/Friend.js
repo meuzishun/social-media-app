@@ -16,7 +16,7 @@ function Friend({ friend }) {
   };
 
   return (
-    <div>
+    <div className='friendContainer'>
       <p>
         {friend.fullName} ({friend.username})
       </p>
