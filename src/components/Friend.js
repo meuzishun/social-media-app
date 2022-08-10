@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import { UserContext } from '../App';
 import { deleteFriendFromUserNetwork } from '../services/firebaseApp';
+import './Friend.css';
 
 function Friend({ friend }) {
   const { user, setUser } = useContext(UserContext);

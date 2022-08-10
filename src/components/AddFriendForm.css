@@ -1,0 +1,19 @@
+.addFriendForm {
+  display: flex;
+  flex-direction: column;
+}
+
+.addFriendForm > label {
+  font-size: 0.75rem;
+}
+
+.addFriendForm > button {
+  margin-top: 0.5rem;
+  align-self: center;
+  text-transform: capitalize;
+}
+
+.addFriendForm > button[type='submit'] {
+  background-color: green;
+  color: #fff;
+}

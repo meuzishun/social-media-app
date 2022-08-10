@@ -4,6 +4,7 @@ import {
   getUserByUsername,
   addFriendToUserNetwork,
 } from '../services/firebaseApp';
+import './AddFriendForm.css';
 
 function AddFriendForm({ handleAddState }) {
   const [usernameSearch, setUsernameSearch] = useState(null);
@@ -28,7 +29,7 @@ function AddFriendForm({ handleAddState }) {
   };
 
   return (
-    <form onSubmit={handleAddFriendSubmit}>
+    <form className='addFriendForm' onSubmit={handleAddFriendSubmit}>
       <label>search for username</label>
       <input
         type='text'

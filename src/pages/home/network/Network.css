@@ -8,6 +8,8 @@
   gap: 2rem;
 }
 
-.networkContainer button {
+.networkContainer > button {
   text-transform: capitalize;
+  color: #fff;
+  background-color: green;
 }

@@ -1,0 +1,14 @@
+.friendContainer {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+
+.friendContainer > button {
+  font-size: 0.75rem;
+  background-color: rgb(180, 0, 0);
+  color: #fff;
+  align-self: flex-end;
+}
