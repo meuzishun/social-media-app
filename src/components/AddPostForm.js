@@ -2,6 +2,7 @@ import React, { useContext, useState } from 'react';
 import { UserContext } from '../App';
 import { addPost, addPostIdToUserById } from '../services/firebaseApp';
 import uniqid from 'uniqid';
+import './AddPostForm.css';
 
 function AddPostForm({ hideNewPostForm }) {
   const [inputState, setInputState] = useState(null);
@@ -28,7 +29,7 @@ function AddPostForm({ hideNewPostForm }) {
   };
 
   return (
-    <div>
+    <div className='addPostContainer'>
       <form onSubmit={handleAddPostSubmit}>
         <input
           type='text'
