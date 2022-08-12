@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import ReplyForm from './ReplyForm';
 import { getPostById, getUserById } from '../services/firebaseApp';
+import './Post.css';
 
 function Post({ postId }) {
   const [post, setPost] = useState(null);
@@ -24,9 +25,9 @@ function Post({ postId }) {
   }, [post]);
 
   return (
-    <div>
+    <>
       {authorName ? (
-        <div>
+        <div className='post'>
           <p>
             <span>{authorName}:</span> {post.content}
           </p>
@@ -40,13 +41,13 @@ function Post({ postId }) {
             <button onClick={handleReplyClick}>reply</button>
           )}
           <div className='replies'>
-            {post.replies.map((replyId) => {
-              return <Post key={replyId} postId={replyId} />;
-            })}
+            {post.replies.map((replyId) => (
+              <Post key={replyId} postId={replyId} />
+            ))}
           </div>
         </div>
       ) : null}
-    </div>
+    </>
   );
 }
 

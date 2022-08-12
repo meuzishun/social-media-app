@@ -1,0 +1,14 @@
+.timelineContainer {
+  width: 50%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.timelineContainer > button {
+  text-transform: capitalize;
+  color: #fff;
+  background-color: green;
+}

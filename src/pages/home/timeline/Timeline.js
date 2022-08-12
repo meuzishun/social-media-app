@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import AddPostForm from '../../../components/AddPostForm';
 import Post from '../../../components/Post';
+import './Timeline.css';
 
 function Timeline({ timeline }) {
   const [viewNewPostForm, setViewNewPostForm] = useState(false);
@@ -14,7 +15,7 @@ function Timeline({ timeline }) {
   };
 
   return (
-    <div>
+    <div className='timelineContainer'>
       {viewNewPostForm ? (
         <AddPostForm hideNewPostForm={hideNewPostForm} />
       ) : (

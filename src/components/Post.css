@@ -1,0 +1,32 @@
+.post {
+  display: grid;
+  grid-template-columns: max-content min-content;
+  grid-template-rows: auto auto;
+  grid-template-areas:
+    'post btn'
+    'replies replies';
+  grid-gap: 1rem;
+  align-items: center;
+}
+
+.post > p {
+  grid-area: post;
+}
+
+.post > button {
+  grid-area: btn;
+  font-size: 0.7rem;
+  padding: 0.25rem 0.5rem;
+  justify-self: end;
+  text-transform: capitalize;
+  color: #fff;
+  background-color: rgb(0, 119, 255);
+}
+
+.post > .replies {
+  grid-area: replies;
+}
+
+.post .replies {
+  margin-left: 2rem;
+}

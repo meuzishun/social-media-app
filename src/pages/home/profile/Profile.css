@@ -10,6 +10,13 @@
   font-size: 1.5rem;
 }
 
+.profileContainer button {
+  font-size: 1rem;
+  text-transform: capitalize;
+  background-color: rgb(0, 115, 255);
+  color: #fff;
+}
+
 .profileForm {
   max-width: 30%;
   margin: 0 auto;
