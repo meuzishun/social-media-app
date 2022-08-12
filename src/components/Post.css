@@ -4,6 +4,7 @@
   grid-template-rows: auto auto;
   grid-template-areas:
     'post btn'
+    'form form'
     'replies replies';
   grid-gap: 1rem;
   align-items: center;
@@ -13,7 +14,7 @@
   grid-area: post;
 }
 
-.post > button {
+.post button {
   grid-area: btn;
   font-size: 0.7rem;
   padding: 0.25rem 0.5rem;
@@ -25,6 +26,22 @@
 
 .post > .replies {
   grid-area: replies;
+}
+
+.post > form {
+  grid-area: form;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+.post > form > button[type='submit'] {
+  background-color: green;
+}
+
+.post > form > button[type='button'] {
+  background-color: #555;
 }
 
 .post .replies {
