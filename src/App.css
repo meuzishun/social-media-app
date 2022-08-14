@@ -23,7 +23,7 @@ input:focus,
 button:hover,
 button:focus {
   transform: scale(1.025);
-  box-shadow: 0.25rem 0.25rem 0.25rem rgba(0, 0, 0, 0.259);
+  box-shadow: 0.15rem 0.15rem 0.15rem rgba(0, 0, 0, 0.259);
 }
 
 button:active {

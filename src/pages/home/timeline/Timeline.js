@@ -23,8 +23,8 @@ function Timeline({ timeline }) {
           add post
         </button>
       )}
-      {timeline.map((postId) => (
-        <Post key={postId} postId={postId} />
+      {timeline.map((postData) => (
+        <Post key={postData.id} postData={postData} />
       ))}
     </div>
   );

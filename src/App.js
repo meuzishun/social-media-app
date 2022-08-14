@@ -15,11 +15,15 @@ import Footer from './components/Footer';
 import './App.css';
 
 //* Database imports
-import { getUserByUsername, getUsersByIdList } from './services/firebaseApp';
+import {
+  getUserByUsername,
+  getUsersByIdList,
+  getPostsByAuthorId,
+} from './services/firebaseApp';
 
 //* Library imports
-// import uniqid from 'uniqid';
-import { fake_posts, fake_users } from './fake_data/fake_data';
+import uniqid from 'uniqid';
+// import { fake_posts, fake_users } from './fake_data/fake_data';
 
 export const AuthFunctions = createContext();
 export const AppFunctions = createContext();
@@ -35,28 +39,34 @@ function App() {
 
   useEffect(() => {
     if (user) {
-      navigate('/profile');
+      navigate('/timeline');
     }
     setNetwork([]);
-    if (user && user.friends.length > 0) {
-      getUsersByIdList(user.friends).then((friends) => setNetwork(friends));
-      //! MOCKED VERSION
-      // setNetwork(
-      //   user.friends.map((id) => fake_users.find((user) => user.id === id))
-      // );
-    }
+    // if (user && user.friends.length > 0) {
+    //   getUsersByIdList(user.friends).then((friends) => setNetwork(friends));
+    //   //! MOCKED VERSION
+    //   // setNetwork(
+    //   //   user.friends.map((id) => fake_users.find((user) => user.id === id))
+    //   // );
+    // }
 
     setTimeline([]);
-    if (user && user.posts.length > 0) {
-      //* Put actual posts in timeline:
-      // getPostsByIdList(user.posts).then((posts) => setTimeline(posts));
-      //* Put post ids in timeline:
-      setTimeline(user.posts);
-      //! MOCKED VERSION
-      // setTimeline(
-      //   user.posts.map((id) => fake_posts.find((post) => post.id === id))
-      // );
+    if (user) {
+      getPostsByAuthorId(user.id).then((posts) => {
+        setTimeline(posts);
+      });
     }
+    // if (user && user.posts.length > 0) {
+    //   //* Put actual posts in timeline:
+    //   // getPostsByIdList(user.posts).then((posts) => setTimeline(posts));
+    //   //* Put post ids in timeline:
+    //   setTimeline(user.posts);
+
+    //   //! MOCKED VERSION
+    //   // setTimeline(
+    //   //   user.posts.map((id) => fake_posts.find((post) => post.id === id))
+    //   // );
+    // }
   }, [user]);
 
   useEffect(() => {
@@ -86,7 +96,7 @@ function App() {
     (async () => {
       const user = await getUserByUsername('meuzishun');
       setUser(user);
-      navigate('/profile');
+      navigate('/timeline');
     })();
 
     //! MOCKED VERSION

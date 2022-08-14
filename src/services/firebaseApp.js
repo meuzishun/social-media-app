@@ -103,6 +103,17 @@ export const addPost = async (post) => {
   return newPostSnap.data();
 };
 
+export const getPostsByAuthorId = async (authorId) => {
+  const postsQuery = query(postCollection, where('authorId', '==', authorId));
+  const querySnapshot = await getDocs(postsQuery);
+  const posts = [];
+  querySnapshot.forEach((doc) => {
+    const post = doc.data();
+    posts.push(post);
+  });
+  return posts;
+};
+
 export const getPostById = async (id) => {
   const docSnap = await getDoc(doc(db, 'posts', id));
   if (docSnap.exists()) {
@@ -117,6 +128,26 @@ export const updatePostById = async (postId, dataUpdate) => {
   await updateDoc(postRef, dataUpdate);
   const postSnap = await getDoc(postRef);
   const alteredPost = postSnap.data();
+  return alteredPost;
+};
+
+export const addCommentToPost = async (postId, comment) => {
+  const postRef = doc(db, 'posts', postId);
+  await updateDoc(postRef, {
+    comments: arrayUnion(comment),
+  });
+  const userSnap = await getDoc(postRef);
+  const alteredPost = userSnap.data();
+  return alteredPost;
+};
+
+export const removeCommentToPost = async (postId, commentId) => {
+  const postRef = doc(db, 'posts', postId);
+  await updateDoc(postRef, {
+    comments: arrayRemove(commentId),
+  });
+  const userSnap = await getDoc(postRef);
+  const alteredPost = userSnap.data();
   return alteredPost;
 };
 
