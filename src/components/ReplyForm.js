@@ -36,7 +36,7 @@ function ReplyForm({ setAddReplyFormDisplay }) {
   };
 
   return (
-    <form onSubmit={handleReplyFormSubmit}>
+    <form className='replyForm' onSubmit={handleReplyFormSubmit}>
       <input
         type='text'
         name='content'

@@ -9,8 +9,12 @@ import {
 } from '../services/firebaseApp';
 import './Post.css';
 import EditPostForm from './EditPostForm';
+import PostContent from './PostContent';
+import CommentForm2 from './CommentForm2';
+import Comment2 from './Comment2';
 
 export const PostStateContext = createContext();
+export const CommentContext = createContext();
 
 function Post({ postData }) {
   //TODO: use this postState as a copy of the postData
@@ -48,6 +52,7 @@ function Post({ postData }) {
 
   useEffect(() => {
     if (postStateToDatabase) {
+      console.log('changing post...');
       updatePostById(postStateToDatabase.id, postStateToDatabase).then(
         (alteredPost) => setPostStateFromDatabase(alteredPost)
       );
@@ -64,6 +69,12 @@ function Post({ postData }) {
 
   return (
     <>
+      {console.log('rendering post...')}
+      {postStateFromDatabase
+        ? postStateFromDatabase.comments.forEach((comment) =>
+            console.log(comment.content)
+          )
+        : null}
       {authorName ? (
         <div className='post'>
           <PostStateContext.Provider
@@ -73,51 +84,23 @@ function Post({ postData }) {
               authorName,
             }}
           >
-            {!displayPostEditForm ? (
-              <>
-                <p>
-                  <span>{authorName}:</span> {postStateFromDatabase.content}
-                </p>
-              </>
-            ) : (
-              <EditPostForm setPostEditFormDisplay={setDisplayPostEditForm} />
-            )}
+            <PostContent />
+            <CommentForm2 />
 
-            {!displayPostEditForm && !displayAddCommentForm ? (
-              <>
-                <button
-                  type='button'
-                  className='editBtn'
-                  onClick={handleEditPostClick}
-                >
-                  edit
-                </button>
-
-                <button
-                  type='button'
-                  className='addBtn'
-                  onClick={handleAddCommentClick}
-                >
-                  add comment
-                </button>
-              </>
+            {postStateFromDatabase.comments ? (
+              <div className='comments'>
+                {postStateFromDatabase.comments.map((comment) => (
+                  <CommentContext.Provider value={comment}>
+                    <Comment2 key={comment.id} />
+                  </CommentContext.Provider>
+                ))}
+                {/* <Comment
+                    key={comment.id}
+                    commentsArray={postStateFromDatabase.comments}
+                    commentData={comment}
+                  /> */}
+              </div>
             ) : null}
-
-            {!displayAddCommentForm ? null : (
-              <CommentForm
-                setAddCommentFormDisplay={setDisplayAddCommentForm}
-              />
-            )}
-
-            {/* <div className='comments'>
-              {postStateFromDatabase.comments.map((comment) => (
-                <Comment
-                  key={comment.id}
-                  commentData={comment}
-                  setPostState={setPostState}
-                />
-              ))}
-            </div> */}
           </PostStateContext.Provider>
         </div>
       ) : null}

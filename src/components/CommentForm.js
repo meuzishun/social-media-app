@@ -1,11 +1,13 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { UserContext } from '../App';
 import { PostStateContext } from './Post';
 import { addCommentToPost } from '../services/firebaseApp';
 import uniqid from 'uniqid';
 
-function CommentForm({ setAddCommentFormDisplay }) {
+function CommentForm({ setAddCommentFormDisplay, commentsArray }) {
   const [commentFormState, setCommentFormState] = useState(null);
+  // const commentsCopy = [...commentsArray];
+  // const [commentsState, setCommentsState] = useState(commentsArray);
   const { user } = useContext(UserContext);
   const { postStateFromDatabase, setPostStateToDatabase } =
     useContext(PostStateContext);
@@ -19,25 +21,48 @@ function CommentForm({ setAddCommentFormDisplay }) {
     setAddCommentFormDisplay(false);
   };
 
-  const handleCommentFormSubmit = async () => {
+  const handleCommentFormSubmit = async (e) => {
+    e.preventDefault();
     const now = new Date();
-    const comment = {
+    const newComment = {
       id: uniqid(),
       timestamp: now.toISOString(),
       authorId: user.id,
       content: commentFormState,
       replies: [],
     };
-    const alteredPost = {
-      ...postStateFromDatabase,
-      comments: [...postStateFromDatabase.comments, comment],
-    };
-    console.log(alteredPost);
-    // setPostState();
+    changeComments([...commentsArray, newComment]);
+    setCommentFormState(null);
+    setAddCommentFormDisplay(false);
+    // console.log(commentsState);
+    // setCommentsState(commentsState.concat(newComment));
   };
 
+  const changeComments = (newCommentsArray) => {
+    const alteredPost = {
+      ...postStateFromDatabase,
+      comments: newCommentsArray,
+    };
+    setPostStateToDatabase(alteredPost);
+  };
+
+  // useEffect(() => {
+  //   const alteredPost = {
+  //     ...postStateFromDatabase,
+  //     comments: [...commentsState],
+  //   };
+  //   console.log(alteredPost);
+  //   // setPostStateToDatabase(alteredPost);
+  //   // setCommentFormState(null);
+  //   // setAddCommentFormDisplay(false);
+  // }, [commentsState]);
+
+  // useEffect(() => {
+  //   setCommentsState(commentsArray);
+  // }, []);
+
   return (
-    <form onSubmit={handleCommentFormSubmit}>
+    <form className='addCommentForm' onSubmit={handleCommentFormSubmit}>
       <input
         type='text'
         name='content'

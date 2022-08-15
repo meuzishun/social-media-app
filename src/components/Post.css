@@ -1,10 +1,11 @@
-.post {
+/* .post {
   display: grid;
   grid-template-columns: max-content max-content max-content;
   grid-template-rows: auto auto;
   grid-template-areas:
     'post editBtn addBtn'
     'form form form'
+    'comments comments comments'
     'replies replies replies';
   grid-gap: 1rem;
   align-items: center;
@@ -36,6 +37,10 @@
   grid-area: addBtn;
 }
 
+.post .comments {
+  grid-area: comments;
+}
+
 .post > .replies {
   grid-area: replies;
 }
@@ -58,4 +63,61 @@
 
 .post .replies {
   margin-left: 2rem;
+} */
+
+.post,
+.comments {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 }
+
+/* Top row of post */
+.postContent,
+.postEditForm,
+.addCommentForm,
+.commentContent,
+.commentEditForm {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+/* .postEditForm {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+} */
+
+/* Middle row of post */
+.post > .addBtn {
+  background-color: rgb(0, 145, 255);
+  color: #fff;
+  align-self: flex-start;
+}
+
+/* Bottom row of post */
+/* .addCommentForm {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+} */
+
+/* .comments {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+} */
+
+/* Inside bottom row */
+/* .commentContent {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+} */
+
+/* .commentEditForm {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+} */

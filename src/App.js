@@ -23,7 +23,7 @@ import {
 
 //* Library imports
 import uniqid from 'uniqid';
-// import { fake_posts, fake_users } from './fake_data/fake_data';
+import { fake_posts, fake_users } from './fake_data/fake_data';
 
 export const AuthFunctions = createContext();
 export const AppFunctions = createContext();
