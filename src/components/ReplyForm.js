@@ -1,53 +1,64 @@
-import React, { useState, useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { UserContext } from '../App';
-import { PostStateContext } from './Post';
-import { addPost, addReplyIdToPostById } from '../services/firebaseApp';
 import uniqid from 'uniqid';
+import { addPost } from '../services/firebaseApp';
 
-function ReplyForm({ setAddReplyFormDisplay }) {
-  const [replyContent, setReplyContent] = useState();
+function ReplyForm({ comment, getAndSetCommentReplies }) {
   const { user } = useContext(UserContext);
-  const { postState, setPostState } = useContext(PostStateContext);
+  const [displayForm, setDisplayForm] = useState(false);
+  const [input, setInput] = useState(null);
 
-  const handleReplyFormChange = (e) => {
-    setReplyContent(e.target.value);
+  const handleAddClick = () => {
+    setDisplayForm(true);
   };
 
-  const handleReplyFormCancel = () => {
-    setReplyContent(null);
-    setAddReplyFormDisplay(false);
+  const handleInputChange = (e) => {
+    setInput(e.target.value);
   };
 
-  const handleReplyFormSubmit = async (e) => {
+  const handleInputCancel = () => {
+    setDisplayForm(false);
+  };
+
+  const handleReplySubmit = async (e) => {
     e.preventDefault();
     const now = new Date();
-    const reply = {
-      author: user.id,
-      content: replyContent,
+    const postData = {
       id: uniqid(),
-      replies: [],
+      parentId: comment.childId,
+      childId: uniqid(),
+      authorId: user.id,
       timestamp: now.toISOString(),
+      content: input,
     };
-    // await addPost(reply);
-    // const alteredPost = await addReplyIdToPostById(postId, reply.id);
-    // setPost(alteredPost);
-    // setReplyContent('');
-    // setReplyState(false);
+    await addPost(postData);
+    getAndSetCommentReplies();
+    setInput(null);
+    setDisplayForm(false);
   };
 
   return (
-    <form className='replyForm' onSubmit={handleReplyFormSubmit}>
-      <input
-        type='text'
-        name='content'
-        defaultValue={replyContent}
-        onChange={handleReplyFormChange}
-      />
-      <button type='submit'>submit</button>
-      <button type='button' onClick={handleReplyFormCancel}>
-        cancel
-      </button>
-    </form>
+    <>
+      {!displayForm ? (
+        <button type='button' className='addBtn' onClick={handleAddClick}>
+          add reply
+        </button>
+      ) : (
+        <form className='addCommentForm' onSubmit={handleReplySubmit}>
+          <label htmlFor='addComment'>reply</label>
+          <input
+            type='text'
+            name='addReply'
+            defaultValue={input}
+            onChange={handleInputChange}
+          />
+          <button type='submit'>submit</button>
+          <button type='button' onClick={handleInputCancel}>
+            cancel
+          </button>
+        </form>
+      )}
+    </>
   );
 }
 

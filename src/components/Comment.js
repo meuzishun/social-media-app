@@ -1,91 +1,44 @@
-import React, { useEffect, useState, useContext } from 'react';
-import { PostStateContext } from './Post';
-import { getUserById } from '../services/firebaseApp';
-import EditCommentForm from './EditCommentForm';
+import React, { useEffect, useState } from 'react';
+import CommentContent from './CommentContent';
 import ReplyForm from './ReplyForm';
 import Reply from './Reply';
-import './Comment.css';
+import { getPostsByParentId } from '../services/firebaseApp';
 
-function Comment({ commentData }) {
-  const [commentState, setCommentState] = useState(null);
-  const [authorName, setAuthorName] = useState(null);
-  const [displayCommentEditForm, setDisplayCommentEditForm] = useState(false);
-  const [displayAddReplyForm, setDisplayAddReplyForm] = useState(false);
-  const { postStateFromDatabase, setPostStateToDatabase } =
-    useContext(PostStateContext);
+function Comment({ comment, getAndSetPostComments }) {
+  const [replies, setReplies] = useState([]);
 
-  const handleEditCommentClick = (e) => {
-    e.preventDefault();
-    setDisplayCommentEditForm(true);
-  };
-
-  const handleCommentEditSubmit = () => {
-    //TODO: remove old comment from post
-    //TODO: add new comment to post
-  };
-
-  const handleAddReplyClick = () => {
-    setDisplayAddReplyForm(true);
+  const getAndSetCommentReplies = () => {
+    getPostsByParentId(comment.childId).then((posts) => {
+      const replies = posts.filter((post) => post.parentId !== post.childId);
+      setReplies(replies);
+    });
   };
 
   useEffect(() => {
-    setCommentState(commentData);
+    getAndSetCommentReplies();
   }, []);
 
-  useEffect(() => {
-    if (commentState) {
-      getUserById(commentState.authorId).then((user) =>
-        setAuthorName(user.username)
-      );
-    }
-  }, [commentState]);
-
   return (
-    <div className='commentContainer'>
-      {!commentState ? null : !displayCommentEditForm ? (
-        <p>
-          <span>{authorName}:</span> {commentState.content}
-        </p>
-      ) : (
-        <EditCommentForm
-          authorName={authorName}
-          commentsArray={postStateFromDatabase.comments}
-          commentData={commentState}
-          setDisplayCommentEditForm={setDisplayCommentEditForm}
-        />
-      )}
-
-      {!displayCommentEditForm && !displayAddReplyForm ? (
-        <>
-          <button
-            type='button'
-            className='editBtn'
-            onClick={handleEditCommentClick}
-          >
-            edit
-          </button>
-
-          <button
-            type='button'
-            className='addBtn'
-            onClick={handleAddReplyClick}
-          >
-            add reply
-          </button>
-        </>
-      ) : null}
-
-      {displayAddReplyForm ? (
-        <ReplyForm setAddReplyFormDisplay={setDisplayAddReplyForm} />
-      ) : null}
-
-      {/* {commentState.replies ? (
+    <div className='comment'>
+      <CommentContent
+        comment={comment}
+        getAndSetPostComments={getAndSetPostComments}
+      />
+      <ReplyForm
+        comment={comment}
+        getAndSetCommentReplies={getAndSetCommentReplies}
+      />
+      {replies ? (
         <div className='replies'>
-          {commentState.replies.map((reply) => (
-            <Reply key={reply.id} replyData={reply} />
+          {replies.map((reply) => (
+            <Reply
+              key={reply.id}
+              reply={reply}
+              getAndSetCommentReplies={getAndSetCommentReplies}
+            />
           ))}
         </div>
-      ) : null} */}
+      ) : null}
     </div>
   );
 }

@@ -1,10 +1,10 @@
-import React, { useContext, useState } from 'react';
-import { PostStateContext } from './Post';
+import React, { useEffect, useState } from 'react';
+import { getUserById, updatePostContent } from '../services/firebaseApp';
 
-function PostContent() {
-  const { postStateFromDatabase, authorName } = useContext(PostStateContext);
+function PostContent({ post, getAndSetUserPosts }) {
+  const [authorName, setAuthorName] = useState(null);
   const [editMode, setEditMode] = useState(false);
-  const [input, setInput] = useState(postStateFromDatabase.content);
+  const [input, setInput] = useState(post.content);
 
   const handleEditClick = () => {
     setEditMode(true);
@@ -18,22 +18,25 @@ function PostContent() {
     setEditMode(false);
   };
 
-  const handleInputSubmit = (e) => {
+  const handleInputSubmit = async (e) => {
     e.preventDefault();
-    const updatedPostContent = input;
-    //! temporarily change the input
-    setInput(postStateFromDatabase.content);
+    await updatePostContent(post.id, input);
+    getAndSetUserPosts();
     setEditMode(false);
-    console.log(updatedPostContent);
-    console.log(postStateFromDatabase);
   };
+
+  useEffect(() => {
+    if (post) {
+      getUserById(post.authorId).then((user) => setAuthorName(user.username));
+    }
+  }, []);
 
   return (
     <>
       {!editMode ? (
         <div className='postContent'>
           <p>
-            <span>{authorName}:</span> {postStateFromDatabase.content}
+            <span>{authorName}:</span> {post.content}
           </p>
           <button type='button' className='editBtn' onClick={handleEditClick}>
             edit

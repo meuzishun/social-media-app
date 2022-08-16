@@ -1,6 +1,10 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
+import { UserContext } from '../App';
+import uniqid from 'uniqid';
+import { addPost } from '../services/firebaseApp';
 
-function ReplyForm2() {
+function ReplyForm2({ reply, getAndSetReplyReplies }) {
+  const { user } = useContext(UserContext);
   const [displayForm, setDisplayForm] = useState(false);
   const [input, setInput] = useState(null);
 
@@ -16,13 +20,21 @@ function ReplyForm2() {
     setDisplayForm(false);
   };
 
-  const handleReplySubmit = (e) => {
+  const handleReplySubmit = async (e) => {
     e.preventDefault();
-    const replyContent = input;
-    //! temporarily change the input
+    const now = new Date();
+    const postData = {
+      id: uniqid(),
+      parentId: reply.childId,
+      childId: uniqid(),
+      authorId: user.id,
+      timestamp: now.toISOString(),
+      content: input,
+    };
+    await addPost(postData);
+    getAndSetReplyReplies();
     setInput(null);
     setDisplayForm(false);
-    console.log(replyContent);
   };
 
   return (

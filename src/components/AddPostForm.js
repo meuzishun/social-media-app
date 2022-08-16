@@ -4,7 +4,7 @@ import { addPost, addPostIdToUserById } from '../services/firebaseApp';
 import uniqid from 'uniqid';
 import './AddPostForm.css';
 
-function AddPostForm({ hideNewPostForm }) {
+function AddPostForm({ hideNewPostForm, getAndSetUserPosts }) {
   const [inputState, setInputState] = useState(null);
   const { user, setUser } = useContext(UserContext);
 
@@ -15,17 +15,20 @@ function AddPostForm({ hideNewPostForm }) {
   const handleAddPostSubmit = async (e) => {
     e.preventDefault();
     const now = new Date();
+    const parentId = uniqid();
     const postData = {
-      author: user.id,
-      content: inputState,
       id: uniqid(),
-      replies: [],
+      parentId: parentId,
+      childId: parentId,
+      authorId: user.id,
       timestamp: now.toISOString(),
+      content: inputState,
     };
     await addPost(postData);
-    const alteredUser = await addPostIdToUserById(user.id, postData.id);
-    setUser(alteredUser);
+    // const alteredUser = await addPostIdToUserById(user.id, postData.id);
+    // setUser(alteredUser);
     hideNewPostForm();
+    getAndSetUserPosts();
   };
 
   return (

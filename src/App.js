@@ -117,10 +117,7 @@ function App() {
             <Routes>
               <Route path='/profile' element={<Profile user={user} />} />
               <Route path='/network' element={<Network network={network} />} />
-              <Route
-                path='/timeline'
-                element={<Timeline timeline={timeline} />}
-              />
+              <Route path='/timeline' element={<Timeline />} />
               <Route path='/feed' element={<Feed feed={feed} />} />
             </Routes>
             <Footer />

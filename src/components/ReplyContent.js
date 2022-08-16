@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { getUserById, updatePostContent } from '../services/firebaseApp';
+import { getUserById } from '../services/firebaseApp';
 
-function CommentContent({ comment, getAndSetPostComments }) {
+function ReplyContext({ reply }) {
   const [editMode, setEditMode] = useState(false);
-  const [input, setInput] = useState(comment.content);
+  const [input, setInput] = useState(reply.content);
   const [authorName, setAuthorName] = useState(null);
 
   const handleEditClick = () => {
@@ -18,31 +18,33 @@ function CommentContent({ comment, getAndSetPostComments }) {
     setEditMode(false);
   };
 
-  const handleInputSubmit = async (e) => {
+  const handleInputSubmit = (e) => {
     e.preventDefault();
-    await updatePostContent(comment.id, input);
-    getAndSetPostComments();
+    const updatedReplyContext = input;
+    //! temporarily change the input
+    setInput(reply.content);
     setEditMode(false);
+    console.log(updatedReplyContext);
   };
 
   useEffect(() => {
-    getUserById(comment.authorId).then((user) => setAuthorName(user.username));
+    getUserById(reply.authorId).then((user) => setAuthorName(user.username));
   });
 
   return (
     <>
       {!editMode ? (
-        <div className='commentContent'>
+        <div className='replyContent'>
           <p>
-            <span>{authorName}:</span> {comment.content}
+            <span>{authorName}:</span> {reply.content}
           </p>
           <button type='button' className='editBtn' onClick={handleEditClick}>
             edit
           </button>
         </div>
       ) : (
-        <form className='commentEditForm' onSubmit={handleInputSubmit}>
-          <label htmlFor='commentEdit'>{authorName}</label>
+        <form className='replyEditForm' onSubmit={handleInputSubmit}>
+          <label htmlFor='replyEdit'>{authorName}</label>
           <input
             type='text'
             name='commentEdit'
@@ -59,4 +61,4 @@ function CommentContent({ comment, getAndSetPostComments }) {
   );
 }
 
-export default CommentContent;
+export default ReplyContext;

@@ -114,6 +114,17 @@ export const getPostsByAuthorId = async (authorId) => {
   return posts;
 };
 
+export const getPostsByParentId = async (parentId) => {
+  const postsQuery = query(postCollection, where('parentId', '==', parentId));
+  const querySnapshot = await getDocs(postsQuery);
+  const posts = [];
+  querySnapshot.forEach((doc) => {
+    const post = doc.data();
+    posts.push(post);
+  });
+  return posts;
+};
+
 export const getPostById = async (id) => {
   const docSnap = await getDoc(doc(db, 'posts', id));
   if (docSnap.exists()) {
@@ -126,6 +137,16 @@ export const getPostById = async (id) => {
 export const updatePostById = async (postId, dataUpdate) => {
   const postRef = doc(db, 'posts', postId);
   await updateDoc(postRef, dataUpdate);
+  const postSnap = await getDoc(postRef);
+  const alteredPost = postSnap.data();
+  return alteredPost;
+};
+
+export const updatePostContent = async (postId, newContent) => {
+  const postRef = doc(db, 'posts', postId);
+  await updateDoc(postRef, {
+    content: newContent,
+  });
   const postSnap = await getDoc(postRef);
   const alteredPost = postSnap.data();
   return alteredPost;
