@@ -42,20 +42,20 @@ function App() {
       navigate('/timeline');
     }
     setNetwork([]);
-    // if (user && user.friends.length > 0) {
-    //   getUsersByIdList(user.friends).then((friends) => setNetwork(friends));
-    //   //! MOCKED VERSION
-    //   // setNetwork(
-    //   //   user.friends.map((id) => fake_users.find((user) => user.id === id))
-    //   // );
-    // }
-
-    setTimeline([]);
-    if (user) {
-      getPostsByAuthorId(user.id).then((posts) => {
-        setTimeline(posts);
-      });
+    if (user && user.friendIds.length > 0) {
+      getUsersByIdList(user.friendIds).then((friends) => setNetwork(friends));
+      //   //! MOCKED VERSION
+      //   // setNetwork(
+      //   //   user.friends.map((id) => fake_users.find((user) => user.id === id))
+      //   // );
     }
+
+    // setTimeline([]);
+    // if (user) {
+    //   getPostsByAuthorId(user.id).then((posts) => {
+    //     setTimeline(posts);
+    //   });
+    // }
     // if (user && user.posts.length > 0) {
     //   //* Put actual posts in timeline:
     //   // getPostsByIdList(user.posts).then((posts) => setTimeline(posts));
@@ -69,23 +69,23 @@ function App() {
     // }
   }, [user]);
 
-  useEffect(() => {
-    setFeed([]);
-    if (network.length > 0) {
-      const friendPostIds = network.map((friend) => friend.posts).flat();
-      //* Put actual posts in feed:
-      // getPostsByIdList(friendPostIds).then((posts) => setFeed(posts));
-      //* Put post ids in feed:
-      setFeed(friendPostIds);
-      //! MOCKED VERSION
-      // setFeed(
-      //   network
-      //     .map((friend) => friend.posts)
-      //     .flat()
-      //     .map((id) => fake_posts.find((post) => post.id === id))
-      // );
-    }
-  }, [network]);
+  // useEffect(() => {
+  // setFeed([]);
+  // if (network.length > 0) {
+  // const friendPostIds = network.map((friend) => friend.posts).flat();
+  //* Put actual posts in feed:
+  // getPostsByIdList(friendPostIds).then((posts) => setFeed(posts));
+  //* Put post ids in feed:
+  // setFeed(friendPostIds);
+  //! MOCKED VERSION
+  // setFeed(
+  //   network
+  //     .map((friend) => friend.posts)
+  //     .flat()
+  //     .map((id) => fake_posts.find((post) => post.id === id))
+  // );
+  // }
+  // }, [network]);
 
   useEffect(() => {
     // ((async) => {
@@ -118,7 +118,7 @@ function App() {
               <Route path='/profile' element={<Profile user={user} />} />
               <Route path='/network' element={<Network network={network} />} />
               <Route path='/timeline' element={<Timeline />} />
-              <Route path='/feed' element={<Feed feed={feed} />} />
+              <Route path='/feed' element={<Feed />} />
             </Routes>
             <Footer />
           </>

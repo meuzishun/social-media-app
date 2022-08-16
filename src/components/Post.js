@@ -5,7 +5,8 @@ import Comment from './Comment';
 import './Post.css';
 import { getPostsByParentId } from '../services/firebaseApp';
 
-function Post({ post, getAndSetUserPosts }) {
+function Post({ post }) {
+  const [postState, setPostState] = useState(null);
   const [comments, setComments] = useState([]);
 
   const getAndSetPostComments = () => {
@@ -16,23 +17,27 @@ function Post({ post, getAndSetUserPosts }) {
   };
 
   useEffect(() => {
+    setPostState(post);
     getAndSetPostComments();
   }, []);
 
   return (
     <div className='post'>
-      <PostContent post={post} getAndSetUserPosts={getAndSetUserPosts} />
-      <CommentForm post={post} getAndSetPostComments={getAndSetPostComments} />
-      {comments ? (
-        <div className='comments'>
-          {comments.map((comment) => (
-            <Comment
-              key={comment.id}
-              comment={comment}
-              getAndSetPostComments={getAndSetPostComments}
-            />
-          ))}
-        </div>
+      {postState ? (
+        <>
+          <PostContent postState={postState} setPostState={setPostState} />
+          <CommentForm
+            post={post}
+            getAndSetPostComments={getAndSetPostComments}
+          />
+          {comments ? (
+            <div className='comments'>
+              {comments.map((comment) => (
+                <Comment key={comment.id} comment={comment} />
+              ))}
+            </div>
+          ) : null}
+        </>
       ) : null}
     </div>
   );

@@ -4,7 +4,8 @@ import ReplyForm2 from './ReplyForm2';
 import Reply2 from './Reply2';
 import { getPostsByParentId } from '../services/firebaseApp';
 
-function Reply({ reply, getAndSetCommentReplies }) {
+function Reply({ reply }) {
+  const [replyState, setReplyState] = useState(null);
   const [replies, setReplies] = useState([]);
 
   const getAndSetReplyReplies = () => {
@@ -15,26 +16,27 @@ function Reply({ reply, getAndSetCommentReplies }) {
   };
 
   useEffect(() => {
+    setReplyState(reply);
     getAndSetReplyReplies();
   }, []);
 
   return (
     <div className='reply'>
-      <ReplyContent
-        reply={reply}
-        getAndSetCommentReplies={getAndSetCommentReplies}
-      />
-      <ReplyForm2 reply={reply} getAndSetReplyReplies={getAndSetReplyReplies} />
-      {replies ? (
-        <div className='replies'>
-          {replies.map((reply) => (
-            <Reply2
-              key={reply.id}
-              reply={reply}
-              getAndSetReplyReplies={getAndSetReplyReplies}
-            />
-          ))}
-        </div>
+      {replyState ? (
+        <>
+          <ReplyContent replyState={replyState} setReplyState={setReplyState} />
+          <ReplyForm2
+            reply={reply}
+            getAndSetReplyReplies={getAndSetReplyReplies}
+          />
+          {replies ? (
+            <div className='replies'>
+              {replies.map((reply) => (
+                <Reply2 key={reply.id} reply={reply} />
+              ))}
+            </div>
+          ) : null}
+        </>
       ) : null}
     </div>
   );

@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { getUserById } from '../services/firebaseApp';
+import { getUserById, updatePostContent } from '../services/firebaseApp';
 
-function ReplyContext({ reply }) {
+function ReplyContent({ replyState, setReplyState }) {
+  const [input, setInput] = useState(replyState.content);
   const [editMode, setEditMode] = useState(false);
-  const [input, setInput] = useState(reply.content);
   const [authorName, setAuthorName] = useState(null);
 
   const handleEditClick = () => {
@@ -18,17 +18,17 @@ function ReplyContext({ reply }) {
     setEditMode(false);
   };
 
-  const handleInputSubmit = (e) => {
+  const handleInputSubmit = async (e) => {
     e.preventDefault();
-    const updatedReplyContext = input;
-    //! temporarily change the input
-    setInput(reply.content);
+    const alteredReply = await updatePostContent(replyState.id, input);
+    setReplyState(alteredReply);
     setEditMode(false);
-    console.log(updatedReplyContext);
   };
 
   useEffect(() => {
-    getUserById(reply.authorId).then((user) => setAuthorName(user.username));
+    getUserById(replyState.authorId).then((user) =>
+      setAuthorName(user.username)
+    );
   });
 
   return (
@@ -36,7 +36,7 @@ function ReplyContext({ reply }) {
       {!editMode ? (
         <div className='replyContent'>
           <p>
-            <span>{authorName}:</span> {reply.content}
+            <span>{authorName}:</span> {replyState.content}
           </p>
           <button type='button' className='editBtn' onClick={handleEditClick}>
             edit
@@ -61,4 +61,4 @@ function ReplyContext({ reply }) {
   );
 }
 
-export default ReplyContext;
+export default ReplyContent;

@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { getUserById, updatePostContent } from '../services/firebaseApp';
 
-function CommentContent({ comment, getAndSetPostComments }) {
+function CommentContent({ commentState, setCommentState }) {
   const [editMode, setEditMode] = useState(false);
-  const [input, setInput] = useState(comment.content);
+  const [input, setInput] = useState(commentState.content);
   const [authorName, setAuthorName] = useState(null);
 
   const handleEditClick = () => {
@@ -20,13 +20,15 @@ function CommentContent({ comment, getAndSetPostComments }) {
 
   const handleInputSubmit = async (e) => {
     e.preventDefault();
-    await updatePostContent(comment.id, input);
-    getAndSetPostComments();
+    const alteredComment = await updatePostContent(commentState.id, input);
+    setCommentState(alteredComment);
     setEditMode(false);
   };
 
   useEffect(() => {
-    getUserById(comment.authorId).then((user) => setAuthorName(user.username));
+    getUserById(commentState.authorId).then((user) =>
+      setAuthorName(user.username)
+    );
   });
 
   return (
@@ -34,7 +36,7 @@ function CommentContent({ comment, getAndSetPostComments }) {
       {!editMode ? (
         <div className='commentContent'>
           <p>
-            <span>{authorName}:</span> {comment.content}
+            <span>{authorName}:</span> {commentState.content}
           </p>
           <button type='button' className='editBtn' onClick={handleEditClick}>
             edit

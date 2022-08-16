@@ -1,8 +1,6 @@
 .feedContainer {
-  width: 50%;
-  margin: 0 auto;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
   gap: 1rem;
 }

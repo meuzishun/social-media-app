@@ -1,13 +1,33 @@
-import React from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+import { UserContext } from '../../../App';
 import Post from '../../../components/Post';
+import { getPostsByAuthorId } from '../../../services/firebaseApp';
 import './Feed.css';
 
-function Feed({ feed }) {
+function Feed() {
+  const { user } = useContext(UserContext);
+  const [posts, setPosts] = useState(null);
+
+  const getAndSetNetworkPosts = async () => {
+    const totalFriendPosts = await Promise.all(
+      user.friendIds.map(async (friendId) => {
+        const friendPosts = await getPostsByAuthorId(friendId);
+        const startingPosts = friendPosts.filter(
+          (post) => post.parentId === post.childId
+        );
+        return startingPosts;
+      })
+    );
+    setPosts(totalFriendPosts.flat());
+  };
+
+  useEffect(() => {
+    getAndSetNetworkPosts();
+  }, []);
+
   return (
     <div className='feedContainer'>
-      {feed
-        ? feed.map((postId) => <Post key={postId} postId={postId} />)
-        : null}
+      {posts ? posts.map((post) => <Post key={post.id} post={post} />) : null}
     </div>
   );
 }

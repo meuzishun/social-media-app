@@ -41,15 +41,7 @@ function Timeline() {
           add post
         </button>
       )}
-      {posts
-        ? posts.map((post) => (
-            <Post
-              key={post.id}
-              post={post}
-              getAndSetUserPosts={getAndSetUserPosts}
-            />
-          ))
-        : null}
+      {posts ? posts.map((post) => <Post key={post.id} post={post} />) : null}
     </div>
   );
 }

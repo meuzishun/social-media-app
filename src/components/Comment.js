@@ -4,7 +4,8 @@ import ReplyForm from './ReplyForm';
 import Reply from './Reply';
 import { getPostsByParentId } from '../services/firebaseApp';
 
-function Comment({ comment, getAndSetPostComments }) {
+function Comment({ comment }) {
+  const [commentState, setCommentState] = useState(null);
   const [replies, setReplies] = useState([]);
 
   const getAndSetCommentReplies = () => {
@@ -15,29 +16,30 @@ function Comment({ comment, getAndSetPostComments }) {
   };
 
   useEffect(() => {
+    setCommentState(comment);
     getAndSetCommentReplies();
   }, []);
 
   return (
     <div className='comment'>
-      <CommentContent
-        comment={comment}
-        getAndSetPostComments={getAndSetPostComments}
-      />
-      <ReplyForm
-        comment={comment}
-        getAndSetCommentReplies={getAndSetCommentReplies}
-      />
-      {replies ? (
-        <div className='replies'>
-          {replies.map((reply) => (
-            <Reply
-              key={reply.id}
-              reply={reply}
-              getAndSetCommentReplies={getAndSetCommentReplies}
-            />
-          ))}
-        </div>
+      {commentState ? (
+        <>
+          <CommentContent
+            commentState={commentState}
+            setCommentState={setCommentState}
+          />
+          <ReplyForm
+            comment={comment}
+            getAndSetCommentReplies={getAndSetCommentReplies}
+          />
+          {replies ? (
+            <div className='replies'>
+              {replies.map((reply) => (
+                <Reply key={reply.id} reply={reply} />
+              ))}
+            </div>
+          ) : null}
+        </>
       ) : null}
     </div>
   );

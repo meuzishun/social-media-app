@@ -70,6 +70,7 @@
   border-radius: 1rem;
   padding: 1rem;
   box-shadow: 0.25rem 0.25rem 0.75rem rgba(0, 0, 0, 0.25);
+  width: 500px;
 }
 
 .post,
@@ -78,7 +79,22 @@
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+  /* display: grid;
+  grid-template-columns: auto auto;
+  grid-template-rows: auto auto; */
 }
+
+/* .post,
+.comment,
+.reply {
+  display: grid;
+  grid-template-columns: auto auto;
+  grid-template-rows: auto auto auto;
+  grid-template-areas:
+    'post btn'
+    'form form'
+    'reply reply';
+} */
 
 /* Top row of post */
 .postContent,
@@ -104,8 +120,15 @@
 
 .comments,
 .replies {
-  margin-left: 2rem;
-  margin-top: 1rem;
+  padding-left: 1rem;
+  padding-top: 1rem;
+}
+
+.commentContent,
+.replyContent {
+  padding-left: 1rem;
+  border-bottom: 1px solid black;
+  border-left: 1px solid black;
 }
 
 .post > .addBtn {
