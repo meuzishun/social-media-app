@@ -13,6 +13,21 @@ header * {
   font-size: 1.25rem;
 }
 
+header .logo {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+header h1 {
+  font-size: 2rem;
+  text-justify: center;
+}
+
+header svg {
+  font-size: 3.5rem;
+}
+
 header > .userContainer {
   display: flex;
   align-items: center;

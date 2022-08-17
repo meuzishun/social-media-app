@@ -15,7 +15,10 @@ function Header() {
 
   return (
     <header>
-      <div>social media logo</div>
+      <div className='logo'>
+        <span className='iconify' data-icon='mdi-alpha-f-circle-outline'></span>
+        <h1>akebook</h1>
+      </div>
       <div className='userContainer'>
         <img src={user.avatar} alt='user avatar' />
         <p>{user.username}</p>
