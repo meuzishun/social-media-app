@@ -5,7 +5,6 @@ header {
   padding: 0.5rem;
   background-color: rgb(0, 162, 255);
   color: #fff;
-  margin-bottom: 2rem;
   box-shadow: 0 0.15rem 0.15rem rgba(0, 0, 0, 0.259);
 }
 
@@ -38,6 +37,7 @@ header > .userContainer {
 header > .userContainer > img {
   border-radius: 1000px;
   height: 3rem;
+  width: 3rem;
 }
 
 header > nav > ul {

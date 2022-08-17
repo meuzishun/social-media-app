@@ -4,6 +4,13 @@
   grid-template-rows: auto 1fr auto;
 }
 
+.profilePage,
+.networkPage,
+.timelinePage,
+.feedPage {
+  background-color: #fafafa;
+}
+
 label {
   text-transform: capitalize;
   font-size: 0.7rem;

@@ -26,8 +26,10 @@ function Feed() {
   }, []);
 
   return (
-    <div className='feedContainer'>
-      {posts ? posts.map((post) => <Post key={post.id} post={post} />) : null}
+    <div className='feedPage'>
+      <div className='feedContainer'>
+        {posts ? posts.map((post) => <Post key={post.id} post={post} />) : null}
+      </div>
     </div>
   );
 }

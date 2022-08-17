@@ -30,18 +30,20 @@ function Timeline() {
   }, []);
 
   return (
-    <div className='timelineContainer'>
-      {viewNewPostForm ? (
-        <AddPostForm
-          hideNewPostForm={hideNewPostForm}
-          getAndSetUserPosts={getAndSetUserPosts}
-        />
-      ) : (
-        <button type='button' onClick={showNewPostForm}>
-          add post
-        </button>
-      )}
-      {posts ? posts.map((post) => <Post key={post.id} post={post} />) : null}
+    <div className='timelinePage'>
+      <div className='timelineContainer'>
+        {viewNewPostForm ? (
+          <AddPostForm
+            hideNewPostForm={hideNewPostForm}
+            getAndSetUserPosts={getAndSetUserPosts}
+          />
+        ) : (
+          <button type='button' onClick={showNewPostForm}>
+            add post
+          </button>
+        )}
+        {posts ? posts.map((post) => <Post key={post.id} post={post} />) : null}
+      </div>
     </div>
   );
 }

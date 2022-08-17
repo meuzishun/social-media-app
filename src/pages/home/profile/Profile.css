@@ -17,6 +17,7 @@
 
 .profileContainer > img {
   height: 10rem;
+  width: 10rem;
   border-radius: 1000px;
 }
 

@@ -11,17 +11,19 @@ function Network({ network }) {
   };
 
   return (
-    <div className='networkContainer'>
-      {addFriendState ? (
-        <AddFriendForm handleAddState={handleAddState} />
-      ) : (
-        <button type='button' onClick={handleAddState}>
-          add friend
-        </button>
-      )}
-      {network.map((friend) => (
-        <Friend key={friend.id} friend={friend} />
-      ))}
+    <div className='networkPage'>
+      <div className='networkContainer'>
+        {addFriendState ? (
+          <AddFriendForm handleAddState={handleAddState} />
+        ) : (
+          <button type='button' onClick={handleAddState}>
+            add friend
+          </button>
+        )}
+        {network.map((friend) => (
+          <Friend key={friend.id} friend={friend} />
+        ))}
+      </div>
     </div>
   );
 }
