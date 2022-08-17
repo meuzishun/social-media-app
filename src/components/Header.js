@@ -1,17 +1,23 @@
-import React, { useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { UserContext } from '../App';
 import { useNavigate } from 'react-router-dom';
+import { getFileFromStorage } from '../services/firebaseApp';
 import './Header.css';
 
 function Header() {
   const { user, setUser } = useContext(UserContext);
+  const [avatar, setAvatar] = useState(null);
   const navigate = useNavigate();
 
   const logoutUser = () => {
     setUser(null);
     navigate('/login');
   };
+
+  useEffect(() => {
+    getFileFromStorage(user.avatar).then((url) => setAvatar(url));
+  });
 
   return (
     <header>
@@ -20,7 +26,7 @@ function Header() {
         <h1>akebook</h1>
       </div>
       <div className='userContainer'>
-        <img src={user.avatar} alt='user avatar' />
+        <img src={avatar} alt='user avatar' />
         <p>{user.username}</p>
       </div>
       <nav>

@@ -1,3 +1,9 @@
+.App {
+  height: 100vh;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+}
+
 label {
   text-transform: capitalize;
   font-size: 0.7rem;

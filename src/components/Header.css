@@ -35,6 +35,11 @@ header > .userContainer {
   gap: 1rem;
 }
 
+header > .userContainer > img {
+  border-radius: 1000px;
+  height: 3rem;
+}
+
 header > nav > ul {
   display: flex;
   align-items: center;

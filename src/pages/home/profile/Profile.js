@@ -1,12 +1,16 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { UserContext } from '../../../App';
-import { updateUserById } from '../../../services/firebaseApp';
+import {
+  getFileFromStorage,
+  updateUserById,
+} from '../../../services/firebaseApp';
 import './Profile.css';
 
 function Profile() {
-  const [editProfile, setEditProfile] = useState(false);
-  const [userState, setUserState] = useState(null);
   const { user, setUser } = useContext(UserContext);
+  const [userState, setUserState] = useState(null);
+  const [avatar, setAvatar] = useState(null);
+  const [editProfile, setEditProfile] = useState(false);
 
   const toggleEdit = () => {
     setEditProfile(!editProfile);
@@ -29,6 +33,10 @@ function Profile() {
   };
 
   useEffect(() => {
+    getFileFromStorage(user.avatar).then((url) => setAvatar(url));
+  }, [userState]);
+
+  useEffect(() => {
     setUserState(user);
   }, []);
 
@@ -36,11 +44,11 @@ function Profile() {
     <>
       {!userState ? null : !editProfile ? (
         <div className='profileContainer'>
+          <img src={avatar} alt='user avatar' />
           <h1>name: {user.fullName}</h1>
           <h2>username: {user.username}</h2>
           <p>email: {user.email}</p>
           <p>bio: {user.bio}</p>
-          <img src={user.avatar} alt='user avatar' />
           <button onClick={toggleEdit}>edit</button>
         </div>
       ) : (

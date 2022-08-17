@@ -2,12 +2,22 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 3rem;
+  margin: 3rem auto;
+  padding: 2rem;
+  width: 500px;
   gap: 1rem;
+  border-radius: 2rem;
+  box-shadow: 0 0.25rem 0.25rem rgba(0, 0, 0, 0.25);
+  background-color: #fff;
 }
 
 .profileContainer * {
   font-size: 1.5rem;
+}
+
+.profileContainer > img {
+  height: 10rem;
+  border-radius: 1000px;
 }
 
 .profileContainer button {

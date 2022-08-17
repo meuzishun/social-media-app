@@ -1,5 +1,5 @@
 // Import the functions you need from the SDKs you need
-import { initializeApp } from 'firebase/app';
+import { initializeApp, getApp } from 'firebase/app';
 import {
   collection,
   doc,
@@ -18,6 +18,8 @@ import {
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
+import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage';
+
 // Your web app's Firebase configuration
 const firebaseConfig = {
   apiKey: 'AIzaSyCz6dfdFbNBsNx4HuuQzpvJ4N134M_KHic',
@@ -30,6 +32,24 @@ const firebaseConfig = {
 
 // Initialize Firebase
 export const firebaseApp = initializeApp(firebaseConfig);
+const storage = getStorage(firebaseApp);
+
+const animalRef = ref(storage, 'Animal.jpg');
+console.log(animalRef.bucket);
+
+export const uploadFileToStorage = async (file, path) => {
+  const fileRef = ref(storage, path);
+  const snapShot = await uploadBytes(fileRef, file);
+  console.log(snapShot);
+  return;
+};
+
+export const getFileFromStorage = async (path) => {
+  const pathRef = ref(storage, path);
+  const url = await getDownloadURL(pathRef);
+  console.log(url);
+  return url;
+};
 
 export const db = getFirestore(firebaseApp);
 const userCollection = collection(db, 'users');
