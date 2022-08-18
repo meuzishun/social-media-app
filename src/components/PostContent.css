@@ -1,0 +1,45 @@
+.postContent {
+  /* display: flex;
+  align-items: center;
+  gap: 1rem; */
+  display: grid;
+  grid-template-columns: max-content auto max-content max-content;
+  grid-template-rows: max-content max-content;
+  grid-template-areas:
+    'avatar username edit delete'
+    'content content content content';
+  align-items: center;
+  /* justify-items: center; */
+  grid-gap: 0.25rem;
+}
+
+.postContent > .avatar {
+  grid-area: avatar;
+  border-radius: 1000px;
+  width: 2rem;
+  height: 2rem;
+}
+
+.postContent > .username {
+  grid-area: username;
+  font-size: 1rem;
+}
+
+.postContent > .content {
+  border-top: 1px solid black;
+  grid-area: content;
+  font-size: 1.25rem;
+  padding-top: 0.25rem;
+}
+
+.postContent > .editBtn {
+  grid-area: edit;
+  background-color: #666;
+  color: #fff;
+}
+
+.postContent > .delBtn {
+  grid-area: delete;
+  background-color: rgb(200, 0, 0);
+  color: #fff;
+}

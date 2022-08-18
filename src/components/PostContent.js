@@ -1,8 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { getUserById, updatePostContent } from '../services/firebaseApp';
+import {
+  getFileFromStorage,
+  getUserById,
+  updatePostContent,
+} from '../services/firebaseApp';
+import './PostContent.css';
 
 function PostContent({ postState, setPostState }) {
   const [authorName, setAuthorName] = useState(null);
+  const [avatar, setAvatar] = useState(null);
   const [editMode, setEditMode] = useState(false);
   const [input, setInput] = useState(postState.content);
 
@@ -27,9 +33,10 @@ function PostContent({ postState, setPostState }) {
 
   useEffect(() => {
     if (postState) {
-      getUserById(postState.authorId).then((user) =>
-        setAuthorName(user.username)
-      );
+      getUserById(postState.authorId).then((user) => {
+        setAuthorName(user.username);
+        getFileFromStorage(user.avatar).then((url) => setAvatar(url));
+      });
     }
   }, []);
 
@@ -37,11 +44,14 @@ function PostContent({ postState, setPostState }) {
     <>
       {!editMode ? (
         <div className='postContent'>
-          <p>
-            <span>{authorName}:</span> {postState.content}
-          </p>
+          <img src={avatar} alt='avatar' className='avatar' />
+          <p className='username'>{authorName}</p>
+          <p className='content'>{postState.content}</p>
           <button type='button' className='editBtn' onClick={handleEditClick}>
             edit
+          </button>
+          <button type='button' className='delBtn'>
+            delete
           </button>
         </div>
       ) : (
