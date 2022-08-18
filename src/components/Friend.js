@@ -1,10 +1,14 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { UserContext } from '../App';
-import { deleteFriendFromUserNetwork } from '../services/firebaseApp';
+import {
+  deleteFriendFromUserNetwork,
+  getFileFromStorage,
+} from '../services/firebaseApp';
 import './Friend.css';
 
 function Friend({ friend }) {
   const { user, setUser } = useContext(UserContext);
+  const [avatar, setAvatar] = useState(null);
 
   const handleRemoveClick = async () => {
     if (!user.friends.includes(friend.id)) {
@@ -16,13 +20,20 @@ function Friend({ friend }) {
     console.log(`friend with id ${friend.id} has been removed`);
   };
 
+  useEffect(() => {
+    getFileFromStorage(friend.avatar).then((url) => setAvatar(url));
+  }, []);
+
   return (
     <div className='friendContainer'>
-      <p>
-        {friend.fullName} ({friend.username})
-      </p>
-      <p>email: {friend.email}</p>
-      <button onClick={handleRemoveClick}>remove friend</button>
+      <img src={avatar} alt='avatar' className='avatar' />
+      <h3 className='username'>{friend.username}</h3>
+      <p className='name'>{friend.fullName}</p>
+      <p className='email'>{friend.email}</p>
+      <p className='bio'>{friend.bio}</p>
+      <button onClick={handleRemoveClick} className='removeButton'>
+        remove friend
+      </button>
     </div>
   );
 }
