@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import {
   getFileFromStorage,
   getUserById,
@@ -11,6 +11,7 @@ function PostContent({ postState, setPostState }) {
   const [avatar, setAvatar] = useState(null);
   const [editMode, setEditMode] = useState(false);
   const [input, setInput] = useState(postState.content);
+  const inputElem = useRef(null);
 
   const handleEditClick = () => {
     setEditMode(true);
@@ -30,6 +31,12 @@ function PostContent({ postState, setPostState }) {
     setPostState(alteredPost);
     setEditMode(false);
   };
+
+  useEffect(() => {
+    if (editMode) {
+      inputElem.current.focus();
+    }
+  }, [editMode]);
 
   useEffect(() => {
     if (postState) {
@@ -65,6 +72,7 @@ function PostContent({ postState, setPostState }) {
               name='postEdit'
               defaultValue={input}
               onChange={handleInputChange}
+              ref={inputElem}
             />
             <button type='submit' className='submitBtn'>
               submit

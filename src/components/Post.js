@@ -8,12 +8,21 @@ import { getPostsByParentId } from '../services/firebaseApp';
 function Post({ post }) {
   const [postState, setPostState] = useState(null);
   const [comments, setComments] = useState([]);
+  const [showComments, setShowComments] = useState(false);
 
   const getAndSetPostComments = () => {
     getPostsByParentId(post.childId).then((posts) => {
       const comments = posts.filter((post) => post.parentId !== post.childId);
       setComments(comments);
     });
+  };
+
+  const handleShowCommentsClick = () => {
+    setShowComments(true);
+  };
+
+  const handleHideCommentsClick = () => {
+    setShowComments(false);
   };
 
   useEffect(() => {
@@ -31,11 +40,30 @@ function Post({ post }) {
             getAndSetPostComments={getAndSetPostComments}
           />
           {comments ? (
-            <div className='comments'>
-              {comments.map((comment) => (
-                <Comment key={comment.id} comment={comment} />
-              ))}
-            </div>
+            <>
+              {showComments ? (
+                <div className='comments'>
+                  {comments.map((comment) => (
+                    <Comment key={comment.id} comment={comment} />
+                  ))}
+                  <button
+                    type='button'
+                    className='hideCommentsBtn'
+                    onClick={handleHideCommentsClick}
+                  >
+                    hide comments
+                  </button>
+                </div>
+              ) : (
+                <button
+                  type='button'
+                  className='showCommentsBtn'
+                  onClick={handleShowCommentsClick}
+                >
+                  show comments
+                </button>
+              )}
+            </>
           ) : null}
         </>
       ) : null}
