@@ -52,6 +52,7 @@ function PostContent({ postState, setPostState }) {
       <div className='postContent'>
         <img src={avatar} alt='avatar' className='avatar' />
         <p className='username'>{authorName}</p>
+        <hr />
         {!editMode ? (
           <>
             <button type='button' className='editBtn' onClick={handleEditClick}>

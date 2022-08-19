@@ -47,7 +47,6 @@ export const uploadFileToStorage = async (file, path) => {
 export const getFileFromStorage = async (path) => {
   const pathRef = ref(storage, path);
   const url = await getDownloadURL(pathRef);
-  console.log(url);
   return url;
 };
 

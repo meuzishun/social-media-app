@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { UserContext } from '../App';
 import uniqid from 'uniqid';
 import { addPost } from '../services/firebaseApp';
@@ -8,6 +8,7 @@ function CommentForm({ post, getAndSetPostComments }) {
   const { user } = useContext(UserContext);
   const [displayForm, setDisplayForm] = useState(false);
   const [input, setInput] = useState(null);
+  const inputElem = useRef(null);
 
   const handleAddClick = () => {
     setDisplayForm(true);
@@ -38,6 +39,12 @@ function CommentForm({ post, getAndSetPostComments }) {
     setDisplayForm(false);
   };
 
+  useEffect(() => {
+    if (displayForm) {
+      inputElem.current.focus();
+    }
+  }, [displayForm]);
+
   return (
     <>
       {!displayForm ? (
@@ -57,6 +64,7 @@ function CommentForm({ post, getAndSetPostComments }) {
             placeholder='comment'
             defaultValue={input}
             onChange={handleInputChange}
+            ref={inputElem}
           />
           <button type='submit' className='submitBtn'>
             submit

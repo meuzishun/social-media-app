@@ -4,10 +4,11 @@
   gap: 1rem; */
   display: grid;
   grid-template-columns: max-content 1fr max-content max-content;
-  grid-template-rows: max-content max-content;
+  grid-template-rows: max-content max-content max-content;
   grid-template-areas:
-    'avatar username edit delete'
-    'content content content content';
+    'avatar username username username'
+    'line line line line'
+    'content content edit delete';
   align-items: center;
   /* justify-items: center; */
   grid-gap: 0.25rem;
@@ -25,9 +26,13 @@
   font-size: 1rem;
 }
 
+.postContent hr {
+  grid-area: line;
+}
+
 .postContent > .content,
 .postContent > .postEditForm {
-  border-top: 1px solid black;
+  /* border-top: 1px solid black; */
   grid-area: content;
   font-size: 1.25rem;
   padding: 0.5rem 0;

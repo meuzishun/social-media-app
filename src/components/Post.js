@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import PostContent from './PostContent';
 import CommentForm from './CommentForm';
 import Comment from './Comment';
@@ -8,7 +8,8 @@ import { getPostsByParentId } from '../services/firebaseApp';
 function Post({ post }) {
   const [postState, setPostState] = useState(null);
   const [comments, setComments] = useState([]);
-  const [showComments, setShowComments] = useState(false);
+  const commentsContainer = useRef(null);
+  const showCommentsBtn = useRef(null);
 
   const getAndSetPostComments = () => {
     getPostsByParentId(post.childId).then((posts) => {
@@ -18,11 +19,13 @@ function Post({ post }) {
   };
 
   const handleShowCommentsClick = () => {
-    setShowComments(true);
+    commentsContainer.current.classList.remove('hidden');
+    showCommentsBtn.current.classList.add('hidden');
   };
 
   const handleHideCommentsClick = () => {
-    setShowComments(false);
+    commentsContainer.current.classList.add('hidden');
+    showCommentsBtn.current.classList.remove('hidden');
   };
 
   useEffect(() => {
@@ -41,28 +44,26 @@ function Post({ post }) {
           />
           {comments ? (
             <>
-              {showComments ? (
-                <div className='comments'>
-                  {comments.map((comment) => (
-                    <Comment key={comment.id} comment={comment} />
-                  ))}
-                  <button
-                    type='button'
-                    className='hideCommentsBtn'
-                    onClick={handleHideCommentsClick}
-                  >
-                    hide comments
-                  </button>
-                </div>
-              ) : (
+              <div className='comments hidden' ref={commentsContainer}>
+                {comments.map((comment) => (
+                  <Comment key={comment.id} comment={comment} />
+                ))}
                 <button
                   type='button'
-                  className='showCommentsBtn'
-                  onClick={handleShowCommentsClick}
+                  className='hideCommentsBtn'
+                  onClick={handleHideCommentsClick}
                 >
-                  show comments
+                  hide comments
                 </button>
-              )}
+              </div>
+              <button
+                type='button'
+                className='showCommentsBtn'
+                ref={showCommentsBtn}
+                onClick={handleShowCommentsClick}
+              >
+                show comments
+              </button>
             </>
           ) : null}
         </>
