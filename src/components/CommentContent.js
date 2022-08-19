@@ -1,10 +1,17 @@
-import React, { useEffect, useState } from 'react';
-import { getUserById, updatePostContent } from '../services/firebaseApp';
+import React, { useEffect, useState, useRef } from 'react';
+import {
+  getUserById,
+  updatePostContent,
+  getFileFromStorage,
+} from '../services/firebaseApp';
+import './CommentContent.css';
 
 function CommentContent({ commentState, setCommentState }) {
   const [editMode, setEditMode] = useState(false);
+  const [avatar, setAvatar] = useState(null);
   const [input, setInput] = useState(commentState.content);
   const [authorName, setAuthorName] = useState(null);
+  const inputElem = useRef(null);
 
   const handleEditClick = () => {
     setEditMode(true);
@@ -26,37 +33,58 @@ function CommentContent({ commentState, setCommentState }) {
   };
 
   useEffect(() => {
-    getUserById(commentState.authorId).then((user) =>
-      setAuthorName(user.username)
-    );
+    if (editMode) {
+      inputElem.current.focus();
+    }
+  }, [editMode]);
+
+  useEffect(() => {
+    getUserById(commentState.authorId).then((user) => {
+      setAuthorName(user.username);
+      getFileFromStorage(user.avatar).then((url) => setAvatar(url));
+    });
   });
 
   return (
     <>
-      {!editMode ? (
-        <div className='commentContent'>
-          <p>
-            <span>{authorName}:</span> {commentState.content}
-          </p>
-          <button type='button' className='editBtn' onClick={handleEditClick}>
-            edit
-          </button>
-        </div>
-      ) : (
-        <form className='commentEditForm' onSubmit={handleInputSubmit}>
-          <label htmlFor='commentEdit'>{authorName}</label>
-          <input
-            type='text'
-            name='commentEdit'
-            defaultValue={input}
-            onChange={handleInputChange}
-          />
-          <button type='submit'>submit</button>
-          <button type='button' onClick={handleInputCancel}>
-            cancel
-          </button>
-        </form>
-      )}
+      <div className='commentContent'>
+        <img src={avatar} alt='avatar' className='avatar' />
+        <p className='username'>{authorName}</p>
+        <hr />
+        {!editMode ? (
+          <>
+            <button type='button' className='editBtn' onClick={handleEditClick}>
+              edit
+            </button>
+            <button type='button' className='delBtn'>
+              delete
+            </button>
+          </>
+        ) : null}
+        {!editMode ? (
+          <p className='content'>{commentState.content}</p>
+        ) : (
+          <form className='commentEditForm' onSubmit={handleInputSubmit}>
+            <input
+              type='text'
+              name='commentEdit'
+              defaultValue={input}
+              onChange={handleInputChange}
+              ref={inputElem}
+            />
+            <button type='submit' className='submitBtn'>
+              submit
+            </button>
+            <button
+              type='button'
+              className='cancelBtn'
+              onClick={handleInputCancel}
+            >
+              cancel
+            </button>
+          </form>
+        )}
+      </div>
     </>
   );
 }

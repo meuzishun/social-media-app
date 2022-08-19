@@ -1,36 +1,32 @@
 .post {
+  display: flex;
+  flex-direction: column;
+  /* gap: 0.5rem; */
   border-radius: 1rem;
   padding: 1rem;
   box-shadow: 0.25rem 0.25rem 0.75rem rgba(0, 0, 0, 0.25);
-  width: 500px;
-}
-
-.post,
-.comments,
-.replies {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
+  width: 800px;
 }
 
 /* Top row of post */
 
 /* .postEditForm, */
 /* .addCommentForm, */
-.commentContent,
-.commentEditForm,
-.addReplyForm,
-.replyContent,
+/* .commentContent, */
+/* .commentEditForm, */
+/* .addReplyForm, */
+/* .replyContent,
 .replyEditForm {
   display: flex;
   align-items: center;
   gap: 1rem;
-}
+} */
 
 .comments,
 .replies {
-  padding-left: 1rem;
-  padding-top: 1rem;
+  border-left: 0.25rem solid rgb(0, 149, 255);
+  padding-left: 1.75rem;
+  /* padding-top: 1rem; */
 }
 
 /* .comments {
@@ -38,12 +34,12 @@
   transition: all 300ms ease-in-out;
 } */
 
-.commentContent,
-.replyContent {
+/* .commentContent, */
+/* .replyContent {
   padding-left: 1rem;
   border-bottom: 1px solid black;
   border-left: 1px solid black;
-}
+} */
 
 .post button {
   font-size: 0.75rem;

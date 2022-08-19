@@ -1,12 +1,14 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useRef, useEffect } from 'react';
 import { UserContext } from '../App';
 import uniqid from 'uniqid';
 import { addPost } from '../services/firebaseApp';
+import './ReplyForm.css';
 
 function ReplyForm2({ reply, getAndSetReplyReplies }) {
   const { user } = useContext(UserContext);
   const [displayForm, setDisplayForm] = useState(false);
   const [input, setInput] = useState(null);
+  const inputElem = useRef(null);
 
   const handleAddClick = () => {
     setDisplayForm(true);
@@ -37,23 +39,36 @@ function ReplyForm2({ reply, getAndSetReplyReplies }) {
     setDisplayForm(false);
   };
 
+  useEffect(() => {
+    if (displayForm) {
+      inputElem.current.focus();
+    }
+  }, [displayForm]);
+
   return (
     <>
       {!displayForm ? (
-        <button type='button' className='addBtn' onClick={handleAddClick}>
+        <button type='button' className='addReplyBtn' onClick={handleAddClick}>
           add reply
         </button>
       ) : (
-        <form className='addCommentForm' onSubmit={handleReplySubmit}>
-          <label htmlFor='addComment'>reply</label>
+        <form className='addReplyForm' onSubmit={handleReplySubmit}>
           <input
             type='text'
             name='addReply'
+            placeholder='reply'
             defaultValue={input}
             onChange={handleInputChange}
+            ref={inputElem}
           />
-          <button type='submit'>submit</button>
-          <button type='button' onClick={handleInputCancel}>
+          <button type='submit' className='submitBtn'>
+            submit
+          </button>
+          <button
+            type='button'
+            className='cancelBtn'
+            onClick={handleInputCancel}
+          >
             cancel
           </button>
         </form>

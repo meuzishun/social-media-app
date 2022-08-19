@@ -57,7 +57,6 @@ function CommentForm({ post, getAndSetPostComments }) {
         </button>
       ) : (
         <form className='addCommentForm' onSubmit={handleCommentSubmit}>
-          {/* <label htmlFor='addComment'>comment</label> */}
           <input
             type='text'
             name='addComment'

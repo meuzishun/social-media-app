@@ -1,0 +1,31 @@
+.addReplyBtn {
+  background-color: green;
+  color: #fff;
+  align-self: flex-end;
+}
+
+.addReplyForm {
+  display: grid;
+  grid-template-columns: 1fr max-content max-content;
+  grid-template-rows: max-content;
+  grid-template-areas: 'input submit cancel';
+  align-items: center;
+  /* justify-items: center; */
+  grid-gap: 0.25rem;
+}
+
+.addReplyForm > input {
+  grid-area: input;
+}
+
+.addReplyForm > .submitBtn {
+  grid-area: submit;
+  background-color: rgb(0, 145, 255);
+  color: #fff;
+}
+
+.addReplyForm > .cancelBtn {
+  grid-area: cancel;
+  background-color: #666;
+  color: #fff;
+}

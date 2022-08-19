@@ -1,4 +1,4 @@
-.commentContainer {
+/* .commentContainer {
   display: grid;
   grid-template-columns: max-content max-content max-content;
   grid-template-rows: auto auto;
@@ -25,4 +25,17 @@
 
 .commentContainer .replyForm {
   grid-area: form;
+} */
+
+.comment {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.showRepliesBtn,
+.hideRepliesBtn {
+  background-color: rgb(0, 149, 255);
+  color: #fff;
+  align-self: center;
 }

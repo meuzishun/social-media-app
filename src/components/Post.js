@@ -9,6 +9,7 @@ function Post({ post }) {
   const [postState, setPostState] = useState(null);
   const [comments, setComments] = useState([]);
   const commentsContainer = useRef(null);
+  const hideCommentsBtn = useRef(null);
   const showCommentsBtn = useRef(null);
 
   const getAndSetPostComments = () => {
@@ -20,11 +21,13 @@ function Post({ post }) {
 
   const handleShowCommentsClick = () => {
     commentsContainer.current.classList.remove('hidden');
+    hideCommentsBtn.current.classList.remove('hidden');
     showCommentsBtn.current.classList.add('hidden');
   };
 
   const handleHideCommentsClick = () => {
     commentsContainer.current.classList.add('hidden');
+    hideCommentsBtn.current.classList.add('hidden');
     showCommentsBtn.current.classList.remove('hidden');
   };
 
@@ -42,20 +45,8 @@ function Post({ post }) {
             post={post}
             getAndSetPostComments={getAndSetPostComments}
           />
-          {comments ? (
+          {comments.length > 0 ? (
             <>
-              <div className='comments hidden' ref={commentsContainer}>
-                {comments.map((comment) => (
-                  <Comment key={comment.id} comment={comment} />
-                ))}
-                <button
-                  type='button'
-                  className='hideCommentsBtn'
-                  onClick={handleHideCommentsClick}
-                >
-                  hide comments
-                </button>
-              </div>
               <button
                 type='button'
                 className='showCommentsBtn'
@@ -64,6 +55,19 @@ function Post({ post }) {
               >
                 show comments
               </button>
+              <button
+                type='button'
+                className='hideCommentsBtn hidden'
+                ref={hideCommentsBtn}
+                onClick={handleHideCommentsClick}
+              >
+                hide comments
+              </button>
+              <div className='comments hidden' ref={commentsContainer}>
+                {comments.map((comment) => (
+                  <Comment key={comment.id} comment={comment} />
+                ))}
+              </div>
             </>
           ) : null}
         </>

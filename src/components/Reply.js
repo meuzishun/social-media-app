@@ -1,18 +1,34 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import ReplyContent from './ReplyContent';
 import ReplyForm2 from './ReplyForm2';
 import Reply2 from './Reply2';
 import { getPostsByParentId } from '../services/firebaseApp';
+import './Reply.css';
 
 function Reply({ reply }) {
   const [replyState, setReplyState] = useState(null);
   const [replies, setReplies] = useState([]);
+  const repliesContainer = useRef(null);
+  const hideRepliesBtn = useRef(null);
+  const showRepliesBtn = useRef(null);
 
   const getAndSetReplyReplies = () => {
     getPostsByParentId(reply.childId).then((posts) => {
       const replies = posts.filter((post) => post.parentId !== post.childId);
       setReplies(replies);
     });
+  };
+
+  const handleShowRepliesClick = () => {
+    repliesContainer.current.classList.remove('hidden');
+    hideRepliesBtn.current.classList.remove('hidden');
+    showRepliesBtn.current.classList.add('hidden');
+  };
+
+  const handleHideRepliesClick = () => {
+    repliesContainer.current.classList.add('hidden');
+    hideRepliesBtn.current.classList.add('hidden');
+    showRepliesBtn.current.classList.remove('hidden');
   };
 
   useEffect(() => {
@@ -29,12 +45,30 @@ function Reply({ reply }) {
             reply={reply}
             getAndSetReplyReplies={getAndSetReplyReplies}
           />
-          {replies ? (
-            <div className='replies'>
-              {replies.map((reply) => (
-                <Reply2 key={reply.id} reply={reply} />
-              ))}
-            </div>
+          {replies.length > 0 ? (
+            <>
+              <button
+                type='button'
+                className='showCommentsBtn'
+                ref={showRepliesBtn}
+                onClick={handleShowRepliesClick}
+              >
+                show replies
+              </button>
+              <button
+                type='button'
+                className='hideRepliesBtn hidden'
+                ref={hideRepliesBtn}
+                onClick={handleHideRepliesClick}
+              >
+                hide replies
+              </button>
+              <div className='replies hidden' ref={repliesContainer}>
+                {replies.map((reply) => (
+                  <Reply2 key={reply.id} reply={reply} />
+                ))}
+              </div>
+            </>
           ) : null}
         </>
       ) : null}
