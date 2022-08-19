@@ -16,7 +16,7 @@
 /* Top row of post */
 
 /* .postEditForm, */
-.addCommentForm,
+/* .addCommentForm, */
 .commentContent,
 .commentEditForm,
 .addReplyForm,
@@ -40,17 +40,7 @@
   border-left: 1px solid black;
 }
 
-.post > .addBtn {
-  background-color: rgb(0, 145, 255);
-  color: #fff;
-  align-self: flex-start;
-}
-
-.post .editBtn,
-.post .delBtn,
-.post .addBtn,
-.post .submitBtn,
-.post .cancelBtn {
+.post button {
   font-size: 0.75rem;
   padding: 0.25rem 0.5rem;
   text-transform: capitalize;

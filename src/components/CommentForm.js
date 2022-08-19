@@ -2,6 +2,7 @@ import React, { useContext, useState } from 'react';
 import { UserContext } from '../App';
 import uniqid from 'uniqid';
 import { addPost } from '../services/firebaseApp';
+import './CommentForm.css';
 
 function CommentForm({ post, getAndSetPostComments }) {
   const { user } = useContext(UserContext);
@@ -40,14 +41,13 @@ function CommentForm({ post, getAndSetPostComments }) {
   return (
     <>
       {!displayForm ? (
-        <>
-          {/* <button type='button' className='showComments'>
-            show comments
-          </button> */}
-          <button type='button' className='addBtn' onClick={handleAddClick}>
-            add comment
-          </button>
-        </>
+        <button
+          type='button'
+          className='addCommentBtn'
+          onClick={handleAddClick}
+        >
+          add comment
+        </button>
       ) : (
         <form className='addCommentForm' onSubmit={handleCommentSubmit}>
           {/* <label htmlFor='addComment'>comment</label> */}
@@ -58,8 +58,14 @@ function CommentForm({ post, getAndSetPostComments }) {
             defaultValue={input}
             onChange={handleInputChange}
           />
-          <button type='submit'>submit</button>
-          <button type='button' onClick={handleInputCancel}>
+          <button type='submit' className='submitBtn'>
+            submit
+          </button>
+          <button
+            type='button'
+            className='cancelBtn'
+            onClick={handleInputCancel}
+          >
             cancel
           </button>
         </form>

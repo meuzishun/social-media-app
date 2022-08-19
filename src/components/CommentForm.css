@@ -1,0 +1,31 @@
+.addCommentBtn {
+  background-color: green;
+  color: #fff;
+  align-self: flex-end;
+}
+
+.addCommentForm {
+  display: grid;
+  grid-template-columns: 1fr max-content max-content;
+  grid-template-rows: max-content;
+  grid-template-areas: 'input submit cancel';
+  align-items: center;
+  /* justify-items: center; */
+  grid-gap: 0.25rem;
+}
+
+.addCommentForm > input {
+  grid-area: input;
+}
+
+.addCommentForm > .submitBtn {
+  grid-area: submit;
+  background-color: rgb(0, 145, 255);
+  color: #fff;
+}
+
+.addCommentForm > .cancelBtn {
+  grid-area: cancel;
+  background-color: #666;
+  color: #fff;
+}
