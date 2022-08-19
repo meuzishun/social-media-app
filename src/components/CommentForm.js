@@ -40,15 +40,21 @@ function CommentForm({ post, getAndSetPostComments }) {
   return (
     <>
       {!displayForm ? (
-        <button type='button' className='addBtn' onClick={handleAddClick}>
-          add comment
-        </button>
+        <>
+          {/* <button type='button' className='showComments'>
+            show comments
+          </button> */}
+          <button type='button' className='addBtn' onClick={handleAddClick}>
+            add comment
+          </button>
+        </>
       ) : (
         <form className='addCommentForm' onSubmit={handleCommentSubmit}>
-          <label htmlFor='addComment'>comment</label>
+          {/* <label htmlFor='addComment'>comment</label> */}
           <input
             type='text'
             name='addComment'
+            placeholder='comment'
             defaultValue={input}
             onChange={handleInputChange}
           />

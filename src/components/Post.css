@@ -15,7 +15,7 @@
 
 /* Top row of post */
 
-.postEditForm,
+/* .postEditForm, */
 .addCommentForm,
 .commentContent,
 .commentEditForm,
@@ -48,7 +48,9 @@
 
 .post .editBtn,
 .post .delBtn,
-.post .addBtn {
+.post .addBtn,
+.post .submitBtn,
+.post .cancelBtn {
   font-size: 0.75rem;
   padding: 0.25rem 0.5rem;
   text-transform: capitalize;

@@ -35,11 +35,11 @@ button {
 input:focus,
 button:hover,
 button:focus {
-  transform: scale(1.025);
+  /* transform: scale(1.025); */
   box-shadow: 0.15rem 0.15rem 0.15rem rgba(0, 0, 0, 0.259);
 }
 
 button:active {
-  transform: scale(1);
+  /* transform: scale(1); */
   box-shadow: none;
 }

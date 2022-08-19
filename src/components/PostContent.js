@@ -42,33 +42,43 @@ function PostContent({ postState, setPostState }) {
 
   return (
     <>
-      {!editMode ? (
-        <div className='postContent'>
-          <img src={avatar} alt='avatar' className='avatar' />
-          <p className='username'>{authorName}</p>
+      <div className='postContent'>
+        <img src={avatar} alt='avatar' className='avatar' />
+        <p className='username'>{authorName}</p>
+        {!editMode ? (
+          <>
+            <button type='button' className='editBtn' onClick={handleEditClick}>
+              edit
+            </button>
+            <button type='button' className='delBtn'>
+              delete
+            </button>
+          </>
+        ) : null}
+        {!editMode ? (
           <p className='content'>{postState.content}</p>
-          <button type='button' className='editBtn' onClick={handleEditClick}>
-            edit
-          </button>
-          <button type='button' className='delBtn'>
-            delete
-          </button>
-        </div>
-      ) : (
-        <form className='postEditForm' onSubmit={handleInputSubmit}>
-          <label htmlFor='postEdit'>{authorName}</label>
-          <input
-            type='text'
-            name='postEdit'
-            defaultValue={input}
-            onChange={handleInputChange}
-          />
-          <button type='submit'>submit</button>
-          <button type='button' onClick={handleInputCancel}>
-            cancel
-          </button>
-        </form>
-      )}
+        ) : (
+          <form className='postEditForm' onSubmit={handleInputSubmit}>
+            {/* <label htmlFor='postEdit'>{authorName}</label> */}
+            <input
+              type='text'
+              name='postEdit'
+              defaultValue={input}
+              onChange={handleInputChange}
+            />
+            <button type='submit' className='submitBtn'>
+              submit
+            </button>
+            <button
+              type='button'
+              className='cancelBtn'
+              onClick={handleInputCancel}
+            >
+              cancel
+            </button>
+          </form>
+        )}
+      </div>
     </>
   );
 }
