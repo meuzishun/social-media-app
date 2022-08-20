@@ -3,6 +3,9 @@ import {
   getFileFromStorage,
   getUserById,
   updatePostContent,
+  deletePostById,
+  getPostById,
+  deletePostsByParentId,
 } from '../services/firebaseApp';
 import './PostContent.css';
 
@@ -15,6 +18,14 @@ function PostContent({ postState, setPostState }) {
 
   const handleEditClick = () => {
     setEditMode(true);
+  };
+
+  const handleDeleteClick = async () => {
+    console.log(postState.id);
+    await deletePostById(postState.id);
+    const post = await getPostById(postState.id);
+    await deletePostsByParentId(postState.childId);
+    setPostState(post);
   };
 
   const handleInputChange = (e) => {
@@ -58,7 +69,11 @@ function PostContent({ postState, setPostState }) {
             <button type='button' className='editBtn' onClick={handleEditClick}>
               edit
             </button>
-            <button type='button' className='delBtn'>
+            <button
+              type='button'
+              className='delBtn'
+              onClick={handleDeleteClick}
+            >
               delete
             </button>
           </>

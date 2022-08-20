@@ -204,6 +204,15 @@ export const addReplyIdToPostById = async (postId, replyId) => {
 export const deletePostById = async (id) => {
   const postRef = doc(db, 'posts', id);
   await deleteDoc(postRef);
+  return;
+};
+
+export const deletePostsByParentId = async (id) => {
+  const posts = await getPostsByParentId(id);
+  for (const post of posts) {
+    await deletePostById(post.id);
+    await deletePostsByParentId(post.childId);
+  }
 };
 
 export const addFriendToUserNetwork = async (userId, friendId) => {

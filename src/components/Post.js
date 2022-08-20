@@ -37,9 +37,9 @@ function Post({ post }) {
   }, []);
 
   return (
-    <div className='post'>
+    <>
       {postState ? (
-        <>
+        <div className='post'>
           <PostContent postState={postState} setPostState={setPostState} />
           <CommentForm
             post={post}
@@ -70,9 +70,9 @@ function Post({ post }) {
               </div>
             </>
           ) : null}
-        </>
+        </div>
       ) : null}
-    </div>
+    </>
   );
 }
 
