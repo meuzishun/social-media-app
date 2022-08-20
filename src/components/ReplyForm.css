@@ -12,6 +12,7 @@
   align-items: center;
   /* justify-items: center; */
   grid-gap: 0.25rem;
+  margin-bottom: 0.5rem;
 }
 
 .addReplyForm > input {
