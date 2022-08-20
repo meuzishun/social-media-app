@@ -1,4 +1,5 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, useContext } from 'react';
+import { UserContext } from '../App';
 import {
   getFileFromStorage,
   getUserById,
@@ -14,6 +15,7 @@ function PostContent({ postState, setPostState }) {
   const [avatar, setAvatar] = useState(null);
   const [editMode, setEditMode] = useState(false);
   const [input, setInput] = useState(postState.content);
+  const { user } = useContext(UserContext);
   const inputElem = useRef(null);
 
   const handleEditClick = () => {
@@ -66,16 +68,24 @@ function PostContent({ postState, setPostState }) {
         <hr />
         {!editMode ? (
           <>
-            <button type='button' className='editBtn' onClick={handleEditClick}>
-              edit
-            </button>
-            <button
-              type='button'
-              className='delBtn'
-              onClick={handleDeleteClick}
-            >
-              delete
-            </button>
+            {postState.authorId === user.id ? (
+              <>
+                <button
+                  type='button'
+                  className='editBtn'
+                  onClick={handleEditClick}
+                >
+                  edit
+                </button>
+                <button
+                  type='button'
+                  className='delBtn'
+                  onClick={handleDeleteClick}
+                >
+                  delete
+                </button>
+              </>
+            ) : null}
           </>
         ) : null}
         {!editMode ? (
