@@ -11,7 +11,7 @@ import {
 import './PostContent.css';
 
 function PostContent({ postState, setPostState }) {
-  const [authorName, setAuthorName] = useState(null);
+  const [author, setAuthor] = useState(null);
   const [avatar, setAvatar] = useState(null);
   const [editMode, setEditMode] = useState(false);
   const [input, setInput] = useState(postState.content);
@@ -53,66 +53,68 @@ function PostContent({ postState, setPostState }) {
 
   useEffect(() => {
     if (postState) {
-      getUserById(postState.authorId).then((user) => {
-        setAuthorName(user.username);
-        getFileFromStorage(user.avatar).then((url) => setAvatar(url));
+      getUserById(postState.authorId).then((author) => {
+        setAuthor(author);
+        getFileFromStorage(author.avatar).then((url) => setAvatar(url));
       });
     }
   }, []);
 
   return (
     <>
-      <div className='postContent'>
-        <img src={avatar} alt='avatar' className='avatar' />
-        <p className='username'>{authorName}</p>
-        <hr />
-        {!editMode ? (
-          <>
-            {postState.authorId === user.id ? (
-              <>
-                <button
-                  type='button'
-                  className='editBtn'
-                  onClick={handleEditClick}
-                >
-                  edit
-                </button>
-                <button
-                  type='button'
-                  className='delBtn'
-                  onClick={handleDeleteClick}
-                >
-                  delete
-                </button>
-              </>
-            ) : null}
-          </>
-        ) : null}
-        {!editMode ? (
-          <p className='content'>{postState.content}</p>
-        ) : (
-          <form className='postEditForm' onSubmit={handleInputSubmit}>
-            {/* <label htmlFor='postEdit'>{authorName}</label> */}
-            <input
-              type='text'
-              name='postEdit'
-              defaultValue={input}
-              onChange={handleInputChange}
-              ref={inputElem}
-            />
-            <button type='submit' className='submitBtn'>
-              submit
-            </button>
-            <button
-              type='button'
-              className='cancelBtn'
-              onClick={handleInputCancel}
-            >
-              cancel
-            </button>
-          </form>
-        )}
-      </div>
+      {author ? (
+        <div className='postContent'>
+          <img src={avatar} alt='avatar' className='avatar' />
+          <p className='username'>{author.username}</p>
+          <hr />
+          {!editMode ? (
+            <>
+              {postState.authorId === user.id ? (
+                <>
+                  <button
+                    type='button'
+                    className='editBtn'
+                    onClick={handleEditClick}
+                  >
+                    edit
+                  </button>
+                  <button
+                    type='button'
+                    className='delBtn'
+                    onClick={handleDeleteClick}
+                  >
+                    delete
+                  </button>
+                </>
+              ) : null}
+            </>
+          ) : null}
+          {!editMode ? (
+            <p className='content'>{postState.content}</p>
+          ) : (
+            <form className='postEditForm' onSubmit={handleInputSubmit}>
+              {/* <label htmlFor='postEdit'>{authorName}</label> */}
+              <input
+                type='text'
+                name='postEdit'
+                defaultValue={input}
+                onChange={handleInputChange}
+                ref={inputElem}
+              />
+              <button type='submit' className='submitBtn'>
+                submit
+              </button>
+              <button
+                type='button'
+                className='cancelBtn'
+                onClick={handleInputCancel}
+              >
+                cancel
+              </button>
+            </form>
+          )}
+        </div>
+      ) : null}
     </>
   );
 }

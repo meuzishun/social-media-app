@@ -1,8 +1,12 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, useContext } from 'react';
+import { UserContext } from '../App';
 import {
   getUserById,
   updatePostContent,
   getFileFromStorage,
+  deletePostById,
+  getPostById,
+  deletePostsByParentId,
 } from '../services/firebaseApp';
 import './CommentContent.css';
 
@@ -10,11 +14,20 @@ function CommentContent({ commentState, setCommentState }) {
   const [editMode, setEditMode] = useState(false);
   const [avatar, setAvatar] = useState(null);
   const [input, setInput] = useState(commentState.content);
-  const [authorName, setAuthorName] = useState(null);
+  const [author, setAuthor] = useState(null);
+  const { user } = useContext(UserContext);
   const inputElem = useRef(null);
 
   const handleEditClick = () => {
     setEditMode(true);
+  };
+
+  const handleDeleteClick = async () => {
+    console.log(commentState.id);
+    await deletePostById(commentState.id);
+    const post = await getPostById(commentState.id);
+    await deletePostsByParentId(commentState.childId);
+    setCommentState(post);
   };
 
   const handleInputChange = (e) => {
@@ -39,52 +52,66 @@ function CommentContent({ commentState, setCommentState }) {
   }, [editMode]);
 
   useEffect(() => {
-    getUserById(commentState.authorId).then((user) => {
-      setAuthorName(user.username);
-      getFileFromStorage(user.avatar).then((url) => setAvatar(url));
+    getUserById(commentState.authorId).then((author) => {
+      setAuthor(author);
+      getFileFromStorage(author.avatar).then((url) => setAvatar(url));
     });
-  });
+  }, []);
 
   return (
     <>
-      <div className='commentContent'>
-        <img src={avatar} alt='avatar' className='avatar' />
-        <p className='username'>{authorName}</p>
-        <hr />
-        {!editMode ? (
-          <>
-            <button type='button' className='editBtn' onClick={handleEditClick}>
-              edit
-            </button>
-            <button type='button' className='delBtn'>
-              delete
-            </button>
-          </>
-        ) : null}
-        {!editMode ? (
-          <p className='content'>{commentState.content}</p>
-        ) : (
-          <form className='commentEditForm' onSubmit={handleInputSubmit}>
-            <input
-              type='text'
-              name='commentEdit'
-              defaultValue={input}
-              onChange={handleInputChange}
-              ref={inputElem}
-            />
-            <button type='submit' className='submitBtn'>
-              submit
-            </button>
-            <button
-              type='button'
-              className='cancelBtn'
-              onClick={handleInputCancel}
-            >
-              cancel
-            </button>
-          </form>
-        )}
-      </div>
+      {author ? (
+        <div className='commentContent'>
+          <img src={avatar} alt='avatar' className='avatar' />
+          <p className='username'>{author.username}</p>
+          <hr />
+          {!editMode ? (
+            <>
+              {commentState.authorId === user.id ? (
+                <>
+                  <button
+                    type='button'
+                    className='editBtn'
+                    onClick={handleEditClick}
+                  >
+                    edit
+                  </button>
+                  <button
+                    type='button'
+                    className='delBtn'
+                    onClick={handleDeleteClick}
+                  >
+                    delete
+                  </button>
+                </>
+              ) : null}
+            </>
+          ) : null}
+          {!editMode ? (
+            <p className='content'>{commentState.content}</p>
+          ) : (
+            <form className='commentEditForm' onSubmit={handleInputSubmit}>
+              <input
+                type='text'
+                name='commentEdit'
+                defaultValue={input}
+                onChange={handleInputChange}
+                ref={inputElem}
+              />
+              <button type='submit' className='submitBtn'>
+                submit
+              </button>
+              <button
+                type='button'
+                className='cancelBtn'
+                onClick={handleInputCancel}
+              >
+                cancel
+              </button>
+            </form>
+          )}
+        </div>
+      ) : null}
     </>
   );
 }
