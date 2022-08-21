@@ -32,6 +32,7 @@ function ReplyForm2({ reply, getAndSetReplyReplies }) {
   const handleReplySubmit = async (e) => {
     e.preventDefault();
     const now = new Date();
+    const filename = fileState ? fileState.name : null;
     const postData = {
       id: uniqid(),
       parentId: reply.childId,
@@ -39,9 +40,11 @@ function ReplyForm2({ reply, getAndSetReplyReplies }) {
       authorId: user.id,
       timestamp: now.toISOString(),
       content: input,
-      file: fileState.name, //? or null?
+      file: filename,
     };
-    await uploadFileToStorage(fileState, postData.file);
+    if (postData.file) {
+      await uploadFileToStorage(fileState, postData.file);
+    }
     await addPost(postData);
     getAndSetReplyReplies();
     setInput(null);

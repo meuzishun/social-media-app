@@ -21,6 +21,7 @@ function AddPostForm({ hideNewPostForm, getAndSetUserPosts }) {
     e.preventDefault();
     const now = new Date();
     const parentId = uniqid();
+    const filename = fileState ? fileState.name : null;
     const postData = {
       id: uniqid(),
       parentId: parentId,
@@ -28,9 +29,11 @@ function AddPostForm({ hideNewPostForm, getAndSetUserPosts }) {
       authorId: user.id,
       timestamp: now.toISOString(),
       content: inputState,
-      file: fileState.name,
+      file: filename,
     };
-    await uploadFileToStorage(fileState, postData.file);
+    if (postData.file) {
+      await uploadFileToStorage(fileState, postData.file);
+    }
     await addPost(postData);
     // const alteredUser = await addPostIdToUserById(user.id, postData.id);
     // setUser(alteredUser);

@@ -32,6 +32,7 @@ function CommentForm({ post, getAndSetPostComments }) {
   const handleCommentSubmit = async (e) => {
     e.preventDefault();
     const now = new Date();
+    const filename = fileState ? fileState.name : null;
     const postData = {
       id: uniqid(),
       parentId: post.childId,
@@ -39,9 +40,11 @@ function CommentForm({ post, getAndSetPostComments }) {
       authorId: user.id,
       timestamp: now.toISOString(),
       content: input,
-      file: fileState.name, //? or null?
+      file: filename,
     };
-    await uploadFileToStorage(fileState, postData.file);
+    if (postData.file) {
+      await uploadFileToStorage(fileState, postData.file);
+    }
     await addPost(postData);
     getAndSetPostComments();
     setInput(null);
