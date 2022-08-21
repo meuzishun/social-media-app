@@ -215,6 +215,16 @@ export const deletePostsByParentId = async (id) => {
   }
 };
 
+export const addIdToUserFriendIds = async (userId, friendId) => {
+  const userRef = doc(db, 'users', userId);
+  await updateDoc(userRef, {
+    friendIds: arrayUnion(friendId),
+  });
+  const userSnap = await getDoc(userRef);
+  const alteredUser = userSnap.data();
+  return alteredUser;
+};
+
 export const addFriendToUserNetwork = async (userId, friendId) => {
   const userRef = doc(db, 'users', userId);
   await updateDoc(userRef, {

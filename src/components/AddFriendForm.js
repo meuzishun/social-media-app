@@ -1,14 +1,15 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useRef, useEffect } from 'react';
 import { UserContext } from '../App';
 import {
   getUserByUsername,
-  addFriendToUserNetwork,
+  addIdToUserFriendIds,
 } from '../services/firebaseApp';
 import './AddFriendForm.css';
 
 function AddFriendForm({ handleAddState }) {
   const [usernameSearch, setUsernameSearch] = useState(null);
   const { user, setUser } = useContext(UserContext);
+  const inputRef = useRef(null);
 
   const handleInputChange = (e) => {
     setUsernameSearch(e.target.value);
@@ -20,13 +21,17 @@ function AddFriendForm({ handleAddState }) {
     if (!friend) {
       console.log('no user found');
     }
-    if (user.friends.includes(friend.id)) {
+    if (user.friendIds.includes(friend.id)) {
       console.log('user already in network');
     }
-    const alteredUser = await addFriendToUserNetwork(user.id, friend.id);
+    const alteredUser = await addIdToUserFriendIds(user.id, friend.id);
     setUser(alteredUser);
     handleAddState();
   };
+
+  useEffect(() => {
+    inputRef.current.focus();
+  }, []);
 
   return (
     <form className='addFriendForm' onSubmit={handleAddFriendSubmit}>
@@ -35,6 +40,7 @@ function AddFriendForm({ handleAddState }) {
         type='text'
         id='username'
         name='username'
+        ref={inputRef}
         defaultValue={usernameSearch}
         onChange={handleInputChange}
       />

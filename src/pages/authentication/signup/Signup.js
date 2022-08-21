@@ -1,11 +1,13 @@
 import React, { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../../../App';
-import { addUser } from '../../../services/firebaseApp';
+import { addUser, uploadFileToStorage } from '../../../services/firebaseApp';
 import uniqid from 'uniqid';
+import './Signup.css';
 
 function Signup() {
   const [formState, setFormState] = useState({});
+  const [fileState, setFileState] = useState(null);
   const { setUser } = useContext(UserContext);
   const navigate = useNavigate();
 
@@ -13,9 +15,20 @@ function Signup() {
     setFormState({ ...formState, [e.target.name]: e.target.value });
   };
 
+  const handleFileChange = (e) => {
+    e.preventDefault();
+    const file = e.target.files[0];
+    setFileState(file);
+    setFormState({
+      ...formState,
+      avatar: file.name,
+    });
+  };
+
   const handleSignupSubmit = async (e) => {
     e.preventDefault();
-    const user = { ...formState, id: uniqid(), friends: [], posts: [] };
+    const user = { ...formState, id: uniqid(), friendIds: [] };
+    await uploadFileToStorage(fileState, formState.avatar);
     const newUser = await addUser(user);
     setUser(newUser);
   };
@@ -25,8 +38,13 @@ function Signup() {
   };
 
   return (
-    <div>
-      <h1>sign up</h1>
+    <div className='signupPage'>
+      <header>
+        <h1>sign up</h1>
+        <button type='button' className='loginBtn' onClick={handleLoginClick}>
+          log in
+        </button>
+      </header>
       <form className='signupForm' onSubmit={handleSignupSubmit}>
         <label htmlFor='fullName'>full name</label>
         <input
@@ -59,6 +77,15 @@ function Signup() {
           onChange={handleInputChange}
           defaultValue={formState.bio}
         ></textarea>
+        <label htmlFor='avatar'>avatar</label>
+        <input
+          type='file'
+          id='avatar'
+          name='avatar'
+          accept='image/png, image/jpeg'
+          onChange={handleFileChange}
+          // defaultValue={userState.avatar}
+        ></input>
         <label htmlFor='password'>create password</label>
         <input
           type='password'
@@ -77,9 +104,6 @@ function Signup() {
         />
         <button type='submit'>create account</button>
       </form>
-      <button type='button' onClick={handleLoginClick}>
-        log in
-      </button>
     </div>
   );
 }
