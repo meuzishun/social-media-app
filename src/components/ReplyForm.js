@@ -1,13 +1,14 @@
 import React, { useContext, useState, useRef, useEffect } from 'react';
 import { UserContext } from '../App';
 import uniqid from 'uniqid';
-import { addPost } from '../services/firebaseApp';
+import { addPost, uploadFileToStorage } from '../services/firebaseApp';
 import './ReplyForm.css';
 
 function ReplyForm({ comment, getAndSetCommentReplies }) {
   const { user } = useContext(UserContext);
   const [displayForm, setDisplayForm] = useState(false);
   const [input, setInput] = useState(null);
+  const [fileState, setFileState] = useState(null);
   const inputElem = useRef(null);
 
   const handleAddClick = () => {
@@ -22,6 +23,12 @@ function ReplyForm({ comment, getAndSetCommentReplies }) {
     setDisplayForm(false);
   };
 
+  const handleFileChange = (e) => {
+    e.preventDefault();
+    const file = e.target.files[0];
+    setFileState(file);
+  };
+
   const handleReplySubmit = async (e) => {
     e.preventDefault();
     const now = new Date();
@@ -32,7 +39,9 @@ function ReplyForm({ comment, getAndSetCommentReplies }) {
       authorId: user.id,
       timestamp: now.toISOString(),
       content: input,
+      file: fileState.name, //? or null?
     };
+    await uploadFileToStorage(fileState, postData.file);
     await addPost(postData);
     getAndSetCommentReplies();
     setInput(null);
@@ -56,11 +65,21 @@ function ReplyForm({ comment, getAndSetCommentReplies }) {
           <input
             type='text'
             name='addReply'
+            className='textInput'
             placeholder='reply'
             defaultValue={input}
             onChange={handleInputChange}
             ref={inputElem}
           />
+          <input
+            type='file'
+            id='file'
+            className='fileInput'
+            name='file'
+            accept='image/png, image/jpeg'
+            onChange={handleFileChange}
+            // defaultValue={userState.avatar}
+          ></input>
           <button type='submit' className='submitBtn'>
             submit
           </button>

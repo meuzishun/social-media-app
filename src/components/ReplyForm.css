@@ -6,17 +6,21 @@
 
 .addReplyForm {
   display: grid;
-  grid-template-columns: 1fr max-content max-content;
+  grid-template-columns: 1fr max-content max-content max-content;
   grid-template-rows: max-content;
-  grid-template-areas: 'input submit cancel';
+  grid-template-areas: 'input file submit cancel';
   align-items: center;
   /* justify-items: center; */
   grid-gap: 0.25rem;
   margin-bottom: 0.5rem;
 }
 
-.addReplyForm > input {
+.addReplyForm > .textInput {
   grid-area: input;
+}
+
+.addReplyForm > .fileInput {
+  grid-area: file;
 }
 
 .addReplyForm > .submitBtn {

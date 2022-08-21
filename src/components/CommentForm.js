@@ -1,13 +1,14 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { UserContext } from '../App';
 import uniqid from 'uniqid';
-import { addPost } from '../services/firebaseApp';
+import { addPost, uploadFileToStorage } from '../services/firebaseApp';
 import './CommentForm.css';
 
 function CommentForm({ post, getAndSetPostComments }) {
   const { user } = useContext(UserContext);
   const [displayForm, setDisplayForm] = useState(false);
   const [input, setInput] = useState(null);
+  const [fileState, setFileState] = useState(null);
   const inputElem = useRef(null);
 
   const handleAddClick = () => {
@@ -22,6 +23,12 @@ function CommentForm({ post, getAndSetPostComments }) {
     setDisplayForm(false);
   };
 
+  const handleFileChange = (e) => {
+    e.preventDefault();
+    const file = e.target.files[0];
+    setFileState(file);
+  };
+
   const handleCommentSubmit = async (e) => {
     e.preventDefault();
     const now = new Date();
@@ -32,7 +39,9 @@ function CommentForm({ post, getAndSetPostComments }) {
       authorId: user.id,
       timestamp: now.toISOString(),
       content: input,
+      file: fileState.name, //? or null?
     };
+    await uploadFileToStorage(fileState, postData.file);
     await addPost(postData);
     getAndSetPostComments();
     setInput(null);
@@ -60,11 +69,22 @@ function CommentForm({ post, getAndSetPostComments }) {
           <input
             type='text'
             name='addComment'
+            className='textInput'
             placeholder='comment'
             defaultValue={input}
             onChange={handleInputChange}
             ref={inputElem}
           />
+          {/* <label htmlFor='file'>add image</label> */}
+          <input
+            type='file'
+            id='file'
+            className='fileInput'
+            name='file'
+            accept='image/png, image/jpeg'
+            onChange={handleFileChange}
+            // defaultValue={userState.avatar}
+          ></input>
           <button type='submit' className='submitBtn'>
             submit
           </button>

@@ -34,9 +34,6 @@ const firebaseConfig = {
 export const firebaseApp = initializeApp(firebaseConfig);
 const storage = getStorage(firebaseApp);
 
-const animalRef = ref(storage, 'Animal.jpg');
-console.log(animalRef.bucket);
-
 export const uploadFileToStorage = async (file, path) => {
   const fileRef = ref(storage, path);
   const snapShot = await uploadBytes(fileRef, file);

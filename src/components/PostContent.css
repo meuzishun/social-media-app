@@ -8,7 +8,8 @@
   grid-template-areas:
     'avatar username username username'
     'line line line line'
-    'content content edit delete';
+    'content content edit delete'
+    'file file file file';
   align-items: center;
   /* justify-items: center; */
   grid-gap: 0.25rem;
@@ -36,6 +37,14 @@
   grid-area: content;
   font-size: 1.25rem;
   padding: 0.5rem 0;
+}
+
+.postContent > .postFile {
+  grid-area: file;
+  width: 100%;
+  margin-bottom: 0.5rem;
+  border-radius: 1rem;
+  border: 2px solid rgb(0, 145, 255);
 }
 
 .postContent > .editBtn {

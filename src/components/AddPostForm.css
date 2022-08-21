@@ -1,13 +1,26 @@
 .addPostContainer,
 .addPostContainer > form {
   display: flex;
-  align-items: center;
-  gap: 1rem;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.addPostContainer > form > input,
+.addPostContainer > form > div {
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+.addPostContainer > form > .btnContainer {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
 }
 
 .addPostContainer button {
-  font-size: 0.7rem;
-  padding: 0.25rem 0.5rem;
+  /* font-size: 0.7rem; */
+  /* padding: 0.25rem 0.5rem; */
   color: #fff;
   text-transform: capitalize;
 }

@@ -13,6 +13,7 @@ import './CommentContent.css';
 function CommentContent({ commentState, setCommentState }) {
   const [editMode, setEditMode] = useState(false);
   const [avatar, setAvatar] = useState(null);
+  const [file, setFile] = useState(null);
   const [input, setInput] = useState(commentState.content);
   const [author, setAuthor] = useState(null);
   const { user } = useContext(UserContext);
@@ -56,6 +57,10 @@ function CommentContent({ commentState, setCommentState }) {
       setAuthor(author);
       getFileFromStorage(author.avatar).then((url) => setAvatar(url));
     });
+
+    if (commentState.file) {
+      getFileFromStorage(commentState.file).then((url) => setFile(url));
+    }
   }, []);
 
   return (
@@ -88,7 +93,12 @@ function CommentContent({ commentState, setCommentState }) {
             </>
           ) : null}
           {!editMode ? (
-            <p className='content'>{commentState.content}</p>
+            <>
+              <p className='content'>{commentState.content}</p>
+              {file ? (
+                <img src={file} alt='post file' className='postFile' />
+              ) : null}
+            </>
           ) : (
             <form className='commentEditForm' onSubmit={handleInputSubmit}>
               <input

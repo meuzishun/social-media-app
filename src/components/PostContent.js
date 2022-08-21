@@ -13,6 +13,7 @@ import './PostContent.css';
 function PostContent({ postState, setPostState }) {
   const [author, setAuthor] = useState(null);
   const [avatar, setAvatar] = useState(null);
+  const [file, setFile] = useState(null);
   const [editMode, setEditMode] = useState(false);
   const [input, setInput] = useState(postState.content);
   const { user } = useContext(UserContext);
@@ -57,6 +58,10 @@ function PostContent({ postState, setPostState }) {
         setAuthor(author);
         getFileFromStorage(author.avatar).then((url) => setAvatar(url));
       });
+
+      if (postState.file) {
+        getFileFromStorage(postState.file).then((url) => setFile(url));
+      }
     }
   }, []);
 
@@ -90,7 +95,12 @@ function PostContent({ postState, setPostState }) {
             </>
           ) : null}
           {!editMode ? (
-            <p className='content'>{postState.content}</p>
+            <>
+              <p className='content'>{postState.content}</p>
+              {file ? (
+                <img src={file} alt='post file' className='postFile' />
+              ) : null}
+            </>
           ) : (
             <form className='postEditForm' onSubmit={handleInputSubmit}>
               {/* <label htmlFor='postEdit'>{authorName}</label> */}

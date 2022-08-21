@@ -13,6 +13,7 @@ import './ReplyContent.css';
 function ReplyContent({ replyState, setReplyState }) {
   const [editMode, setEditMode] = useState(false);
   const [avatar, setAvatar] = useState(null);
+  const [file, setFile] = useState(null);
   const [input, setInput] = useState(replyState.content);
   const [author, setAuthor] = useState(null);
   const { user } = useContext(UserContext);
@@ -56,6 +57,10 @@ function ReplyContent({ replyState, setReplyState }) {
       setAuthor(author);
       getFileFromStorage(author.avatar).then((url) => setAvatar(url));
     });
+
+    if (replyState.file) {
+      getFileFromStorage(replyState.file).then((url) => setFile(url));
+    }
   }, []);
 
   return (
@@ -88,7 +93,12 @@ function ReplyContent({ replyState, setReplyState }) {
             </>
           ) : null}
           {!editMode ? (
-            <p className='content'>{replyState.content}</p>
+            <>
+              <p className='content'>{replyState.content}</p>
+              {file ? (
+                <img src={file} alt='post file' className='postFile' />
+              ) : null}
+            </>
           ) : (
             <form className='replyEditForm' onSubmit={handleInputSubmit}>
               <input

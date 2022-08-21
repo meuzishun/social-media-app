@@ -88,15 +88,15 @@ function App() {
   // }, [network]);
 
   useEffect(() => {
-    ((async) => {
-      navigate('/login');
-    })();
-    //* FOR TESTING PURPOSES
-    // (async () => {
-    //   const user = await getUserByUsername('meuzishun');
-    //   setUser(user);
-    //   navigate('/timeline');
+    // ((async) => {
+    //   navigate('/login');
     // })();
+    //* FOR TESTING PURPOSES
+    (async () => {
+      const user = await getUserByUsername('meuzishun');
+      setUser(user);
+      navigate('/timeline');
+    })();
     //! MOCKED VERSION
     // setUser(fake_users[0]);
   }, []);

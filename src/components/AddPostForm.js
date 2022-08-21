@@ -1,12 +1,17 @@
 import React, { useContext, useState } from 'react';
 import { UserContext } from '../App';
-import { addPost, addPostIdToUserById } from '../services/firebaseApp';
+import {
+  addPost,
+  uploadFileToStorage,
+  addPostIdToUserById,
+} from '../services/firebaseApp';
 import uniqid from 'uniqid';
 import './AddPostForm.css';
 
 function AddPostForm({ hideNewPostForm, getAndSetUserPosts }) {
   const [inputState, setInputState] = useState(null);
   const { user, setUser } = useContext(UserContext);
+  const [fileState, setFileState] = useState(null);
 
   const handleInputChange = (e) => {
     setInputState(e.target.value);
@@ -23,7 +28,9 @@ function AddPostForm({ hideNewPostForm, getAndSetUserPosts }) {
       authorId: user.id,
       timestamp: now.toISOString(),
       content: inputState,
+      file: fileState.name,
     };
+    await uploadFileToStorage(fileState, postData.file);
     await addPost(postData);
     // const alteredUser = await addPostIdToUserById(user.id, postData.id);
     // setUser(alteredUser);
@@ -31,20 +38,39 @@ function AddPostForm({ hideNewPostForm, getAndSetUserPosts }) {
     getAndSetUserPosts();
   };
 
+  const handleFileChange = (e) => {
+    e.preventDefault();
+    const file = e.target.files[0];
+    setFileState(file);
+  };
+
   return (
     <div className='addPostContainer'>
       <form onSubmit={handleAddPostSubmit}>
+        <label htmlFor='postContent'>content</label>
         <input
           type='text'
           name='postContent'
+          id='postContent'
           defaultValue={inputState}
           onChange={handleInputChange}
         />
-        <button type='submit'>submit</button>
+        <label htmlFor='file'>add image</label>
+        <input
+          type='file'
+          id='file'
+          name='file'
+          accept='image/png, image/jpeg'
+          onChange={handleFileChange}
+          // defaultValue={userState.avatar}
+        ></input>
+        <div className='btnContainer'>
+          <button type='submit'>submit</button>
+          <button type='button' onClick={hideNewPostForm}>
+            cancel
+          </button>
+        </div>
       </form>
-      <button type='button' onClick={hideNewPostForm}>
-        cancel
-      </button>
     </div>
   );
 }
