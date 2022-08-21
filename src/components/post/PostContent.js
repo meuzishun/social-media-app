@@ -103,7 +103,6 @@ function PostContent({ postState, setPostState }) {
             </>
           ) : (
             <form className='postEditForm' onSubmit={handleInputSubmit}>
-              {/* <label htmlFor='postEdit'>{authorName}</label> */}
               <input
                 type='text'
                 name='postEdit'

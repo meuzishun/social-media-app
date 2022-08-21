@@ -70,9 +70,3 @@ header a:hover {
   color: #333;
   transition: all 200ms ease-in-out;
 }
-
-/* .logoutButton:hover {
-  font-size: 0.9rem;
-  transform: scale(1.025);
-  box-shadow: 0.25rem 0.25rem 0.25rem rgba(0, 0, 0, 0.25);
-} */

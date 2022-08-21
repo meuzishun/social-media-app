@@ -1,7 +1,4 @@
 .postContent {
-  /* display: flex;
-  align-items: center;
-  gap: 1rem; */
   display: grid;
   grid-template-columns: max-content 1fr max-content max-content;
   grid-template-rows: max-content max-content max-content;
@@ -11,7 +8,6 @@
     'content content edit delete'
     'file file file file';
   align-items: center;
-  /* justify-items: center; */
   grid-gap: 0.25rem;
 }
 
@@ -33,7 +29,6 @@
 
 .postContent > .content,
 .postContent > .postEditForm {
-  /* border-top: 1px solid black; */
   grid-area: content;
   font-size: 1.25rem;
   padding: 0.5rem 0;
@@ -65,7 +60,6 @@
   grid-template-rows: max-content;
   grid-template-areas: 'input submit cancel';
   align-items: center;
-  /* justify-items: center; */
   grid-gap: 0.25rem;
 }
 

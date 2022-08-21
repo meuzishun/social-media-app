@@ -81,7 +81,6 @@ function ReplyForm2({ reply, getAndSetReplyReplies }) {
             name='file'
             accept='image/png, image/jpeg'
             onChange={handleFileChange}
-            // defaultValue={userState.avatar}
           ></input>
           <button type='submit' className='submitBtn'>
             submit

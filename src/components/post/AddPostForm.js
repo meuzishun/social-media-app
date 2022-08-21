@@ -1,10 +1,6 @@
 import React, { useContext, useState } from 'react';
 import { UserContext } from '../../App';
-import {
-  addPost,
-  uploadFileToStorage,
-  addPostIdToUserById,
-} from '../../services/firebaseApp';
+import { addPost, uploadFileToStorage } from '../../services/firebaseApp';
 import uniqid from 'uniqid';
 import './AddPostForm.css';
 
@@ -35,8 +31,6 @@ function AddPostForm({ hideNewPostForm, getAndSetUserPosts }) {
       await uploadFileToStorage(fileState, postData.file);
     }
     await addPost(postData);
-    // const alteredUser = await addPostIdToUserById(user.id, postData.id);
-    // setUser(alteredUser);
     hideNewPostForm();
     getAndSetUserPosts();
   };

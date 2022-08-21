@@ -1,36 +1,6 @@
-/* .commentContainer {
-  display: grid;
-  grid-template-columns: max-content max-content max-content;
-  grid-template-rows: auto auto;
-  grid-template-areas:
-    'comment editBtn addBtn'
-    'form form form'
-    'comments comments comments'
-    'replies replies replies';
-  grid-gap: 1rem;
-  align-items: center;
-}
-
-.commentContainer p {
-  grid-area: comment;
-}
-
-.commentContainer .editBtn {
-  grid-area: editBtn;
-}
-
-.commentContainer .addBtn {
-  grid-area: addBtn;
-}
-
-.commentContainer .replyForm {
-  grid-area: form;
-} */
-
 .comment {
   display: flex;
   flex-direction: column;
-  /* gap: 0.5rem; */
 }
 
 .showRepliesBtn,

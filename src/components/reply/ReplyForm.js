@@ -81,7 +81,6 @@ function ReplyForm({ comment, getAndSetCommentReplies }) {
             name='file'
             accept='image/png, image/jpeg'
             onChange={handleFileChange}
-            // defaultValue={userState.avatar}
           ></input>
           <button type='submit' className='submitBtn'>
             submit

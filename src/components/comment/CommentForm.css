@@ -10,7 +10,6 @@
   grid-template-rows: max-content;
   grid-template-areas: 'input file submit cancel';
   align-items: center;
-  /* justify-items: center; */
   grid-gap: 0.25rem;
   margin-bottom: 0.5rem;
 }
