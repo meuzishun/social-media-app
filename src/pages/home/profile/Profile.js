@@ -3,6 +3,7 @@ import { UserContext } from '../../../App';
 import {
   getFileFromStorage,
   updateUserById,
+  uploadFileToStorage,
 } from '../../../services/firebaseApp';
 import './Profile.css';
 
@@ -11,6 +12,7 @@ function Profile() {
   const [userState, setUserState] = useState(null);
   const [avatar, setAvatar] = useState(null);
   const [editProfile, setEditProfile] = useState(false);
+  const [fileState, setFileState] = useState(null);
 
   const toggleEdit = () => {
     setEditProfile(!editProfile);
@@ -20,8 +22,20 @@ function Profile() {
     setUserState({ ...userState, [e.target.name]: e.target.value });
   };
 
+  const handleFileChange = (e) => {
+    e.preventDefault();
+    const file = e.target.files[0];
+    setFileState(file);
+    setUserState({
+      ...userState,
+      avatar: file.name,
+    });
+  };
+
   const handleProfileEditSubmit = async (e) => {
     e.preventDefault();
+    //* apparently, uploading a file that is already in storage replaces the original... whether this is because the filenames match OR the actual files match remains uninvestigated :(
+    await uploadFileToStorage(fileState, userState.avatar);
     const alteredUser = await updateUserById(user.id, userState);
     setUser(alteredUser);
     setEditProfile(false);
@@ -85,6 +99,15 @@ function Profile() {
               onChange={handleInputChange}
               defaultValue={userState.bio}
             ></textarea>
+            <label htmlFor='avatar'>avatar</label>
+            <input
+              type='file'
+              id='avatar'
+              name='avatar'
+              accept='image/png, image/jpeg'
+              onChange={handleFileChange}
+              // defaultValue={userState.avatar}
+            ></input>
             <button type='submit'>submit</button>
             <button type='button' onClick={handleCancelClick}>
               cancel
