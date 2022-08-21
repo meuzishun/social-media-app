@@ -1,10 +1,10 @@
-import React, { useContext, useEffect, useRef, useState } from 'react';
-import { UserContext } from '../App';
+import React, { useContext, useState, useRef, useEffect } from 'react';
+import { UserContext } from '../../App';
 import uniqid from 'uniqid';
-import { addPost, uploadFileToStorage } from '../services/firebaseApp';
-import './CommentForm.css';
+import { addPost, uploadFileToStorage } from '../../services/firebaseApp';
+import './ReplyForm.css';
 
-function CommentForm({ post, getAndSetPostComments }) {
+function ReplyForm({ comment, getAndSetCommentReplies }) {
   const { user } = useContext(UserContext);
   const [displayForm, setDisplayForm] = useState(false);
   const [input, setInput] = useState(null);
@@ -29,13 +29,13 @@ function CommentForm({ post, getAndSetPostComments }) {
     setFileState(file);
   };
 
-  const handleCommentSubmit = async (e) => {
+  const handleReplySubmit = async (e) => {
     e.preventDefault();
     const now = new Date();
     const filename = fileState ? fileState.name : null;
     const postData = {
       id: uniqid(),
-      parentId: post.childId,
+      parentId: comment.childId,
       childId: uniqid(),
       authorId: user.id,
       timestamp: now.toISOString(),
@@ -46,7 +46,7 @@ function CommentForm({ post, getAndSetPostComments }) {
       await uploadFileToStorage(fileState, postData.file);
     }
     await addPost(postData);
-    getAndSetPostComments();
+    getAndSetCommentReplies();
     setInput(null);
     setDisplayForm(false);
   };
@@ -60,25 +60,20 @@ function CommentForm({ post, getAndSetPostComments }) {
   return (
     <>
       {!displayForm ? (
-        <button
-          type='button'
-          className='addCommentBtn'
-          onClick={handleAddClick}
-        >
-          add comment
+        <button type='button' className='addReplyBtn' onClick={handleAddClick}>
+          add reply
         </button>
       ) : (
-        <form className='addCommentForm' onSubmit={handleCommentSubmit}>
+        <form className='addReplyForm' onSubmit={handleReplySubmit}>
           <input
             type='text'
-            name='addComment'
+            name='addReply'
             className='textInput'
-            placeholder='comment'
+            placeholder='reply'
             defaultValue={input}
             onChange={handleInputChange}
             ref={inputElem}
           />
-          {/* <label htmlFor='file'>add image</label> */}
           <input
             type='file'
             id='file'
@@ -104,4 +99,4 @@ function CommentForm({ post, getAndSetPostComments }) {
   );
 }
 
-export default CommentForm;
+export default ReplyForm;

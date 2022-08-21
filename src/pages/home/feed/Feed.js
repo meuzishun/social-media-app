@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { UserContext } from '../../../App';
-import Post from '../../../components/Post';
+import Post from '../../../components/post/Post';
 import { getPostsByAuthorId } from '../../../services/firebaseApp';
 import './Feed.css';
 

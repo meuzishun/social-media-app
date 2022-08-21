@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { UserContext } from '../../../App';
-import AddPostForm from '../../../components/AddPostForm';
-import Post from '../../../components/Post';
+import AddPostForm from '../../../components/post/AddPostForm';
+import Post from '../../../components/post/Post';
 import { getPostsByAuthorId } from '../../../services/firebaseApp';
 import './Timeline.css';
 

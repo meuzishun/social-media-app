@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef, useContext } from 'react';
-import { UserContext } from '../App';
+import { UserContext } from '../../App';
 import {
   getFileFromStorage,
   getUserById,
@@ -7,7 +7,7 @@ import {
   deletePostById,
   getPostById,
   deletePostsByParentId,
-} from '../services/firebaseApp';
+} from '../../services/firebaseApp';
 import './PostContent.css';
 
 function PostContent({ postState, setPostState }) {

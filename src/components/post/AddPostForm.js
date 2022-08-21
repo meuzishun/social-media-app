@@ -1,10 +1,10 @@
 import React, { useContext, useState } from 'react';
-import { UserContext } from '../App';
+import { UserContext } from '../../App';
 import {
   addPost,
   uploadFileToStorage,
   addPostIdToUserById,
-} from '../services/firebaseApp';
+} from '../../services/firebaseApp';
 import uniqid from 'uniqid';
 import './AddPostForm.css';
 

@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import PostContent from './PostContent';
-import CommentForm from './CommentForm';
-import Comment from './Comment';
+import CommentForm from '../comment/CommentForm';
+import Comment from '../comment/Comment';
 import './Post.css';
-import { getPostsByParentId } from '../services/firebaseApp';
+import { getPostsByParentId } from '../../services/firebaseApp';
 
 function Post({ post }) {
   const [postState, setPostState] = useState(null);

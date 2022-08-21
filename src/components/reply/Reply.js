@@ -1,16 +1,18 @@
 import React, { useState, useEffect, useRef } from 'react';
 import ReplyContent from './ReplyContent';
 import ReplyForm2 from './ReplyForm2';
-import { getPostsByParentId } from '../services/firebaseApp';
+import Reply2 from './Reply2';
+import { getPostsByParentId } from '../../services/firebaseApp';
+import './Reply.css';
 
-function Reply2({ reply }) {
+function Reply({ reply }) {
   const [replyState, setReplyState] = useState(null);
   const [replies, setReplies] = useState([]);
   const repliesContainer = useRef(null);
   const hideRepliesBtn = useRef(null);
   const showRepliesBtn = useRef(null);
 
-  const getAndSetReplyReplies2 = () => {
+  const getAndSetReplyReplies = () => {
     getPostsByParentId(reply.childId).then((posts) => {
       const replies = posts.filter((post) => post.parentId !== post.childId);
       setReplies(replies);
@@ -31,7 +33,7 @@ function Reply2({ reply }) {
 
   useEffect(() => {
     setReplyState(reply);
-    getAndSetReplyReplies2();
+    getAndSetReplyReplies();
   }, []);
 
   return (
@@ -41,7 +43,7 @@ function Reply2({ reply }) {
           <ReplyContent replyState={replyState} setReplyState={setReplyState} />
           <ReplyForm2
             reply={reply}
-            getAndSetReplyReplies={getAndSetReplyReplies2}
+            getAndSetReplyReplies={getAndSetReplyReplies}
           />
           {replies.length > 0 ? (
             <>
@@ -74,4 +76,4 @@ function Reply2({ reply }) {
   );
 }
 
-export default Reply2;
+export default Reply;

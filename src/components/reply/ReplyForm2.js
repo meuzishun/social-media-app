@@ -1,7 +1,7 @@
 import React, { useContext, useState, useRef, useEffect } from 'react';
-import { UserContext } from '../App';
+import { UserContext } from '../../App';
 import uniqid from 'uniqid';
-import { addPost, uploadFileToStorage } from '../services/firebaseApp';
+import { addPost, uploadFileToStorage } from '../../services/firebaseApp';
 import './ReplyForm.css';
 
 function ReplyForm2({ reply, getAndSetReplyReplies }) {

@@ -1,19 +1,17 @@
-import React, { useEffect, useState, useRef } from 'react';
-import CommentContent from './CommentContent';
-import ReplyForm from './ReplyForm';
-import Reply from './Reply';
-import { getPostsByParentId } from '../services/firebaseApp';
-import './Comment.css';
+import React, { useState, useEffect, useRef } from 'react';
+import ReplyContent from './ReplyContent';
+import ReplyForm2 from './ReplyForm2';
+import { getPostsByParentId } from '../../services/firebaseApp';
 
-function Comment({ comment }) {
-  const [commentState, setCommentState] = useState(null);
+function Reply2({ reply }) {
+  const [replyState, setReplyState] = useState(null);
   const [replies, setReplies] = useState([]);
   const repliesContainer = useRef(null);
   const hideRepliesBtn = useRef(null);
   const showRepliesBtn = useRef(null);
 
-  const getAndSetCommentReplies = () => {
-    getPostsByParentId(comment.childId).then((posts) => {
+  const getAndSetReplyReplies2 = () => {
+    getPostsByParentId(reply.childId).then((posts) => {
       const replies = posts.filter((post) => post.parentId !== post.childId);
       setReplies(replies);
     });
@@ -32,21 +30,18 @@ function Comment({ comment }) {
   };
 
   useEffect(() => {
-    setCommentState(comment);
-    getAndSetCommentReplies();
+    setReplyState(reply);
+    getAndSetReplyReplies2();
   }, []);
 
   return (
-    <div className='comment'>
-      {commentState ? (
+    <div className='reply'>
+      {replyState ? (
         <>
-          <CommentContent
-            commentState={commentState}
-            setCommentState={setCommentState}
-          />
-          <ReplyForm
-            comment={comment}
-            getAndSetCommentReplies={getAndSetCommentReplies}
+          <ReplyContent replyState={replyState} setReplyState={setReplyState} />
+          <ReplyForm2
+            reply={reply}
+            getAndSetReplyReplies={getAndSetReplyReplies2}
           />
           {replies.length > 0 ? (
             <>
@@ -68,7 +63,7 @@ function Comment({ comment }) {
               </button>
               <div className='replies hidden' ref={repliesContainer}>
                 {replies.map((reply) => (
-                  <Reply key={reply.id} reply={reply} />
+                  <Reply2 key={reply.id} reply={reply} />
                 ))}
               </div>
             </>
@@ -79,4 +74,4 @@ function Comment({ comment }) {
   );
 }
 
-export default Comment;
+export default Reply2;

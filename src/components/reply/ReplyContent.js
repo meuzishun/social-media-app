@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef, useContext } from 'react';
-import { UserContext } from '../App';
+import { UserContext } from '../../App';
 import {
   getUserById,
   updatePostContent,
@@ -7,14 +7,14 @@ import {
   deletePostById,
   getPostById,
   deletePostsByParentId,
-} from '../services/firebaseApp';
-import './CommentContent.css';
+} from '../../services/firebaseApp';
+import './ReplyContent.css';
 
-function CommentContent({ commentState, setCommentState }) {
+function ReplyContent({ replyState, setReplyState }) {
   const [editMode, setEditMode] = useState(false);
   const [avatar, setAvatar] = useState(null);
   const [file, setFile] = useState(null);
-  const [input, setInput] = useState(commentState.content);
+  const [input, setInput] = useState(replyState.content);
   const [author, setAuthor] = useState(null);
   const { user } = useContext(UserContext);
   const inputElem = useRef(null);
@@ -24,11 +24,11 @@ function CommentContent({ commentState, setCommentState }) {
   };
 
   const handleDeleteClick = async () => {
-    console.log(commentState.id);
-    await deletePostById(commentState.id);
-    const post = await getPostById(commentState.id);
-    await deletePostsByParentId(commentState.childId);
-    setCommentState(post);
+    console.log(replyState.id);
+    await deletePostById(replyState.id);
+    const post = await getPostById(replyState.id);
+    await deletePostsByParentId(replyState.childId);
+    setReplyState(post);
   };
 
   const handleInputChange = (e) => {
@@ -41,8 +41,8 @@ function CommentContent({ commentState, setCommentState }) {
 
   const handleInputSubmit = async (e) => {
     e.preventDefault();
-    const alteredComment = await updatePostContent(commentState.id, input);
-    setCommentState(alteredComment);
+    const alteredReply = await updatePostContent(replyState.id, input);
+    setReplyState(alteredReply);
     setEditMode(false);
   };
 
@@ -53,26 +53,26 @@ function CommentContent({ commentState, setCommentState }) {
   }, [editMode]);
 
   useEffect(() => {
-    getUserById(commentState.authorId).then((author) => {
+    getUserById(replyState.authorId).then((author) => {
       setAuthor(author);
       getFileFromStorage(author.avatar).then((url) => setAvatar(url));
     });
 
-    if (commentState.file) {
-      getFileFromStorage(commentState.file).then((url) => setFile(url));
+    if (replyState.file) {
+      getFileFromStorage(replyState.file).then((url) => setFile(url));
     }
   }, []);
 
   return (
     <>
       {author ? (
-        <div className='commentContent'>
+        <div className='replyContent'>
           <img src={avatar} alt='avatar' className='avatar' />
           <p className='username'>{author.username}</p>
           <hr />
           {!editMode ? (
             <>
-              {commentState.authorId === user.id ? (
+              {replyState.authorId === user.id ? (
                 <>
                   <button
                     type='button'
@@ -94,16 +94,16 @@ function CommentContent({ commentState, setCommentState }) {
           ) : null}
           {!editMode ? (
             <>
-              <p className='content'>{commentState.content}</p>
+              <p className='content'>{replyState.content}</p>
               {file ? (
                 <img src={file} alt='post file' className='postFile' />
               ) : null}
             </>
           ) : (
-            <form className='commentEditForm' onSubmit={handleInputSubmit}>
+            <form className='replyEditForm' onSubmit={handleInputSubmit}>
               <input
                 type='text'
-                name='commentEdit'
+                name='replyEdit'
                 defaultValue={input}
                 onChange={handleInputChange}
                 ref={inputElem}
@@ -126,4 +126,4 @@ function CommentContent({ commentState, setCommentState }) {
   );
 }
 
-export default CommentContent;
+export default ReplyContent;
