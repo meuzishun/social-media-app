@@ -18,7 +18,13 @@ import {
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
-import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage';
+import {
+  deleteObject,
+  getDownloadURL,
+  getStorage,
+  ref,
+  uploadBytes,
+} from 'firebase/storage';
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -39,6 +45,12 @@ export const uploadFileToStorage = async (file, path) => {
   const snapShot = await uploadBytes(fileRef, file);
   console.log(snapShot);
   return;
+};
+
+export const removeFileFromStorage = async (path) => {
+  const pathRef = ref(storage, path);
+  await deleteObject(pathRef);
+  console.log('file removed');
 };
 
 export const getFileFromStorage = async (path) => {
