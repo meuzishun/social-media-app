@@ -19,16 +19,23 @@ function Signup() {
     e.preventDefault();
     const file = e.target.files[0];
     setFileState(file);
-    setFormState({
-      ...formState,
-      avatar: file.name,
-    });
+    // setFormState({
+    //   ...formState,
+    //   avatar: filePath,
+    // });
   };
 
   const handleSignupSubmit = async (e) => {
     e.preventDefault();
-    const user = { ...formState, id: uniqid(), friendIds: [] };
-    await uploadFileToStorage(fileState, formState.avatar);
+    const userId = uniqid();
+    const avatarFilePath = `${userId}/avatar/${fileState.name}`;
+    const user = {
+      ...formState,
+      id: userId,
+      avatar: avatarFilePath,
+      friendIds: [],
+    };
+    await uploadFileToStorage(fileState, user.avatar);
     const newUser = await addUser(user);
     setUser(newUser);
   };

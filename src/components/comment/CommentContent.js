@@ -7,6 +7,7 @@ import {
   deletePostById,
   getPostById,
   deletePostsByParentId,
+  removeFileFromStorage,
 } from '../../services/firebaseApp';
 import './CommentContent.css';
 
@@ -24,7 +25,9 @@ function CommentContent({ commentState, setCommentState }) {
   };
 
   const handleDeleteClick = async () => {
-    console.log(commentState.id);
+    if (commentState.file) {
+      await removeFileFromStorage(commentState.file);
+    }
     await deletePostById(commentState.id);
     const post = await getPostById(commentState.id);
     await deletePostsByParentId(commentState.childId);

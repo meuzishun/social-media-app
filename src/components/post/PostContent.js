@@ -25,11 +25,9 @@ function PostContent({ postState, setPostState }) {
   };
 
   const handleDeleteClick = async () => {
-    console.log(postState.id);
-    //! The problem here is that this will delete a file even if it is used elsewhere... perhaps subdirectories are the answer
-    // if (postState.file) {
-    //   await removeFileFromStorage(postState.file);
-    // }
+    if (postState.file) {
+      await removeFileFromStorage(postState.file);
+    }
     await deletePostById(postState.id);
     const post = await getPostById(postState.id);
     await deletePostsByParentId(postState.childId);

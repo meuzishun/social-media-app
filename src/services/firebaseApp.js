@@ -50,7 +50,7 @@ export const uploadFileToStorage = async (file, path) => {
 export const removeFileFromStorage = async (path) => {
   const pathRef = ref(storage, path);
   await deleteObject(pathRef);
-  console.log('file removed');
+  console.log(`file: ${path} removed`);
 };
 
 export const getFileFromStorage = async (path) => {

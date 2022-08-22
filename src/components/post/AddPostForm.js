@@ -17,7 +17,7 @@ function AddPostForm({ hideNewPostForm, getAndSetUserPosts }) {
     e.preventDefault();
     const now = new Date();
     const parentId = uniqid();
-    const filename = fileState ? fileState.name : null;
+    const filename = fileState ? `${user.id}/files/${fileState.name}` : null;
     const postData = {
       id: uniqid(),
       parentId: parentId,

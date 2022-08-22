@@ -7,6 +7,7 @@ import {
   deletePostById,
   getPostById,
   deletePostsByParentId,
+  removeFileFromStorage,
 } from '../../services/firebaseApp';
 import './ReplyContent.css';
 
@@ -24,7 +25,9 @@ function ReplyContent({ replyState, setReplyState }) {
   };
 
   const handleDeleteClick = async () => {
-    console.log(replyState.id);
+    if (replyState.file) {
+      await removeFileFromStorage(replyState.file);
+    }
     await deletePostById(replyState.id);
     const post = await getPostById(replyState.id);
     await deletePostsByParentId(replyState.childId);

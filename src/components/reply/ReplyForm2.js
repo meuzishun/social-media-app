@@ -32,7 +32,7 @@ function ReplyForm2({ reply, getAndSetReplyReplies }) {
   const handleReplySubmit = async (e) => {
     e.preventDefault();
     const now = new Date();
-    const filename = fileState ? fileState.name : null;
+    const filename = fileState ? `${user.id}/files/${fileState.name}` : null;
     const postData = {
       id: uniqid(),
       parentId: reply.childId,
