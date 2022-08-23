@@ -244,10 +244,10 @@ export const addFriendToUserNetwork = async (userId, friendId) => {
   return alteredUser;
 };
 
-export const deleteFriendFromUserNetwork = async (userId, friendId) => {
+export const deleteFriendIdFromUser = async (userId, friendId) => {
   const userRef = doc(db, 'users', userId);
   await updateDoc(userRef, {
-    friends: arrayRemove(friendId),
+    friendIds: arrayRemove(friendId),
   });
   const userSnap = await getDoc(userRef);
   const alteredUser = userSnap.data();

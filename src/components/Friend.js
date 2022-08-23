@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { UserContext } from '../App';
 import {
-  deleteFriendFromUserNetwork,
+  deleteFriendIdFromUser,
   getFileFromStorage,
 } from '../services/firebaseApp';
 import './Friend.css';
@@ -11,11 +11,11 @@ function Friend({ friend }) {
   const [avatar, setAvatar] = useState(null);
 
   const handleRemoveClick = async () => {
-    if (!user.friends.includes(friend.id)) {
+    if (!user.friendIds.includes(friend.id)) {
       console.log('friend not in network');
       return;
     }
-    const alteredUser = await deleteFriendFromUserNetwork(user.id, friend.id);
+    const alteredUser = await deleteFriendIdFromUser(user.id, friend.id);
     setUser(alteredUser);
     console.log(`friend with id ${friend.id} has been removed`);
   };

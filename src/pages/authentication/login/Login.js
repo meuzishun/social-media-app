@@ -25,6 +25,7 @@ function Login() {
     }
     setUser(foundUser);
     console.log('login successful');
+    navigate('/feed');
   };
 
   const handleSignupClick = () => {

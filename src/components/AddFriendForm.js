@@ -1,4 +1,5 @@
 import React, { useContext, useState, useRef, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../App';
 import {
   getUserByUsername,
@@ -10,6 +11,7 @@ function AddFriendForm({ handleAddState }) {
   const [usernameSearch, setUsernameSearch] = useState(null);
   const { user, setUser } = useContext(UserContext);
   const inputRef = useRef(null);
+  const navigate = useNavigate();
 
   const handleInputChange = (e) => {
     setUsernameSearch(e.target.value);
@@ -27,6 +29,7 @@ function AddFriendForm({ handleAddState }) {
     const alteredUser = await addIdToUserFriendIds(user.id, friend.id);
     setUser(alteredUser);
     handleAddState();
+    navigate('/network');
   };
 
   useEffect(() => {
