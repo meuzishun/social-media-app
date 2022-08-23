@@ -26,17 +26,17 @@ function Profile() {
     e.preventDefault();
     const file = e.target.files[0];
     setFileState(file);
-    setUserState({
-      ...userState,
-      avatar: file.name,
-    });
   };
 
   const handleProfileEditSubmit = async (e) => {
     e.preventDefault();
-    //* apparently, uploading a file that is already in storage replaces the original... whether this is because the filenames match OR the actual files match remains uninvestigated :(
-    await uploadFileToStorage(fileState, userState.avatar);
-    const alteredUser = await updateUserById(user.id, userState);
+    const updatedUser = { ...userState };
+    if (fileState) {
+      const avatarFilePath = `${user.id}/avatar/${fileState.name}`;
+      updatedUser.avatar = avatarFilePath;
+      await uploadFileToStorage(fileState, updatedUser.avatar);
+    }
+    const alteredUser = await updateUserById(updatedUser.id, updatedUser);
     setUser(alteredUser);
     setEditProfile(false);
   };

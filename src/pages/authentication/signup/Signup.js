@@ -19,10 +19,6 @@ function Signup() {
     e.preventDefault();
     const file = e.target.files[0];
     setFileState(file);
-    // setFormState({
-    //   ...formState,
-    //   avatar: filePath,
-    // });
   };
 
   const handleSignupSubmit = async (e) => {
