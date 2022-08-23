@@ -34,6 +34,7 @@ function Signup() {
     await uploadFileToStorage(fileState, user.avatar);
     const newUser = await addUser(user);
     setUser(newUser);
+    navigate('/profile');
   };
 
   const handleLoginClick = () => {

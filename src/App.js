@@ -38,9 +38,9 @@ function App() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (user) {
-      navigate('/timeline');
-    }
+    // if (user) {
+    //   navigate('/timeline');
+    // }
     setNetwork([]);
     if (user && user.friendIds.length > 0) {
       getUsersByIdList(user.friendIds).then((friends) => setNetwork(friends));
@@ -88,9 +88,11 @@ function App() {
   // }, [network]);
 
   useEffect(() => {
-    ((async) => {
-      navigate('/login');
-    })();
+    if (!user) {
+      ((async) => {
+        navigate('/login');
+      })();
+    }
     //* FOR TESTING PURPOSES
     // (async () => {
     //   const user = await getUserByUsername('meuzishun');
