@@ -1,7 +1,13 @@
 import React, { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../../../App';
-import { addUser, uploadFileToStorage } from '../../../services/firebaseApp';
+import {
+  addUser,
+  createFirebaseUser,
+  getCurrentFirebaseUser,
+  uploadFileToStorage,
+  updateCurrentFirebaseUser,
+} from '../../../services/firebaseApp';
 import uniqid from 'uniqid';
 import './Signup.css';
 
@@ -23,16 +29,41 @@ function Signup() {
 
   const handleSignupSubmit = async (e) => {
     e.preventDefault();
-    const userId = uniqid();
-    const avatarFilePath = `${userId}/avatar/${fileState.name}`;
+    // const userId = uniqid();
+    // const avatarFilePath = `${userId}/avatar/${fileState.name}`;
+    // const user = {
+    //   ...formState,
+    //   id: userId,
+    //   avatar: avatarFilePath,
+    //   friendIds: [],
+    // };
+    // await uploadFileToStorage(fileState, avatarFilePath);
+    // const newUser = await addUser(user);
+    // setUser(newUser);
+    // navigate('/profile');
+    const userCredential = await createFirebaseUser(
+      formState.email,
+      formState.password
+    );
+    const avatarFilePath = `${userCredential.user.uid}/avatar/${fileState.name}`;
+    await uploadFileToStorage(fileState, avatarFilePath);
+    await updateCurrentFirebaseUser({
+      displayName: formState.username,
+      photoURL: avatarFilePath,
+    });
+    console.log(userCredential);
+    const firebaseUser = getCurrentFirebaseUser();
     const user = {
-      ...formState,
-      id: userId,
-      avatar: avatarFilePath,
+      fullName: formState.fullName,
+      username: firebaseUser.displayName,
+      email: firebaseUser.email,
+      bio: formState.bio,
+      avatar: firebaseUser.photoURL,
+      id: firebaseUser.uid,
       friendIds: [],
     };
-    await uploadFileToStorage(fileState, user.avatar);
     const newUser = await addUser(user);
+    console.log(newUser);
     setUser(newUser);
     navigate('/profile');
   };

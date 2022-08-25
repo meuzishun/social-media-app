@@ -2,7 +2,11 @@ import React, { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Welcome from '../../../components/Welcome';
 import { UserContext } from '../../../App';
-import { getUserByUsername } from '../../../services/firebaseApp';
+import {
+  getUserByUsername,
+  getUserById,
+  signInFirebaseUser,
+} from '../../../services/firebaseApp';
 import '../login/Login.css';
 
 function Login() {
@@ -16,13 +20,21 @@ function Login() {
 
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
-    const foundUser = await getUserByUsername(formState.username);
-    if (!foundUser) {
-      console.log('no user found');
+    // const foundUser = await getUserByUsername(formState.username);
+    // if (!foundUser) {
+    //   console.log('no user found');
+    // }
+    // if (foundUser.password !== formState.password) {
+    //   console.log('incorrect password');
+    // }
+    const firebaseUser = await signInFirebaseUser(
+      formState.email,
+      formState.password
+    );
+    if (!firebaseUser) {
+      console.log('no firebase user found');
     }
-    if (foundUser.password !== formState.password) {
-      console.log('incorrect password');
-    }
+    const foundUser = await getUserById(firebaseUser.uid);
     setUser(foundUser);
     console.log('login successful');
     navigate('/feed');
@@ -37,12 +49,12 @@ function Login() {
       <Welcome />
       <h1 className='loginHeading'>log in</h1>
       <form className='loginForm' onSubmit={handleLoginSubmit}>
-        <label htmlFor='username'>username</label>
+        <label htmlFor='email'>email</label>
         <input
-          type='text'
-          id='username'
-          name='username'
-          defaultValue={formState.username}
+          type='email'
+          id='email'
+          name='email'
+          defaultValue={formState.email}
           onChange={handleInputChange}
         />
         <label htmlFor='password'>password</label>

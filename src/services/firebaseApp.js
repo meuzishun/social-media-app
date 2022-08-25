@@ -1,6 +1,14 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp, getApp } from 'firebase/app';
 import {
+  getAuth,
+  onAuthStateChanged,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  signOut,
+  updateProfile,
+} from 'firebase/auth';
+import {
   collection,
   doc,
   getDoc,
@@ -38,6 +46,67 @@ const firebaseConfig = {
 
 // Initialize Firebase
 export const firebaseApp = initializeApp(firebaseConfig);
+
+//Authentication
+const auth = getAuth(firebaseApp);
+
+export const getCurrentFirebaseUser = () => {
+  const user = auth.currentUser;
+  if (user) {
+    return user;
+  } else {
+    return null;
+  }
+};
+
+export const createFirebaseUser = async (email, password) => {
+  try {
+    const userCredential = await createUserWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
+    return userCredential;
+  } catch (error) {
+    console.log(error.code);
+    console.log(error.message);
+  }
+};
+
+export const signInFirebaseUser = async (email, password) => {
+  try {
+    const userCredential = await signInWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
+    return userCredential.user;
+  } catch (error) {
+    console.log(error.code);
+    console.log(error.message);
+  }
+};
+
+export const updateCurrentFirebaseUser = async (data) => {
+  try {
+    await updateProfile(auth.currentUser, data);
+  } catch (error) {
+    console.log(error.code);
+    console.log(error.message);
+  }
+};
+
+export const signOutFirebaseUser = async () => {
+  try {
+    const userCredential = signOut(auth);
+    return userCredential;
+  } catch (error) {
+    console.log(error.code);
+    console.log(error.message);
+  }
+};
+
+// Storage
 const storage = getStorage(firebaseApp);
 
 export const uploadFileToStorage = async (file, path) => {
@@ -59,6 +128,7 @@ export const getFileFromStorage = async (path) => {
   return url;
 };
 
+//Database
 export const db = getFirestore(firebaseApp);
 const userCollection = collection(db, 'users');
 const postCollection = collection(db, 'posts');
