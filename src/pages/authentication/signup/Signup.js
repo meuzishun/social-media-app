@@ -29,18 +29,6 @@ function Signup() {
 
   const handleSignupSubmit = async (e) => {
     e.preventDefault();
-    // const userId = uniqid();
-    // const avatarFilePath = `${userId}/avatar/${fileState.name}`;
-    // const user = {
-    //   ...formState,
-    //   id: userId,
-    //   avatar: avatarFilePath,
-    //   friendIds: [],
-    // };
-    // await uploadFileToStorage(fileState, avatarFilePath);
-    // const newUser = await addUser(user);
-    // setUser(newUser);
-    // navigate('/profile');
     const userCredential = await createFirebaseUser(
       formState.email,
       formState.password
@@ -51,7 +39,6 @@ function Signup() {
       displayName: formState.username,
       photoURL: avatarFilePath,
     });
-    console.log(userCredential);
     const firebaseUser = getCurrentFirebaseUser();
     const user = {
       fullName: formState.fullName,
@@ -63,7 +50,6 @@ function Signup() {
       friendIds: [],
     };
     const newUser = await addUser(user);
-    console.log(newUser);
     setUser(newUser);
     navigate('/profile');
   };

@@ -20,13 +20,6 @@ function Login() {
 
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
-    // const foundUser = await getUserByUsername(formState.username);
-    // if (!foundUser) {
-    //   console.log('no user found');
-    // }
-    // if (foundUser.password !== formState.password) {
-    //   console.log('incorrect password');
-    // }
     const firebaseUser = await signInFirebaseUser(
       formState.email,
       formState.password

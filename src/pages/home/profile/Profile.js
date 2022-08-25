@@ -1,7 +1,9 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { UserContext } from '../../../App';
 import {
+  getCurrentFirebaseUser,
   getFileFromStorage,
+  updateCurrentFirebaseUser,
   updateUserById,
   uploadFileToStorage,
 } from '../../../services/firebaseApp';
@@ -30,12 +32,18 @@ function Profile() {
 
   const handleProfileEditSubmit = async (e) => {
     e.preventDefault();
+    const currentFirebaseUser = getCurrentFirebaseUser();
     const updatedUser = { ...userState };
     if (fileState) {
       const avatarFilePath = `${user.id}/avatar/${fileState.name}`;
       updatedUser.avatar = avatarFilePath;
       await uploadFileToStorage(fileState, updatedUser.avatar);
     }
+    await updateCurrentFirebaseUser({
+      photoURL: updatedUser.avatar,
+      displayName: updatedUser.username,
+      email: updatedUser.email,
+    });
     const alteredUser = await updateUserById(updatedUser.id, updatedUser);
     setUser(alteredUser);
     setEditProfile(false);

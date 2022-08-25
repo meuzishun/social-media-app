@@ -112,7 +112,6 @@ const storage = getStorage(firebaseApp);
 export const uploadFileToStorage = async (file, path) => {
   const fileRef = ref(storage, path);
   const snapShot = await uploadBytes(fileRef, file);
-  console.log(snapShot);
   return;
 };
 
