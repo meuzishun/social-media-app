@@ -90,7 +90,7 @@ function App() {
   useEffect(() => {
     if (!user) {
       ((async) => {
-        navigate('/login');
+        navigate('/signup');
       })();
     }
     //* FOR TESTING PURPOSES
