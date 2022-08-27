@@ -18,14 +18,93 @@ function Login() {
     setFormState({ ...formState, [e.target.name]: e.target.value });
   };
 
+  const createErrorMsg = function (msg) {
+    const err = document.createElement('span');
+    err.classList.add('error-msg');
+    err.textContent = msg;
+    return err;
+  };
+
+  const deleteErrorMsg = function (input) {
+    if (input.nextElementSibling) {
+      input.parentElement.removeChild(
+        input.parentElement.querySelector('.error-msg')
+      );
+    }
+  };
+
+  const deleteAllErrorMsgs = function (form) {
+    form.querySelectorAll('input').forEach((input) => deleteErrorMsg(input));
+  };
+
+  const findError = function (input) {
+    if (input.validity.valueMissing) {
+      if (!input.nextElementSibling) {
+        input.parentElement.append(
+          createErrorMsg('Please enter a value for this input')
+        );
+      }
+    }
+    if (input.validity.typeMismatch) {
+      if (!input.nextElementSibling) {
+        input.parentElement.append(
+          createErrorMsg('Please enter the correct type for this input')
+        );
+      }
+    }
+    if (input.validity.patternMismatch) {
+      if (!input.nextElementSibling) {
+        input.parentElement.append(createErrorMsg('Please use proper format'));
+      }
+    }
+  };
+
+  const checkInput = function (e) {
+    const input = e.target;
+    if (input.validity.valid) {
+      deleteErrorMsg(input);
+    }
+  };
+
+  const checkValidation = function (form) {
+    let isFormValid = true;
+    deleteAllErrorMsgs(form);
+    form.querySelectorAll('input').forEach((input) => {
+      if (!input.validity.valid) {
+        findError(input);
+        isFormValid = false;
+      }
+    });
+    return isFormValid;
+  };
+
+  const validateInput = (e) => {
+    const input = e.target;
+    input.addEventListener('focusout', function (e) {
+      checkInput(e);
+      findError(input);
+      input.addEventListener('input', checkInput);
+    });
+  };
+
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
-    const firebaseUser = await signInFirebaseUser(
-      formState.email,
-      formState.password
-    );
+    if (!checkValidation(e.target)) {
+      return;
+    }
+    let firebaseUser = null;
+    try {
+      firebaseUser = await signInFirebaseUser(
+        formState.email,
+        formState.password
+      );
+    } catch (error) {
+      console.log(error.code);
+      console.log(error.message);
+    }
     if (!firebaseUser) {
       console.log('no firebase user found');
+      return;
     }
     const foundUser = await getUserById(firebaseUser.uid);
     setUser(foundUser);
@@ -41,23 +120,31 @@ function Login() {
     <div className='loginPage'>
       <Welcome />
       <h1 className='loginHeading'>log in</h1>
-      <form className='loginForm' onSubmit={handleLoginSubmit}>
-        <label htmlFor='email'>email</label>
-        <input
-          type='email'
-          id='email'
-          name='email'
-          defaultValue={formState.email}
-          onChange={handleInputChange}
-        />
-        <label htmlFor='password'>password</label>
-        <input
-          type='password'
-          id='password'
-          name='password'
-          defaultValue={formState.password}
-          onChange={handleInputChange}
-        />
+      <form className='loginForm' noValidate onSubmit={handleLoginSubmit}>
+        <div className='emailContainer'>
+          <label htmlFor='email'>email</label>
+          <input
+            type='email'
+            id='email'
+            name='email'
+            required
+            onInput={validateInput}
+            defaultValue={formState.email}
+            onChange={handleInputChange}
+          />
+        </div>
+        <div className='passwordContainer'>
+          <label htmlFor='password'>password</label>
+          <input
+            type='password'
+            id='password'
+            name='password'
+            required
+            onInput={validateInput}
+            defaultValue={formState.password}
+            onChange={handleInputChange}
+          />
+        </div>
         <button type='submit'>log in</button>
       </form>
       <button type='button' onClick={handleSignupClick}>
