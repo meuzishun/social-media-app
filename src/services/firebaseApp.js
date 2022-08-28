@@ -170,6 +170,17 @@ export const getUserByUsername = async (username) => {
   return user || false;
 };
 
+export const getUsersByUsername = async (username) => {
+  const usersQuery = query(userCollection, where('username', '==', username));
+  const querySnapshot = await getDocs(usersQuery);
+  const users = [];
+  querySnapshot.forEach((doc) => {
+    const user = doc.data();
+    users.push(user);
+  });
+  return users;
+};
+
 export const getAllUsers = async () => {
   const users = [];
   const userSnapshot = await getDocs(userCollection);

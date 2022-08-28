@@ -88,17 +88,18 @@ function App() {
   // }, [network]);
 
   useEffect(() => {
-    if (!user) {
-      ((async) => {
-        navigate('/login');
-      })();
-    }
+    // if (!user) {
+    //   ((async) => {
+    //     navigate('/login');
+    //   })();
+    // }
     //* FOR TESTING PURPOSES
-    // (async () => {
-    //   const user = await getUserByUsername('meuzishun');
-    //   setUser(user);
-    //   navigate('/timeline');
-    // })();
+    (async () => {
+      const user = await getUserByUsername('Smitty');
+      console.log(user);
+      setUser(user);
+      navigate('/network');
+    })();
     //! MOCKED VERSION
     // setUser(fake_users[0]);
   }, []);

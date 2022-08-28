@@ -19,6 +19,7 @@
   height: 10rem;
   width: 10rem;
   border-radius: 1000px;
+  object-fit: cover;
 }
 
 .profileContainer button {

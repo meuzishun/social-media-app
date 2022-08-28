@@ -17,3 +17,9 @@
   background-color: green;
   color: #fff;
 }
+
+.searchResults {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}

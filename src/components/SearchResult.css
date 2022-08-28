@@ -1,0 +1,25 @@
+.singleResult {
+  display: flex;
+  gap: 3rem;
+  align-items: center;
+  padding: 2rem;
+  border-radius: 1.5rem;
+  box-shadow: 0 0.25rem 0.25rem rgba(0, 0, 0, 0.25);
+}
+
+.singleResult > img {
+  height: 5rem;
+  width: 5rem;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.singleResult > p {
+  font-size: 1.5rem;
+}
+
+.singleResult > button {
+  text-transform: capitalize;
+  color: #fff;
+  background-color: green;
+}

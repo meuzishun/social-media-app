@@ -16,13 +16,15 @@ function Network({ network }) {
         {addFriendState ? (
           <AddFriendForm handleAddState={handleAddState} />
         ) : (
-          <button type='button' onClick={handleAddState}>
-            add friend
-          </button>
+          <>
+            <button type='button' onClick={handleAddState}>
+              add friend
+            </button>
+            {network.map((friend) => (
+              <Friend key={friend.id} friend={friend} />
+            ))}
+          </>
         )}
-        {network.map((friend) => (
-          <Friend key={friend.id} friend={friend} />
-        ))}
       </div>
     </div>
   );
