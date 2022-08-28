@@ -16,6 +16,7 @@
   width: 5rem;
   height: 5rem;
   border-radius: 1000px;
+  object-fit: cover;
 }
 
 .friendContainer .username {

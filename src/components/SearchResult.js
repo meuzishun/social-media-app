@@ -1,9 +1,40 @@
-import React, { useEffect, useState } from 'react';
-import { getFileFromStorage } from '../services/firebaseApp';
+import React, { useEffect, useState, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { UserContext } from '../App';
+import { AddState } from '../pages/home/network/Network';
+import {
+  getFileFromStorage,
+  getUserByUsername,
+  addIdToUserFriendIds,
+} from '../services/firebaseApp';
 import './SearchResult.css';
 
-export default function SearchResult({ result, handleAddFriendSubmit }) {
+export default function SearchResult({ result }) {
+  const { user, setUser } = useContext(UserContext);
+  const handleAddState = useContext(AddState);
   const [avatarUrl, setAvatarUrl] = useState(null);
+  const navigate = useNavigate();
+
+  const handleAddFriendSubmit = async (e) => {
+    e.preventDefault();
+    const friend = await getUserByUsername(e.target.dataset.username);
+    if (!friend) {
+      console.log('no user found');
+      return;
+    }
+    if (user.friendIds.includes(friend.id)) {
+      console.log('user already in network');
+      return;
+    }
+    if (friend.id === user.id) {
+      console.log('cannot add yourself');
+      return;
+    }
+    const alteredUser = await addIdToUserFriendIds(user.id, friend.id);
+    setUser(alteredUser);
+    handleAddState();
+    navigate('/network');
+  };
 
   useEffect(() => {
     getFileFromStorage(result.avatar).then((url) => setAvatarUrl(url));
