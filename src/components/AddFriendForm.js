@@ -9,7 +9,7 @@ function AddFriendForm() {
   const [usernameSearch, setUsernameSearch] = useState(null);
   const [searchResults, setSearchResults] = useState([]);
   const { user } = useContext(UserContext);
-  const { handleAddState } = useContext(AddState);
+  const handleAddState = useContext(AddState);
   const searchInputRef = useRef(null);
 
   const handleInputChange = (e) => {
