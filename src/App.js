@@ -3,6 +3,7 @@ import React, { useEffect, useState, createContext } from 'react';
 import { Routes, Route, useNavigate } from 'react-router-dom';
 
 //* Component imports
+import Modal from './components/Modal';
 import Login from './pages/authentication/login/Login';
 import Signup from './pages/authentication/signup/Signup';
 import Header from './components/Header';
@@ -28,10 +29,14 @@ import { fake_posts, fake_users } from './fake_data/fake_data';
 export const AuthFunctions = createContext();
 export const AppFunctions = createContext();
 export const UserContext = createContext();
+export const ModalContext = createContext();
+export const PopupContext = createContext();
 
 function App() {
   //* Hooks
   const [user, setUser] = useState(null);
+  const [displayModal, setDisplayModal] = useState(false);
+  const [popupContent, setPopupContent] = useState(null);
   const [network, setNetwork] = useState([]);
   const [timeline, setTimeline] = useState([]);
   const [feed, setFeed] = useState([]);
@@ -98,7 +103,7 @@ function App() {
       const user = await getUserByUsername('Smitty');
       console.log(user);
       setUser(user);
-      navigate('/network');
+      navigate('/profile');
     })();
     //! MOCKED VERSION
     // setUser(fake_users[0]);
@@ -106,25 +111,35 @@ function App() {
 
   return (
     <div className='App'>
-      <UserContext.Provider value={{ user, setUser }}>
-        {!user ? (
-          <Routes>
-            <Route path='/login' element={<Login />} />
-            <Route path='/signup' element={<Signup />} />
-          </Routes>
-        ) : (
-          <>
-            <Header user={user} />
-            <Routes>
-              <Route path='/profile' element={<Profile user={user} />} />
-              <Route path='/network' element={<Network network={network} />} />
-              <Route path='/timeline' element={<Timeline />} />
-              <Route path='/feed' element={<Feed />} />
-            </Routes>
-            <Footer />
-          </>
-        )}
-      </UserContext.Provider>
+      <ModalContext.Provider value={{ displayModal, setDisplayModal }}>
+        <PopupContext.Provider value={{ popupContent, setPopupContent }}>
+          {displayModal ? (
+            <Modal>{popupContent ? popupContent : null}</Modal>
+          ) : null}
+          <UserContext.Provider value={{ user, setUser }}>
+            {!user ? (
+              <Routes>
+                <Route path='/login' element={<Login />} />
+                <Route path='/signup' element={<Signup />} />
+              </Routes>
+            ) : (
+              <>
+                <Header user={user} />
+                <Routes>
+                  <Route path='/profile' element={<Profile user={user} />} />
+                  <Route
+                    path='/network'
+                    element={<Network network={network} />}
+                  />
+                  <Route path='/timeline' element={<Timeline />} />
+                  <Route path='/feed' element={<Feed />} />
+                </Routes>
+                <Footer />
+              </>
+            )}
+          </UserContext.Provider>
+        </PopupContext.Provider>
+      </ModalContext.Provider>
     </div>
   );
 }

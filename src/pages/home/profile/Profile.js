@@ -1,5 +1,8 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { UserContext } from '../../../App';
+import { ModalContext } from '../../../App';
+import { PopupContext } from '../../../App';
+import TestForm from '../../../components/TestForm';
 import {
   getCurrentFirebaseUser,
   getFileFromStorage,
@@ -11,6 +14,8 @@ import './Profile.css';
 
 function Profile() {
   const { user, setUser } = useContext(UserContext);
+  const { displayModal, setDisplayModal } = useContext(ModalContext);
+  const { popupContent, setPopupContent } = useContext(PopupContext);
   const [userState, setUserState] = useState(null);
   const [avatar, setAvatar] = useState(null);
   const [editProfile, setEditProfile] = useState(false);
@@ -22,6 +27,11 @@ function Profile() {
 
   const handleInputChange = (e) => {
     setUserState({ ...userState, [e.target.name]: e.target.value });
+  };
+
+  const handleModalShow = (e) => {
+    setPopupContent(<TestForm />);
+    setDisplayModal(true);
   };
 
   const handleFileChange = (e) => {
@@ -72,7 +82,8 @@ function Profile() {
             <h2>username: {user.username}</h2>
             <p>email: {user.email}</p>
             <p>bio: {user.bio}</p>
-            <button onClick={toggleEdit}>edit</button>
+            {/* <button onClick={toggleEdit}>edit</button> */}
+            <button onClick={handleModalShow}>edit</button>
           </div>
         ) : (
           <form className='profileForm' onSubmit={handleProfileEditSubmit}>
