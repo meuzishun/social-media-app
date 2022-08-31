@@ -100,7 +100,7 @@ function App() {
     // }
     //* FOR TESTING PURPOSES
     (async () => {
-      const user = await getUserByUsername('Smitty');
+      const user = await getUserByUsername('Andrew');
       setUser(user);
       navigate('/profile');
     })();
