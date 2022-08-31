@@ -16,15 +16,7 @@ import Footer from './components/Footer';
 import './App.css';
 
 //* Database imports
-import {
-  getUserByUsername,
-  getUsersByIdList,
-  getPostsByAuthorId,
-} from './services/firebaseApp';
-
-//* Library imports
-import uniqid from 'uniqid';
-import { fake_posts, fake_users } from './fake_data/fake_data';
+import { getUserByUsername, getUsersByIdList } from './services/firebaseApp';
 
 export const AuthFunctions = createContext();
 export const AppFunctions = createContext();
@@ -38,74 +30,22 @@ function App() {
   const [displayModal, setDisplayModal] = useState(false);
   const [popupContent, setPopupContent] = useState(null);
   const [network, setNetwork] = useState([]);
-  const [timeline, setTimeline] = useState([]);
-  const [feed, setFeed] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
-    // if (user) {
-    //   navigate('/timeline');
-    // }
     setNetwork([]);
     if (user && user.friendIds.length > 0) {
       getUsersByIdList(user.friendIds).then((friends) => setNetwork(friends));
-      //   //! MOCKED VERSION
-      //   // setNetwork(
-      //   //   user.friends.map((id) => fake_users.find((user) => user.id === id))
-      //   // );
     }
-
-    // setTimeline([]);
-    // if (user) {
-    //   getPostsByAuthorId(user.id).then((posts) => {
-    //     setTimeline(posts);
-    //   });
-    // }
-    // if (user && user.posts.length > 0) {
-    //   //* Put actual posts in timeline:
-    //   // getPostsByIdList(user.posts).then((posts) => setTimeline(posts));
-    //   //* Put post ids in timeline:
-    //   setTimeline(user.posts);
-
-    //   //! MOCKED VERSION
-    //   // setTimeline(
-    //   //   user.posts.map((id) => fake_posts.find((post) => post.id === id))
-    //   // );
-    // }
   }, [user]);
 
-  // useEffect(() => {
-  // setFeed([]);
-  // if (network.length > 0) {
-  // const friendPostIds = network.map((friend) => friend.posts).flat();
-  //* Put actual posts in feed:
-  // getPostsByIdList(friendPostIds).then((posts) => setFeed(posts));
-  //* Put post ids in feed:
-  // setFeed(friendPostIds);
-  //! MOCKED VERSION
-  // setFeed(
-  //   network
-  //     .map((friend) => friend.posts)
-  //     .flat()
-  //     .map((id) => fake_posts.find((post) => post.id === id))
-  // );
-  // }
-  // }, [network]);
-
   useEffect(() => {
-    // if (!user) {
-    //   ((async) => {
-    //     navigate('/login');
-    //   })();
-    // }
     //* FOR TESTING PURPOSES
     (async () => {
       const user = await getUserByUsername('Andrew');
       setUser(user);
       navigate('/profile');
     })();
-    //! MOCKED VERSION
-    // setUser(fake_users[0]);
   }, []);
 
   return (
@@ -123,7 +63,7 @@ function App() {
               </Routes>
             ) : (
               <>
-                <Header user={user} />
+                <Header />
                 <Routes>
                   <Route path='/profile' element={<Profile />} />
                   <Route
