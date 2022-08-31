@@ -4,15 +4,23 @@
   left: 0;
   width: 100%;
   height: 100vh;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.75);
   z-index: 100;
 
   display: grid;
   place-content: center center;
 }
 
-.modalBackground > * {
-  background-color: #fff;
-  padding: 5rem;
-  font-size: 2rem;
+.modalBackground > div {
+  box-shadow: 1rem 1rem 3rem rgba(0, 0, 0, 0.85);
 }
+
+/* .modalBackground > div {
+  box-shadow: 1rem 1rem 3rem rgba(0, 0, 0, 0.85);
+  transform: translateY(-100vh);
+  transition: all 500ms ease-in-out;
+}
+
+.modalBackground:hover > div {
+  transform: translateY(0vh);
+} */

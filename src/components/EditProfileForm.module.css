@@ -1,0 +1,43 @@
+.formContainer {
+  background-color: #fff;
+  padding: 2rem;
+  border-radius: 0.5rem;
+}
+
+.formContainer > .formTitle {
+  font-size: 2rem;
+  font-weight: normal;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.profileForm {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.profileForm > div {
+  display: flex;
+  flex-direction: column;
+}
+
+.profileForm > .bioContainer > textarea {
+  padding: 0.5rem;
+}
+
+.profileForm > .btnContainer {
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 3rem;
+}
+
+.profileForm > .btnContainer > button {
+  text-transform: capitalize;
+}
+
+.profileForm > .btnContainer > button[type='submit'] {
+  color: #fff;
+  background-color: rgb(0, 119, 255);
+}

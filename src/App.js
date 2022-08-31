@@ -101,7 +101,6 @@ function App() {
     //* FOR TESTING PURPOSES
     (async () => {
       const user = await getUserByUsername('Smitty');
-      console.log(user);
       setUser(user);
       navigate('/profile');
     })();
@@ -113,10 +112,10 @@ function App() {
     <div className='App'>
       <ModalContext.Provider value={{ displayModal, setDisplayModal }}>
         <PopupContext.Provider value={{ popupContent, setPopupContent }}>
-          {displayModal ? (
-            <Modal>{popupContent ? popupContent : null}</Modal>
-          ) : null}
           <UserContext.Provider value={{ user, setUser }}>
+            {displayModal ? (
+              <Modal>{popupContent ? popupContent : null}</Modal>
+            ) : null}
             {!user ? (
               <Routes>
                 <Route path='/login' element={<Login />} />
