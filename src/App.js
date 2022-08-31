@@ -125,7 +125,7 @@ function App() {
               <>
                 <Header user={user} />
                 <Routes>
-                  <Route path='/profile' element={<Profile user={user} />} />
+                  <Route path='/profile' element={<Profile />} />
                   <Route
                     path='/network'
                     element={<Network network={network} />}
