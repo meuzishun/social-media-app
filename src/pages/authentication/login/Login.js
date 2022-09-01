@@ -104,6 +104,9 @@ function Login() {
     }
     if (!firebaseUser) {
       console.log('no firebase user found');
+      e.target
+        .querySelector('#email')
+        .parentElement.append(createErrorMsg('No user found'));
       return;
     }
     const foundUser = await getUserById(firebaseUser.uid);
