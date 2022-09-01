@@ -141,6 +141,10 @@ function Signup() {
     navigate('/login');
   };
 
+  useEffect(() => {
+    signupForm.current.email.focus();
+  }, []);
+
   return (
     <div className='signupPage'>
       <header>
