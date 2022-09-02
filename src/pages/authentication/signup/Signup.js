@@ -148,11 +148,18 @@ function Signup() {
   return (
     <div className='signupPage'>
       <header>
-        <h1>sign up</h1>
+        <div className='logoContainer'>
+          <span
+            className='iconify'
+            data-icon='mdi-alpha-f-circle-outline'
+          ></span>
+          <h1>akebook</h1>
+        </div>
         <button type='button' className='loginBtn' onClick={handleLoginClick}>
           log in
         </button>
       </header>
+      <h2>sign up</h2>
       <form
         className='signupForm'
         noValidate
