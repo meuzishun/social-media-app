@@ -13,7 +13,7 @@ import Timeline from './pages/home/timeline/Timeline';
 import Feed from './pages/home/feed/Feed';
 import Footer from './components/Footer';
 
-import './App.css';
+import styles from './App.module.css';
 
 //* Database imports
 import { getUserByUsername, getUsersByIdList } from './services/firebaseApp';
@@ -41,16 +41,16 @@ function App() {
 
   useEffect(() => {
     //* FOR TESTING PURPOSES
-    navigate('/signup');
-    // (async () => {
-    //   const user = await getUserByUsername('Andrew');
-    //   setUser(user);
-    //   navigate('/network');
-    // })();
+    // navigate('/signup');
+    (async () => {
+      const user = await getUserByUsername('Andrew');
+      setUser(user);
+      navigate('/feed');
+    })();
   }, []);
 
   return (
-    <div className='App'>
+    <div className={styles.App}>
       <ModalContext.Provider value={{ displayModal, setDisplayModal }}>
         <PopupContext.Provider value={{ popupContent, setPopupContent }}>
           <UserContext.Provider value={{ user, setUser }}>
