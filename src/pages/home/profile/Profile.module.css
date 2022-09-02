@@ -1,3 +1,7 @@
+.profilePage {
+  background-color: #fafafa;
+}
+
 .profileContainer {
   display: flex;
   flex-direction: column;

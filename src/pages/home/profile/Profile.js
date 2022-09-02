@@ -3,8 +3,8 @@ import { UserContext } from '../../../App';
 import { ModalContext } from '../../../App';
 import { PopupContext } from '../../../App';
 import { getFileFromStorage } from '../../../services/firebaseApp';
-import './Profile.css';
 import EditProfileForm from '../../../components/EditProfileForm';
+import styles from './Profile.module.css';
 
 function Profile() {
   const { user } = useContext(UserContext);
@@ -22,9 +22,9 @@ function Profile() {
   }, [user]);
 
   return (
-    <div className='profilePage'>
+    <div className={styles.profilePage}>
       {user ? (
-        <div className='profileContainer'>
+        <div className={styles.profileContainer}>
           <img src={avatar} alt='user avatar' />
           <h1>name: {user.fullName}</h1>
           <h2>username: {user.username}</h2>
