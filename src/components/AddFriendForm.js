@@ -1,6 +1,7 @@
 import React, { useContext, useState, useRef, useEffect } from 'react';
 import { UserContext } from '../App';
-import { AddState } from '../pages/home/network/Network';
+import { ModalContext } from '../App';
+import { PopupContext } from '../App';
 import { getUsersByUsername } from '../services/firebaseApp';
 import './AddFriendForm.css';
 import SearchResult from './SearchResult';
@@ -9,7 +10,8 @@ function AddFriendForm() {
   const [usernameSearch, setUsernameSearch] = useState(null);
   const [searchResults, setSearchResults] = useState([]);
   const { user } = useContext(UserContext);
-  const handleAddState = useContext(AddState);
+  const { setDisplayModal } = useContext(ModalContext);
+  const { setPopupContent } = useContext(PopupContext);
   const searchInputRef = useRef(null);
 
   const handleInputChange = (e) => {
@@ -24,26 +26,35 @@ function AddFriendForm() {
     setSearchResults(filteredResults);
   };
 
+  const handleCancelClick = () => {
+    setPopupContent(null);
+    setDisplayModal(false);
+  };
+
   useEffect(() => {
     searchInputRef.current.focus();
   }, []);
 
   return (
-    <>
+    <div className='formContainer'>
       <form className='addFriendForm' onSubmit={handleSearchSubmit}>
-        <label>search for username</label>
-        <input
-          type='search'
-          id='username'
-          name='username'
-          ref={searchInputRef}
-          defaultValue={usernameSearch}
-          onChange={handleInputChange}
-        />
-        <button type='submit'>search</button>
-        <button type='button' onClick={handleAddState}>
-          cancel
-        </button>
+        <div className='inputContainer'>
+          <label>search for username</label>
+          <input
+            type='search'
+            id='username'
+            name='username'
+            ref={searchInputRef}
+            defaultValue={usernameSearch}
+            onChange={handleInputChange}
+          />
+        </div>
+        <div className='buttonContainer'>
+          <button type='submit'>search</button>
+          <button type='button' onClick={handleCancelClick}>
+            cancel
+          </button>
+        </div>
       </form>
       {searchResults.length > 0 ? (
         <div className='searchResults'>
@@ -52,7 +63,7 @@ function AddFriendForm() {
           ))}
         </div>
       ) : null}
-    </>
+    </div>
   );
 }
 

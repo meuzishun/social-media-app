@@ -1,35 +1,29 @@
-import React, { useState, createContext } from 'react';
+import React, { useContext } from 'react';
+import { ModalContext } from '../../../App';
+import { PopupContext } from '../../../App';
 import Friend from '../../../components/Friend';
 import AddFriendForm from '../../../components/AddFriendForm';
 import './Network.css';
 
-export const AddState = createContext();
-
 function Network({ network }) {
-  const [addFriendState, setAddFriendState] = useState(false);
+  const { setDisplayModal } = useContext(ModalContext);
+  const { setPopupContent } = useContext(PopupContext);
 
-  const handleAddState = () => {
-    setAddFriendState(!addFriendState);
+  const handleFriendSearch = () => {
+    setPopupContent(<AddFriendForm />);
+    setDisplayModal(true);
   };
 
   return (
     <div className='networkPage'>
-      <AddState.Provider value={handleAddState}>
-        <div className='networkContainer'>
-          {addFriendState ? (
-            <AddFriendForm />
-          ) : (
-            <>
-              <button type='button' onClick={handleAddState}>
-                add friend
-              </button>
-              {network.map((friend) => (
-                <Friend key={friend.id} friend={friend} />
-              ))}
-            </>
-          )}
-        </div>
-      </AddState.Provider>
+      <div className='networkContainer'>
+        <button type='button' onClick={handleFriendSearch}>
+          add friend
+        </button>
+        {network.map((friend) => (
+          <Friend key={friend.id} friend={friend} />
+        ))}
+      </div>
     </div>
   );
 }

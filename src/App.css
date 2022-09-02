@@ -14,7 +14,7 @@
 label {
   text-transform: capitalize;
   font-size: 0.7rem;
-  margin-left: 0.65rem;
+  /* margin-left: 0.65rem; */
 }
 
 button {
@@ -22,6 +22,7 @@ button {
   /* border-radius: 1000px; */
   border-radius: 0.5rem;
   transition: all 200ms ease-in-out;
+  text-transform: capitalize;
 }
 
 input {
@@ -37,7 +38,8 @@ button {
 input:focus,
 button:hover,
 button:focus {
-  box-shadow: 0.15rem 0.15rem 0.15rem rgba(0, 0, 0, 0.259);
+  box-shadow: 0.15rem 0.15rem 0.3rem rgba(0, 0, 0, 0.25);
+  outline: none;
 }
 
 button:active {

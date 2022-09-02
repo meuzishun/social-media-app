@@ -8,7 +8,7 @@
   z-index: 100;
 
   display: grid;
-  place-content: center center;
+  place-content: start center;
 }
 
 .modalBackground > div {

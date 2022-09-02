@@ -1,7 +1,8 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../App';
-import { AddState } from '../pages/home/network/Network';
+import { ModalContext } from '../App';
+import { PopupContext } from '../App';
 import {
   getFileFromStorage,
   getUserByUsername,
@@ -11,7 +12,8 @@ import './SearchResult.css';
 
 export default function SearchResult({ result }) {
   const { user, setUser } = useContext(UserContext);
-  const handleAddState = useContext(AddState);
+  const { setDisplayModal } = useContext(ModalContext);
+  const { setPopupContent } = useContext(PopupContext);
   const [avatarUrl, setAvatarUrl] = useState(null);
   const navigate = useNavigate();
 
@@ -32,7 +34,8 @@ export default function SearchResult({ result }) {
     }
     const alteredUser = await addIdToUserFriendIds(user.id, friend.id);
     setUser(alteredUser);
-    handleAddState();
+    setPopupContent(null);
+    setDisplayModal(false);
     navigate('/network');
   };
 

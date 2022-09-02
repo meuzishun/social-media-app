@@ -41,12 +41,12 @@ function App() {
 
   useEffect(() => {
     //* FOR TESTING PURPOSES
-    navigate('login');
-    // (async () => {
-    //   const user = await getUserByUsername('Andrew');
-    //   setUser(user);
-    //   navigate('/profile');
-    // })();
+    // navigate('login');
+    (async () => {
+      const user = await getUserByUsername('Andrew');
+      setUser(user);
+      navigate('/network');
+    })();
   }, []);
 
   return (
