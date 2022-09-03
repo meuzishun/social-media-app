@@ -1,8 +1,8 @@
 import React from 'react';
-import './Modal.css';
+import styles from './Modal.module.css';
 
 function Modal(props) {
-  return <div className='modalBackground'>{props.children}</div>;
+  return <div className={styles.modalBackground}>{props.children}</div>;
 }
 
 export default Modal;
