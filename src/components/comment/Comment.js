@@ -3,7 +3,7 @@ import CommentContent from './CommentContent';
 import ReplyForm from '../reply/ReplyForm';
 import Reply from '../reply/Reply';
 import { getPostsByParentId } from '../../services/firebaseApp';
-import './Comment.css';
+import styles from './Comment.module.css';
 
 function Comment({ comment }) {
   const [commentState, setCommentState] = useState(null);
@@ -37,7 +37,7 @@ function Comment({ comment }) {
   }, []);
 
   return (
-    <div className='comment'>
+    <div className={styles.comment}>
       {commentState ? (
         <>
           <CommentContent
@@ -52,7 +52,7 @@ function Comment({ comment }) {
             <>
               <button
                 type='button'
-                className='showCommentsBtn'
+                className={styles.showCommentsBtn}
                 ref={showRepliesBtn}
                 onClick={handleShowRepliesClick}
               >
@@ -60,13 +60,16 @@ function Comment({ comment }) {
               </button>
               <button
                 type='button'
-                className='hideRepliesBtn hidden'
+                className={`${styles.hideRepliesBtn} ${styles.hidden}`}
                 ref={hideRepliesBtn}
                 onClick={handleHideRepliesClick}
               >
                 hide replies
               </button>
-              <div className='replies hidden' ref={repliesContainer}>
+              <div
+                className={`${styles.replies} ${styles.hidden}`}
+                ref={repliesContainer}
+              >
                 {replies.map((reply) => (
                   <Reply key={reply.id} reply={reply} />
                 ))}
