@@ -2,7 +2,7 @@ import React, { useContext, useState, useRef, useEffect } from 'react';
 import { UserContext } from '../../App';
 import uniqid from 'uniqid';
 import { addPost, uploadFileToStorage } from '../../services/firebaseApp';
-import './ReplyForm.css';
+import styles from './ReplyForm.module.css';
 
 function ReplyForm2({ reply, getAndSetReplyReplies }) {
   const { user } = useContext(UserContext);
@@ -60,15 +60,19 @@ function ReplyForm2({ reply, getAndSetReplyReplies }) {
   return (
     <>
       {!displayForm ? (
-        <button type='button' className='addReplyBtn' onClick={handleAddClick}>
+        <button
+          type='button'
+          className={styles.addReplyBtn}
+          onClick={handleAddClick}
+        >
           add reply
         </button>
       ) : (
-        <form className='addReplyForm' onSubmit={handleReplySubmit}>
+        <form className={styles.addReplyForm} onSubmit={handleReplySubmit}>
           <input
             type='text'
             name='addReply'
-            className='textInput'
+            className={styles.textInput}
             placeholder='reply'
             defaultValue={input}
             onChange={handleInputChange}
@@ -77,17 +81,17 @@ function ReplyForm2({ reply, getAndSetReplyReplies }) {
           <input
             type='file'
             id='file'
-            className='fileInput'
+            className={styles.fileInput}
             name='file'
             accept='image/png, image/jpeg'
             onChange={handleFileChange}
           ></input>
-          <button type='submit' className='submitBtn'>
+          <button type='submit' className={styles.submitBtn}>
             submit
           </button>
           <button
             type='button'
-            className='cancelBtn'
+            className={styles.cancelBtn}
             onClick={handleInputCancel}
           >
             cancel
