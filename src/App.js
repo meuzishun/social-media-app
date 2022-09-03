@@ -46,15 +46,15 @@ function App() {
 
   useEffect(() => {
     //* FOR TESTING PURPOSES
-    navigate('/signup');
-    // signInFirebaseUser('asmith@email.com', 'password')
-    //   .then((firebaseUser) => {
-    //     return getUserById(firebaseUser.uid);
-    //   })
-    //   .then((user) => {
-    //     setUser(user);
-    //     navigate('/network');
-    //   });
+    // navigate('/signup');
+    signInFirebaseUser('asmith@email.com', 'password')
+      .then((firebaseUser) => {
+        return getUserById(firebaseUser.uid);
+      })
+      .then((user) => {
+        setUser(user);
+        navigate('/network');
+      });
   }, []);
 
   return (
