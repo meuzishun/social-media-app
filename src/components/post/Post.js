@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import PostContent from './PostContent';
 import CommentForm from '../comment/CommentForm';
 import Comment from '../comment/Comment';
-import './Post.css';
+import styles from './Post.module.css';
 import { getPostsByParentId } from '../../services/firebaseApp';
 
 function Post({ post }) {
@@ -39,7 +39,7 @@ function Post({ post }) {
   return (
     <>
       {postState ? (
-        <div className='post'>
+        <div className={styles.post}>
           <PostContent postState={postState} setPostState={setPostState} />
           <CommentForm
             post={post}
@@ -49,7 +49,7 @@ function Post({ post }) {
             <>
               <button
                 type='button'
-                className='showCommentsBtn'
+                className={styles.showCommentsBtn}
                 ref={showCommentsBtn}
                 onClick={handleShowCommentsClick}
               >
@@ -57,13 +57,16 @@ function Post({ post }) {
               </button>
               <button
                 type='button'
-                className='hideCommentsBtn hidden'
+                className={`${styles.hideCommentsBtn} ${styles.hidden}`}
                 ref={hideCommentsBtn}
                 onClick={handleHideCommentsClick}
               >
                 hide comments
               </button>
-              <div className='comments hidden' ref={commentsContainer}>
+              <div
+                className={`${styles.comments} ${styles.hidden}`}
+                ref={commentsContainer}
+              >
                 {comments.map((comment) => (
                   <Comment key={comment.id} comment={comment} />
                 ))}

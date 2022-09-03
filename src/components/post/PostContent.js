@@ -9,7 +9,7 @@ import {
   deletePostsByParentId,
   removeFileFromStorage,
 } from '../../services/firebaseApp';
-import './PostContent.css';
+import styles from './PostContent.module.css';
 
 function PostContent({ postState, setPostState }) {
   const [author, setAuthor] = useState(null);
@@ -71,9 +71,9 @@ function PostContent({ postState, setPostState }) {
   return (
     <>
       {author ? (
-        <div className='postContent'>
-          <img src={avatar} alt='avatar' className='avatar' />
-          <p className='username'>{author.username}</p>
+        <div className={styles.postContent}>
+          <img src={avatar} alt='avatar' className={styles.avatar} />
+          <p className={styles.username}>{author.username}</p>
           <hr />
           {!editMode ? (
             <>
@@ -81,14 +81,14 @@ function PostContent({ postState, setPostState }) {
                 <>
                   <button
                     type='button'
-                    className='editBtn'
+                    className={styles.editBtn}
                     onClick={handleEditClick}
                   >
                     edit
                   </button>
                   <button
                     type='button'
-                    className='delBtn'
+                    className={styles.delBtn}
                     onClick={handleDeleteClick}
                   >
                     delete
@@ -99,13 +99,13 @@ function PostContent({ postState, setPostState }) {
           ) : null}
           {!editMode ? (
             <>
-              <p className='content'>{postState.content}</p>
+              <p className={styles.content}>{postState.content}</p>
               {file ? (
-                <img src={file} alt='post file' className='postFile' />
+                <img src={file} alt='post file' className={styles.postFile} />
               ) : null}
             </>
           ) : (
-            <form className='postEditForm' onSubmit={handleInputSubmit}>
+            <form className={styles.postEditForm} onSubmit={handleInputSubmit}>
               <input
                 type='text'
                 name='postEdit'
@@ -113,12 +113,12 @@ function PostContent({ postState, setPostState }) {
                 onChange={handleInputChange}
                 ref={inputElem}
               />
-              <button type='submit' className='submitBtn'>
+              <button type='submit' className={styles.submitBtn}>
                 submit
               </button>
               <button
                 type='button'
-                className='cancelBtn'
+                className={styles.cancelBtn}
                 onClick={handleInputCancel}
               >
                 cancel
