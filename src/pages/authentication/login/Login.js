@@ -7,7 +7,7 @@ import {
   getUserById,
   signInFirebaseUser,
 } from '../../../services/firebaseApp';
-import '../login/Login.css';
+import styles from './Login.module.css';
 
 function Login() {
   const [formState, setFormState] = useState({});
@@ -120,10 +120,14 @@ function Login() {
   };
 
   return (
-    <div className='loginPage'>
+    <div className={styles.loginPage}>
       <Welcome />
-      <h1 className='loginHeading'>log in</h1>
-      <form className='loginForm' noValidate onSubmit={handleLoginSubmit}>
+      <h1 className={styles.loginHeading}>log in</h1>
+      <form
+        className={styles.loginForm}
+        noValidate
+        onSubmit={handleLoginSubmit}
+      >
         <div className='emailContainer'>
           <label htmlFor='email'>email</label>
           <input

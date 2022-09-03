@@ -16,7 +16,12 @@ import Footer from './components/Footer';
 import styles from './App.module.css';
 
 //* Database imports
-import { getUserByUsername, getUsersByIdList } from './services/firebaseApp';
+import {
+  getUserById,
+  getUserByUsername,
+  getUsersByIdList,
+  signInFirebaseUser,
+} from './services/firebaseApp';
 
 export const AuthFunctions = createContext();
 export const AppFunctions = createContext();
@@ -41,12 +46,15 @@ function App() {
 
   useEffect(() => {
     //* FOR TESTING PURPOSES
-    // navigate('/signup');
-    (async () => {
-      const user = await getUserByUsername('Andrew');
-      setUser(user);
-      navigate('/network');
-    })();
+    // navigate('/login');
+    signInFirebaseUser('asmith@email.com', 'password')
+      .then((firebaseUser) => {
+        return getUserById(firebaseUser.uid);
+      })
+      .then((user) => {
+        setUser(user);
+        navigate('/network');
+      });
   }, []);
 
   return (

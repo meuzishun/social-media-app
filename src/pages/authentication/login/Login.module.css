@@ -30,6 +30,7 @@
   /* margin-bottom: 2rem; */
 }
 
+/*! Not working */
 .loginForm > div > .error-msg {
   position: absolute;
   font-size: 0.8rem;
