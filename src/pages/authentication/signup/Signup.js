@@ -9,7 +9,7 @@ import {
   updateCurrentFirebaseUser,
 } from '../../../services/firebaseApp';
 import uniqid from 'uniqid';
-import './Signup.css';
+import styles from './Signup.module.css';
 
 function Signup() {
   const [formState, setFormState] = useState({});
@@ -146,27 +146,31 @@ function Signup() {
   }, []);
 
   return (
-    <div className='signupPage'>
+    <div className={styles.signupPage}>
       <header>
-        <div className='logoContainer'>
+        <div className={styles.logoContainer}>
           <span
             className='iconify'
             data-icon='mdi-alpha-f-circle-outline'
           ></span>
           <h1>akebook</h1>
         </div>
-        <button type='button' className='loginBtn' onClick={handleLoginClick}>
+        <button
+          type='button'
+          className={styles.loginBtn}
+          onClick={handleLoginClick}
+        >
           log in
         </button>
       </header>
       <h2>sign up</h2>
       <form
-        className='signupForm'
+        className={styles.signupForm}
         noValidate
         ref={signupForm}
         onSubmit={handleSignupSubmit}
       >
-        <div className='emailContainer'>
+        <div className={styles.emailContainer}>
           <label htmlFor='email'>email</label>
           <input
             type='email'
@@ -178,7 +182,7 @@ function Signup() {
             onChange={handleInputChange}
           />
         </div>
-        <div className='passwordContainer'>
+        <div className={styles.passwordContainer}>
           <label htmlFor='password'>create password</label>
           <input
             type='password'
@@ -190,7 +194,7 @@ function Signup() {
             onChange={handleInputChange}
           />
         </div>
-        <div className='repasswordContainer'>
+        <div className={styles.repasswordContainer}>
           <label htmlFor='repassword'>retype password</label>
           <input
             type='password'
@@ -202,7 +206,7 @@ function Signup() {
             onChange={handleInputChange}
           />
         </div>
-        <div className='fullNameContainer'>
+        <div className={styles.fullNameContainer}>
           <label htmlFor='fullName'>full name</label>
           <input
             type='text'
@@ -212,7 +216,7 @@ function Signup() {
             onChange={handleInputChange}
           />
         </div>
-        <div className='usernameContainer'>
+        <div className={styles.usernameContainer}>
           <label htmlFor='username'>create username</label>
           <input
             type='text'
@@ -222,7 +226,7 @@ function Signup() {
             onChange={handleInputChange}
           />
         </div>
-        <div className='bioContainer'>
+        <div className={styles.bioContainer}>
           <label htmlFor='bio'>bio</label>
           <textarea
             id='bio'
@@ -231,7 +235,7 @@ function Signup() {
             defaultValue={formState.bio}
           ></textarea>
         </div>
-        <div className='avatarContainer'>
+        <div className={styles.avatarContainer}>
           <label htmlFor='avatar'>avatar</label>
           <input
             type='file'
