@@ -5,7 +5,7 @@ import {
   deleteFriendIdFromUser,
   getFileFromStorage,
 } from '../services/firebaseApp';
-import './Friend.css';
+import styles from './Friend.module.css';
 
 function Friend({ friend }) {
   const { user, setUser } = useContext(UserContext);
@@ -28,13 +28,13 @@ function Friend({ friend }) {
   }, []);
 
   return (
-    <div className='friendContainer'>
-      <img src={avatar} alt='avatar' className='avatar' />
-      <h3 className='username'>{friend.username}</h3>
-      <p className='name'>{friend.fullName}</p>
-      <p className='email'>{friend.email}</p>
-      <p className='bio'>{friend.bio}</p>
-      <button onClick={handleRemoveClick} className='removeButton'>
+    <div className={styles.friendContainer}>
+      <img src={avatar} alt='avatar' className={styles.avatar} />
+      <h3 className={styles.username}>{friend.username}</h3>
+      <p className={styles.name}>{friend.fullName}</p>
+      <p className={styles.email}>{friend.email}</p>
+      <p className={styles.bio}>{friend.bio}</p>
+      <button onClick={handleRemoveClick} className={styles.removeButton}>
         remove friend
       </button>
     </div>
