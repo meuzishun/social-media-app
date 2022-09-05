@@ -53,7 +53,7 @@ function App() {
       })
       .then((user) => {
         setUser(user);
-        navigate('/timeline');
+        navigate('/network');
       });
   }, []);
 
