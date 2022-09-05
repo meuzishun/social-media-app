@@ -37,6 +37,8 @@ function Reply({ reply }) {
     showRepliesBtn.current.style = 'display: block;';
   };
 
+  useEffect(() => {}, [repliesContainer]);
+
   useEffect(() => {
     setReplyState(reply);
     getAndSetReplyReplies();
@@ -55,7 +57,7 @@ function Reply({ reply }) {
             <>
               <button
                 type='button'
-                className={styles.showCommentsBtn}
+                className={styles.showRepliesBtn}
                 ref={showRepliesBtn}
                 onClick={handleShowRepliesClick}
               >

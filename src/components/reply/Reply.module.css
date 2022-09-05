@@ -9,3 +9,12 @@
   color: #fff;
   align-self: center;
 }
+
+.replies {
+  border-left: 0.25rem solid rgb(0, 149, 255);
+  padding-left: 1.75rem;
+}
+
+.hidden {
+  display: none;
+}

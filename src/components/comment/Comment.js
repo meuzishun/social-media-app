@@ -58,7 +58,7 @@ function Comment({ comment }) {
             <>
               <button
                 type='button'
-                className={styles.showCommentsBtn}
+                className={styles.showRepliesBtn}
                 ref={showRepliesBtn}
                 onClick={handleShowRepliesClick}
               >
