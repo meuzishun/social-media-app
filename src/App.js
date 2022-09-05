@@ -45,7 +45,7 @@ function App() {
     (async () => {
       const user = await getUserByUsername('Andrew');
       setUser(user);
-      navigate('/timeline');
+      navigate('/network');
     })();
   }, []);
 
