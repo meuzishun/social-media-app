@@ -2,12 +2,8 @@ import React, { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Welcome from '../../../components/Welcome';
 import { UserContext } from '../../../App';
-import {
-  getUserByUsername,
-  getUserById,
-  signInFirebaseUser,
-} from '../../../services/firebaseApp';
-import '../login/Login.css';
+import { getUserById, signInFirebaseUser } from '../../../services/firebaseApp';
+import styles from './Login.module.css';
 
 function Login() {
   const [formState, setFormState] = useState({});
@@ -120,10 +116,14 @@ function Login() {
   };
 
   return (
-    <div className='loginPage'>
+    <div className={styles.loginPage}>
       <Welcome />
-      <h1 className='loginHeading'>log in</h1>
-      <form className='loginForm' noValidate onSubmit={handleLoginSubmit}>
+      <h1 className={styles.loginHeading}>log in</h1>
+      <form
+        className={styles.loginForm}
+        noValidate
+        onSubmit={handleLoginSubmit}
+      >
         <div className='emailContainer'>
           <label htmlFor='email'>email</label>
           <input

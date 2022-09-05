@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import PostContent from './PostContent';
 import CommentForm from '../comment/CommentForm';
 import Comment from '../comment/Comment';
-import './Post.css';
+import styles from './Post.module.css';
 import { getPostsByParentId } from '../../services/firebaseApp';
 
 function Post({ post }) {
@@ -20,15 +20,21 @@ function Post({ post }) {
   };
 
   const handleShowCommentsClick = () => {
-    commentsContainer.current.classList.remove('hidden');
-    hideCommentsBtn.current.classList.remove('hidden');
-    showCommentsBtn.current.classList.add('hidden');
+    // commentsContainer.current.classList.remove('hidden');
+    commentsContainer.current.style = 'display: block;';
+    // hideCommentsBtn.current.classList.remove('hidden');
+    hideCommentsBtn.current.style = 'display: block;';
+    // showCommentsBtn.current.classList.add('hidden');
+    showCommentsBtn.current.style = 'display: none;';
   };
 
   const handleHideCommentsClick = () => {
-    commentsContainer.current.classList.add('hidden');
-    hideCommentsBtn.current.classList.add('hidden');
-    showCommentsBtn.current.classList.remove('hidden');
+    // commentsContainer.current.classList.add('hidden');
+    commentsContainer.current.style = 'display: none;';
+    // hideCommentsBtn.current.classList.add('hidden');
+    hideCommentsBtn.current.style = 'display: none;';
+    // showCommentsBtn.current.classList.remove('hidden');
+    showCommentsBtn.current.style = 'display: block;';
   };
 
   useEffect(() => {
@@ -39,7 +45,7 @@ function Post({ post }) {
   return (
     <>
       {postState ? (
-        <div className='post'>
+        <div className={styles.post}>
           <PostContent postState={postState} setPostState={setPostState} />
           <CommentForm
             post={post}
@@ -49,7 +55,7 @@ function Post({ post }) {
             <>
               <button
                 type='button'
-                className='showCommentsBtn'
+                className={styles.showCommentsBtn}
                 ref={showCommentsBtn}
                 onClick={handleShowCommentsClick}
               >
@@ -57,13 +63,16 @@ function Post({ post }) {
               </button>
               <button
                 type='button'
-                className='hideCommentsBtn hidden'
+                className={`${styles.hideCommentsBtn} ${styles.hidden}`}
                 ref={hideCommentsBtn}
                 onClick={handleHideCommentsClick}
               >
                 hide comments
               </button>
-              <div className='comments hidden' ref={commentsContainer}>
+              <div
+                className={`${styles.comments} ${styles.hidden}`}
+                ref={commentsContainer}
+              >
                 {comments.map((comment) => (
                   <Comment key={comment.id} comment={comment} />
                 ))}

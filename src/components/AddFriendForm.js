@@ -3,7 +3,7 @@ import { UserContext } from '../App';
 import { ModalContext } from '../App';
 import { PopupContext } from '../App';
 import { getUsersByUsername } from '../services/firebaseApp';
-import './AddFriendForm.css';
+import styles from './AddFriendForm.module.css';
 import SearchResult from './SearchResult';
 
 function AddFriendForm() {
@@ -36,9 +36,9 @@ function AddFriendForm() {
   }, []);
 
   return (
-    <div className='formContainer'>
-      <form className='addFriendForm' onSubmit={handleSearchSubmit}>
-        <div className='inputContainer'>
+    <div className={styles.formContainer}>
+      <form className={styles.addFriendForm} onSubmit={handleSearchSubmit}>
+        <div className={styles.inputContainer}>
           <label>search for username</label>
           <input
             type='search'
@@ -49,7 +49,7 @@ function AddFriendForm() {
             onChange={handleInputChange}
           />
         </div>
-        <div className='buttonContainer'>
+        <div className={styles.buttonContainer}>
           <button type='submit'>search</button>
           <button type='button' onClick={handleCancelClick}>
             cancel
@@ -57,7 +57,7 @@ function AddFriendForm() {
         </div>
       </form>
       {searchResults.length > 0 ? (
-        <div className='searchResults'>
+        <div className={styles.searchResults}>
           {searchResults.map((result) => (
             <SearchResult key={result.id} result={result} />
           ))}

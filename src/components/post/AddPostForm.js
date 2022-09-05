@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react';
 import { UserContext } from '../../App';
 import { addPost, uploadFileToStorage } from '../../services/firebaseApp';
 import uniqid from 'uniqid';
-import './AddPostForm.css';
+import styles from './AddPostForm.module.css';
 
 function AddPostForm({ hideNewPostForm, getAndSetUserPosts }) {
   const [inputState, setInputState] = useState(null);
@@ -42,7 +42,7 @@ function AddPostForm({ hideNewPostForm, getAndSetUserPosts }) {
   };
 
   return (
-    <div className='addPostContainer'>
+    <div className={styles.addPostContainer}>
       <form onSubmit={handleAddPostSubmit}>
         <label htmlFor='postContent'>content</label>
         <input
@@ -61,7 +61,7 @@ function AddPostForm({ hideNewPostForm, getAndSetUserPosts }) {
           onChange={handleFileChange}
           // defaultValue={userState.avatar}
         ></input>
-        <div className='btnContainer'>
+        <div className={styles.btnContainer}>
           <button type='submit'>submit</button>
           <button type='button' onClick={hideNewPostForm}>
             cancel

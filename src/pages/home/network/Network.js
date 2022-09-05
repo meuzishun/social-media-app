@@ -3,7 +3,7 @@ import { ModalContext } from '../../../App';
 import { PopupContext } from '../../../App';
 import Friend from '../../../components/Friend';
 import AddFriendForm from '../../../components/AddFriendForm';
-import './Network.css';
+import styles from './Network.module.css';
 
 function Network({ network }) {
   const { setDisplayModal } = useContext(ModalContext);
@@ -15,8 +15,8 @@ function Network({ network }) {
   };
 
   return (
-    <div className='networkPage'>
-      <div className='networkContainer'>
+    <div className={styles.networkPage}>
+      <div className={styles.networkContainer}>
         <button type='button' onClick={handleFriendSearch}>
           add friend
         </button>

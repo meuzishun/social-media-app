@@ -9,7 +9,7 @@ import {
   deletePostsByParentId,
   removeFileFromStorage,
 } from '../../services/firebaseApp';
-import './CommentContent.css';
+import styles from './CommentContent.module.css';
 
 function CommentContent({ commentState, setCommentState }) {
   const [editMode, setEditMode] = useState(false);
@@ -69,9 +69,9 @@ function CommentContent({ commentState, setCommentState }) {
   return (
     <>
       {author ? (
-        <div className='commentContent'>
-          <img src={avatar} alt='avatar' className='avatar' />
-          <p className='username'>{author.username}</p>
+        <div className={styles.commentContent}>
+          <img src={avatar} alt='avatar' className={styles.avatar} />
+          <p className={styles.username}>{author.username}</p>
           <hr />
           {!editMode ? (
             <>
@@ -79,14 +79,14 @@ function CommentContent({ commentState, setCommentState }) {
                 <>
                   <button
                     type='button'
-                    className='editBtn'
+                    className={styles.editBtn}
                     onClick={handleEditClick}
                   >
                     edit
                   </button>
                   <button
                     type='button'
-                    className='delBtn'
+                    className={styles.delBtn}
                     onClick={handleDeleteClick}
                   >
                     delete
@@ -97,13 +97,16 @@ function CommentContent({ commentState, setCommentState }) {
           ) : null}
           {!editMode ? (
             <>
-              <p className='content'>{commentState.content}</p>
+              <p className={styles.content}>{commentState.content}</p>
               {file ? (
-                <img src={file} alt='post file' className='postFile' />
+                <img src={file} alt='post file' className={styles.postFile} />
               ) : null}
             </>
           ) : (
-            <form className='commentEditForm' onSubmit={handleInputSubmit}>
+            <form
+              className={styles.commentEditForm}
+              onSubmit={handleInputSubmit}
+            >
               <input
                 type='text'
                 name='commentEdit'
@@ -111,12 +114,12 @@ function CommentContent({ commentState, setCommentState }) {
                 onChange={handleInputChange}
                 ref={inputElem}
               />
-              <button type='submit' className='submitBtn'>
+              <button type='submit' className={styles.submitBtn}>
                 submit
               </button>
               <button
                 type='button'
-                className='cancelBtn'
+                className={styles.cancelBtn}
                 onClick={handleInputCancel}
               >
                 cancel

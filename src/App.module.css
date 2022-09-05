@@ -4,10 +4,7 @@
   grid-template-rows: auto 1fr auto;
 }
 
-.profilePage,
-.networkPage,
-.timelinePage,
-.feedPage {
+.page {
   background-color: #fafafa;
 }
 

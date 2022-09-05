@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useRef, useState } from 'react';
 import { UserContext } from '../../App';
 import uniqid from 'uniqid';
 import { addPost, uploadFileToStorage } from '../../services/firebaseApp';
-import './CommentForm.css';
+import styles from './CommentForm.module.css';
 
 function CommentForm({ post, getAndSetPostComments }) {
   const { user } = useContext(UserContext);
@@ -62,17 +62,17 @@ function CommentForm({ post, getAndSetPostComments }) {
       {!displayForm ? (
         <button
           type='button'
-          className='addCommentBtn'
+          className={styles.addCommentBtn}
           onClick={handleAddClick}
         >
           add comment
         </button>
       ) : (
-        <form className='addCommentForm' onSubmit={handleCommentSubmit}>
+        <form className={styles.addCommentForm} onSubmit={handleCommentSubmit}>
           <input
             type='text'
             name='addComment'
-            className='textInput'
+            className={styles.textInput}
             placeholder='comment'
             defaultValue={input}
             onChange={handleInputChange}
@@ -81,17 +81,17 @@ function CommentForm({ post, getAndSetPostComments }) {
           <input
             type='file'
             id='file'
-            className='fileInput'
+            className={styles.fileInput}
             name='file'
             accept='image/png, image/jpeg'
             onChange={handleFileChange}
           ></input>
-          <button type='submit' className='submitBtn'>
+          <button type='submit' className={styles.submitBtn}>
             submit
           </button>
           <button
             type='button'
-            className='cancelBtn'
+            className={styles.cancelBtn}
             onClick={handleInputCancel}
           >
             cancel

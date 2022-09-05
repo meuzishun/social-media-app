@@ -3,7 +3,7 @@ import { UserContext } from '../../../App';
 import AddPostForm from '../../../components/post/AddPostForm';
 import Post from '../../../components/post/Post';
 import { getPostsByAuthorId } from '../../../services/firebaseApp';
-import './Timeline.css';
+import styles from './Timeline.module.css';
 
 function Timeline() {
   const { user } = useContext(UserContext);
@@ -30,8 +30,8 @@ function Timeline() {
   }, []);
 
   return (
-    <div className='timelinePage'>
-      <div className='timelineContainer'>
+    <div className={styles.timelinePage}>
+      <div className={styles.timelineContainer}>
         {viewNewPostForm ? (
           <AddPostForm
             hideNewPostForm={hideNewPostForm}

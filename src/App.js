@@ -13,10 +13,15 @@ import Timeline from './pages/home/timeline/Timeline';
 import Feed from './pages/home/feed/Feed';
 import Footer from './components/Footer';
 
-import './App.css';
+import styles from './App.module.css';
 
 //* Database imports
-import { getUserByUsername, getUsersByIdList } from './services/firebaseApp';
+import {
+  getUserById,
+  getUserByUsername,
+  getUsersByIdList,
+  signInFirebaseUser,
+} from './services/firebaseApp';
 
 export const AuthFunctions = createContext();
 export const AppFunctions = createContext();
@@ -42,15 +47,18 @@ function App() {
   useEffect(() => {
     //* FOR TESTING PURPOSES
     // navigate('/signup');
-    (async () => {
-      const user = await getUserByUsername('Andrew');
-      setUser(user);
-      navigate('/network');
-    })();
+    signInFirebaseUser('asmith@email.com', 'password')
+      .then((firebaseUser) => {
+        return getUserById(firebaseUser.uid);
+      })
+      .then((user) => {
+        setUser(user);
+        navigate('/network');
+      });
   }, []);
 
   return (
-    <div className='App'>
+    <div className={styles.App}>
       <ModalContext.Provider value={{ displayModal, setDisplayModal }}>
         <PopupContext.Provider value={{ popupContent, setPopupContent }}>
           <UserContext.Provider value={{ user, setUser }}>

@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import { UserContext } from '../../../App';
 import Post from '../../../components/post/Post';
 import { getPostsByAuthorId } from '../../../services/firebaseApp';
-import './Feed.css';
+import styles from './Feed.module.css';
 
 function Feed() {
   const { user } = useContext(UserContext);
@@ -26,8 +26,8 @@ function Feed() {
   }, []);
 
   return (
-    <div className='feedPage'>
-      <div className='feedContainer'>
+    <div className={styles.feedPage}>
+      <div className={styles.feedContainer}>
         {posts ? posts.map((post) => <Post key={post.id} post={post} />) : null}
       </div>
     </div>

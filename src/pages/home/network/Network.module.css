@@ -1,3 +1,7 @@
+.networkPage {
+  background-color: #fafafa;
+}
+
 .networkContainer {
   max-width: max-content;
   margin: 2rem auto;
@@ -12,11 +16,4 @@
   text-transform: capitalize;
   color: #fff;
   background-color: green;
-}
-
-.friendContainer {
-  border-radius: 1rem;
-  padding: 2rem;
-  box-shadow: 0.25rem 0.25rem 0.75rem rgba(0, 0, 0, 0.25);
-  background-color: #fff;
 }

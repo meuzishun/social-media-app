@@ -9,7 +9,7 @@ import {
   deletePostsByParentId,
   removeFileFromStorage,
 } from '../../services/firebaseApp';
-import './ReplyContent.css';
+import styles from './ReplyContent.module.css';
 
 function ReplyContent({ replyState, setReplyState }) {
   const [editMode, setEditMode] = useState(false);
@@ -69,9 +69,9 @@ function ReplyContent({ replyState, setReplyState }) {
   return (
     <>
       {author ? (
-        <div className='replyContent'>
-          <img src={avatar} alt='avatar' className='avatar' />
-          <p className='username'>{author.username}</p>
+        <div className={styles.replyContent}>
+          <img src={avatar} alt='avatar' className={styles.avatar} />
+          <p className={styles.username}>{author.username}</p>
           <hr />
           {!editMode ? (
             <>
@@ -79,14 +79,14 @@ function ReplyContent({ replyState, setReplyState }) {
                 <>
                   <button
                     type='button'
-                    className='editBtn'
+                    className={styles.editBtn}
                     onClick={handleEditClick}
                   >
                     edit
                   </button>
                   <button
                     type='button'
-                    className='delBtn'
+                    className={styles.delBtn}
                     onClick={handleDeleteClick}
                   >
                     delete
@@ -97,13 +97,13 @@ function ReplyContent({ replyState, setReplyState }) {
           ) : null}
           {!editMode ? (
             <>
-              <p className='content'>{replyState.content}</p>
+              <p className={styles.content}>{replyState.content}</p>
               {file ? (
-                <img src={file} alt='post file' className='postFile' />
+                <img src={file} alt='post file' className={styles.postFile} />
               ) : null}
             </>
           ) : (
-            <form className='replyEditForm' onSubmit={handleInputSubmit}>
+            <form className={styles.replyEditForm} onSubmit={handleInputSubmit}>
               <input
                 type='text'
                 name='replyEdit'
@@ -111,12 +111,12 @@ function ReplyContent({ replyState, setReplyState }) {
                 onChange={handleInputChange}
                 ref={inputElem}
               />
-              <button type='submit' className='submitBtn'>
+              <button type='submit' className={styles.submitBtn}>
                 submit
               </button>
               <button
                 type='button'
-                className='cancelBtn'
+                className={styles.cancelBtn}
                 onClick={handleInputCancel}
               >
                 cancel

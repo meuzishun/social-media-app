@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import ReplyContent from './ReplyContent';
 import ReplyForm2 from './ReplyForm2';
 import { getPostsByParentId } from '../../services/firebaseApp';
+import styles from './Reply.module.css';
 
 function Reply2({ reply }) {
   const [replyState, setReplyState] = useState(null);
@@ -18,15 +19,21 @@ function Reply2({ reply }) {
   };
 
   const handleShowRepliesClick = () => {
-    repliesContainer.current.classList.remove('hidden');
-    hideRepliesBtn.current.classList.remove('hidden');
-    showRepliesBtn.current.classList.add('hidden');
+    // repliesContainer.current.classList.remove('hidden');
+    repliesContainer.current.style = 'display: block;';
+    // hideRepliesBtn.current.classList.remove('hidden');
+    hideRepliesBtn.current.style = 'display: block;';
+    // showRepliesBtn.current.classList.add('hidden');
+    showRepliesBtn.current.style = 'display: none;';
   };
 
   const handleHideRepliesClick = () => {
-    repliesContainer.current.classList.add('hidden');
-    hideRepliesBtn.current.classList.add('hidden');
-    showRepliesBtn.current.classList.remove('hidden');
+    // repliesContainer.current.classList.add('hidden');
+    repliesContainer.current.style = 'display: none;';
+    // hideRepliesBtn.current.classList.add('hidden');
+    hideRepliesBtn.current.style = 'display: none;';
+    // showRepliesBtn.current.classList.remove('hidden');
+    showRepliesBtn.current.style = 'display: block;';
   };
 
   useEffect(() => {
@@ -35,7 +42,7 @@ function Reply2({ reply }) {
   }, []);
 
   return (
-    <div className='reply'>
+    <div className={styles.reply}>
       {replyState ? (
         <>
           <ReplyContent replyState={replyState} setReplyState={setReplyState} />
@@ -47,7 +54,7 @@ function Reply2({ reply }) {
             <>
               <button
                 type='button'
-                className='showCommentsBtn'
+                className={styles.showCommentsBtn}
                 ref={showRepliesBtn}
                 onClick={handleShowRepliesClick}
               >
@@ -55,13 +62,16 @@ function Reply2({ reply }) {
               </button>
               <button
                 type='button'
-                className='hideRepliesBtn hidden'
+                className={`${styles.hideRepliesBtn} ${styles.hidden}`}
                 ref={hideRepliesBtn}
                 onClick={handleHideRepliesClick}
               >
                 hide replies
               </button>
-              <div className='replies hidden' ref={repliesContainer}>
+              <div
+                className={`${styles.replies} ${styles.hidden}`}
+                ref={repliesContainer}
+              >
                 {replies.map((reply) => (
                   <Reply2 key={reply.id} reply={reply} />
                 ))}

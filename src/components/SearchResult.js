@@ -8,7 +8,7 @@ import {
   getUserByUsername,
   addIdToUserFriendIds,
 } from '../services/firebaseApp';
-import './SearchResult.css';
+import styles from './SearchResult.module.css';
 
 export default function SearchResult({ result }) {
   const { user, setUser } = useContext(UserContext);
@@ -44,9 +44,9 @@ export default function SearchResult({ result }) {
   }, []);
 
   return (
-    <div className='singleResult'>
+    <div className={styles.singleResult}>
       <img src={avatarUrl} alt='userAvatar' />
-      <p className='userSearch'>{result.username}</p>
+      <p className={styles.userSearch}>{result.username}</p>
       <button onClick={handleAddFriendSubmit} data-username={result.username}>
         add friend
       </button>

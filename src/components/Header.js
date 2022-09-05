@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { UserContext } from '../App';
 import { useNavigate } from 'react-router-dom';
 import { getFileFromStorage } from '../services/firebaseApp';
-import './Header.css';
+import styles from './Header.module.css';
 
 function Header() {
   const { user, setUser } = useContext(UserContext);
@@ -21,11 +21,11 @@ function Header() {
 
   return (
     <header>
-      <div className='logo'>
+      <div className={styles.logo}>
         <span className='iconify' data-icon='mdi-alpha-f-circle-outline'></span>
         <h1>akebook</h1>
       </div>
-      <div className='userContainer'>
+      <div className={styles.userContainer}>
         <img src={avatar} alt='user avatar' />
         <p>{user.username}</p>
       </div>
@@ -45,7 +45,7 @@ function Header() {
           </li>
         </ul>
       </nav>
-      <button className='logoutButton' onClick={logoutUser}>
+      <button className={styles.logoutButton} onClick={logoutUser}>
         log out
       </button>
     </header>
