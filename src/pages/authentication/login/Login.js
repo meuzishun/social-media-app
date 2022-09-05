@@ -2,11 +2,7 @@ import React, { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Welcome from '../../../components/Welcome';
 import { UserContext } from '../../../App';
-import {
-  getUserByUsername,
-  getUserById,
-  signInFirebaseUser,
-} from '../../../services/firebaseApp';
+import { getUserById, signInFirebaseUser } from '../../../services/firebaseApp';
 import styles from './Login.module.css';
 
 function Login() {
