@@ -4,6 +4,7 @@ import { Routes, Route, useNavigate } from 'react-router-dom';
 
 //* Component imports
 import Modal from './components/Modal';
+import NotificationContainer from './components/NotificationContainer';
 import Login from './pages/authentication/login/Login';
 import Signup from './pages/authentication/signup/Signup';
 import Header from './components/Header';
@@ -28,12 +29,14 @@ export const AppFunctions = createContext();
 export const UserContext = createContext();
 export const ModalContext = createContext();
 export const PopupContext = createContext();
+export const NotificationsContext = createContext();
 
 function App() {
   //* Hooks
   const [user, setUser] = useState(null);
   const [displayModal, setDisplayModal] = useState(false);
   const [popupContent, setPopupContent] = useState(null);
+  const [notifications, setNotifications] = useState([]);
   const [network, setNetwork] = useState([]);
   const navigate = useNavigate();
 
@@ -54,6 +57,12 @@ function App() {
       .then((user) => {
         setUser(user);
         navigate('/network');
+        setNotifications((prev) => {
+          return [
+            ...prev,
+            { message: `User ${user.username} is signed in...`, id: 123 },
+          ];
+        });
       });
   }, []);
 
@@ -72,17 +81,22 @@ function App() {
               </Routes>
             ) : (
               <>
-                <Header />
-                <Routes>
-                  <Route path='/profile' element={<Profile />} />
-                  <Route
-                    path='/network'
-                    element={<Network network={network} />}
-                  />
-                  <Route path='/timeline' element={<Timeline />} />
-                  <Route path='/feed' element={<Feed />} />
-                </Routes>
-                <Footer />
+                <NotificationsContext.Provider
+                  value={{ notifications, setNotifications }}
+                >
+                  <Header />
+                  {notifications.length > 0 && <NotificationContainer />}
+                  <Routes>
+                    <Route path='/profile' element={<Profile />} />
+                    <Route
+                      path='/network'
+                      element={<Network network={network} />}
+                    />
+                    <Route path='/timeline' element={<Timeline />} />
+                    <Route path='/feed' element={<Feed />} />
+                  </Routes>
+                  <Footer />
+                </NotificationsContext.Provider>
               </>
             )}
           </UserContext.Provider>

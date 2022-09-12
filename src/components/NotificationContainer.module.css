@@ -1,0 +1,12 @@
+.notificationContainer {
+  width: 400px;
+  height: 600px;
+  /* background-color: rgba(102, 51, 153, 0.082); */
+  position: absolute;
+  right: 0;
+  top: 100px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 20px;
+}
