@@ -1,7 +1,8 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Welcome from '../../../components/Welcome';
 import { UserContext } from '../../../App';
+import { NotificationsContext } from '../../../App';
 import { getUserById, signInFirebaseUser } from '../../../services/firebaseApp';
 import styles from './Login.module.css';
 
@@ -9,6 +10,8 @@ function Login() {
   const [formState, setFormState] = useState({});
   const navigate = useNavigate();
   const { setUser } = useContext(UserContext);
+  const { notifications, setNotifications } = useContext(NotificationsContext);
+  const emailInput = useRef(null);
 
   const handleInputChange = (e) => {
     setFormState({ ...formState, [e.target.name]: e.target.value });
@@ -109,11 +112,21 @@ function Login() {
     setUser(foundUser);
     console.log('login successful');
     navigate('/feed');
+    setNotifications((prev) => {
+      return [
+        ...prev,
+        { message: `User ${foundUser.username} is signed in...`, id: 123 },
+      ];
+    });
   };
 
   const handleSignupClick = () => {
     navigate('/signup');
   };
+
+  useEffect(() => {
+    emailInput.current.focus();
+  }, []);
 
   return (
     <div className={styles.loginPage}>
@@ -134,6 +147,7 @@ function Login() {
             onInput={validateInput}
             defaultValue={formState.email}
             onChange={handleInputChange}
+            ref={emailInput}
           />
         </div>
         <div className='passwordContainer'>

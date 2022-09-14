@@ -49,41 +49,45 @@ function App() {
 
   useEffect(() => {
     //* FOR TESTING PURPOSES
-    // navigate('/signup');
-    signInFirebaseUser('asmith@email.com', 'password')
-      .then((firebaseUser) => {
-        return getUserById(firebaseUser.uid);
-      })
-      .then((user) => {
-        setUser(user);
-        navigate('/network');
-        setNotifications((prev) => {
-          return [
-            ...prev,
-            { message: `User ${user.username} is signed in...`, id: 123 },
-          ];
-        });
-      });
+    navigate('/login');
+    // signInFirebaseUser('asmith@email.com', 'password')
+    //   .then((firebaseUser) => {
+    //     return getUserById(firebaseUser.uid);
+    //   })
+    //   .then((user) => {
+    //     setUser(user);
+    //     navigate('/network');
+    //     setNotifications((prev) => {
+    //       return [
+    //         ...prev,
+    //         { message: `User ${user.username} is signed in...`, id: 123 },
+    //       ];
+    //     });
+    //   });
   }, []);
+
+  useEffect(() => {
+    console.log(notifications);
+  }, [notifications]);
 
   return (
     <div className={styles.App}>
       <ModalContext.Provider value={{ displayModal, setDisplayModal }}>
         <PopupContext.Provider value={{ popupContent, setPopupContent }}>
           <UserContext.Provider value={{ user, setUser }}>
-            {displayModal ? (
-              <Modal>{popupContent ? popupContent : null}</Modal>
-            ) : null}
-            {!user ? (
-              <Routes>
-                <Route path='/login' element={<Login />} />
-                <Route path='/signup' element={<Signup />} />
-              </Routes>
-            ) : (
-              <>
-                <NotificationsContext.Provider
-                  value={{ notifications, setNotifications }}
-                >
+            <NotificationsContext.Provider
+              value={{ notifications, setNotifications }}
+            >
+              {displayModal ? (
+                <Modal>{popupContent ? popupContent : null}</Modal>
+              ) : null}
+              {!user ? (
+                <Routes>
+                  <Route path='/login' element={<Login />} />
+                  <Route path='/signup' element={<Signup />} />
+                </Routes>
+              ) : (
+                <>
                   <Header />
                   {notifications.length > 0 && <NotificationContainer />}
                   <Routes>
@@ -96,9 +100,9 @@ function App() {
                     <Route path='/feed' element={<Feed />} />
                   </Routes>
                   <Footer />
-                </NotificationsContext.Provider>
-              </>
-            )}
+                </>
+              )}
+            </NotificationsContext.Provider>
           </UserContext.Provider>
         </PopupContext.Provider>
       </ModalContext.Provider>
