@@ -10,7 +10,7 @@ function Login() {
   const [formState, setFormState] = useState({});
   const navigate = useNavigate();
   const { setUser } = useContext(UserContext);
-  const { notifications, setNotifications } = useContext(NotificationsContext);
+  const { createNotification } = useContext(NotificationsContext);
   const emailInput = useRef(null);
 
   const handleInputChange = (e) => {
@@ -112,12 +112,7 @@ function Login() {
     setUser(foundUser);
     console.log('login successful');
     navigate('/feed');
-    setNotifications((prev) => {
-      return [
-        ...prev,
-        { message: `User ${foundUser.username} is signed in...`, id: 123 },
-      ];
-    });
+    createNotification(`User ${foundUser.username} is signed in...`);
   };
 
   const handleSignupClick = () => {

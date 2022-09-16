@@ -13,6 +13,7 @@ import Network from './pages/home/network/Network';
 import Timeline from './pages/home/timeline/Timeline';
 import Feed from './pages/home/feed/Feed';
 import Footer from './components/Footer';
+import uniqid from 'uniqid';
 
 import styles from './App.module.css';
 
@@ -39,6 +40,23 @@ function App() {
   const [notifications, setNotifications] = useState([]);
   const [network, setNetwork] = useState([]);
   const navigate = useNavigate();
+
+  const createNotification = (msg) => {
+    setNotifications((prev) => {
+      return [...prev, { message: msg, id: uniqid() }];
+    });
+  };
+
+  const removeNotification = (notification) => {
+    console.log('removing notification...');
+    const index = notifications.indexOf(notification);
+    setNotifications((notifications) => {
+      return [
+        ...notifications.slice(0, index),
+        ...notifications.slice(index + 1),
+      ];
+    });
+  };
 
   useEffect(() => {
     setNetwork([]);
@@ -67,7 +85,7 @@ function App() {
   }, []);
 
   useEffect(() => {
-    console.log(notifications);
+    console.log(notifications); //? Why must we do this here? (see NotificationContainer.js)
   }, [notifications]);
 
   return (
@@ -76,7 +94,7 @@ function App() {
         <PopupContext.Provider value={{ popupContent, setPopupContent }}>
           <UserContext.Provider value={{ user, setUser }}>
             <NotificationsContext.Provider
-              value={{ notifications, setNotifications }}
+              value={{ notifications, createNotification, removeNotification }}
             >
               {displayModal ? (
                 <Modal>{popupContent ? popupContent : null}</Modal>

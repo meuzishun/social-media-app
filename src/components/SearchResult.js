@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../App';
 import { ModalContext } from '../App';
 import { PopupContext } from '../App';
+import { NotificationsContext } from '../App';
 import {
   getFileFromStorage,
   getUserByUsername,
@@ -14,6 +15,7 @@ export default function SearchResult({ result }) {
   const { user, setUser } = useContext(UserContext);
   const { setDisplayModal } = useContext(ModalContext);
   const { setPopupContent } = useContext(PopupContext);
+  const { createNotification } = useContext(NotificationsContext);
   const [avatarUrl, setAvatarUrl] = useState(null);
   const navigate = useNavigate();
 
@@ -22,14 +24,17 @@ export default function SearchResult({ result }) {
     const friend = await getUserByUsername(e.target.dataset.username);
     if (!friend) {
       console.log('no user found');
+      createNotification('no user found');
       return;
     }
     if (user.friendIds.includes(friend.id)) {
       console.log('user already in network');
+      createNotification('user already in network');
       return;
     }
     if (friend.id === user.id) {
       console.log('cannot add yourself');
+      createNotification('cannot add yourself');
       return;
     }
     const alteredUser = await addIdToUserFriendIds(user.id, friend.id);

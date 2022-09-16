@@ -5,7 +5,8 @@
   border-radius: 10px;
   opacity: 1;
   box-shadow: 0.15rem 0.15rem 0.3rem rgba(0, 0, 0, 0.25);
-  transition: all 1000ms ease-in-out;
+  transition: all 2000ms ease-in-out;
+  z-index: 10;
 }
 
 .notification > p {
@@ -13,7 +14,8 @@
 }
 
 .notification.preEnter,
-.notification.exiting {
+.notification.exiting,
+.notification.exited {
   /* opacity: 0; */
   transform: translateX(200%);
 }

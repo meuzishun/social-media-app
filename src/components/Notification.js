@@ -4,12 +4,12 @@ import { useTransition } from 'react-transition-state';
 import './Notification.css';
 
 function Notification({ data }) {
-  const { notifications, setNotifications } = useContext(NotificationsContext);
+  const { removeNotification } = useContext(NotificationsContext);
 
-  const [{ status, isMounted, isEnter }, toggle] = useTransition({
-    timeout: 1000,
+  const [{ status, isMounted }, toggle] = useTransition({
+    timeout: 2000,
     initialEntered: false,
-    mountOnEnter: true,
+    mountOnEnter: false,
     preEnter: true,
     unmountOnExit: true,
     onStateChange: (e) => {
@@ -18,23 +18,24 @@ function Notification({ data }) {
   });
 
   useEffect(() => {
-    if (!isMounted) {
+    console.log(status);
+
+    if (status === 'exited') {
       const inTimer = setTimeout(() => {
         toggle();
         clearTimeout(inTimer);
       }, 500);
     }
-  }, []);
 
-  useEffect(() => {
     if (status === 'entered') {
-      const outTimer = setTimeout(() => {
+      const inTimer = setTimeout(() => {
         toggle();
-        clearTimeout(outTimer);
-        const index = notifications.indexOf(data);
-        console.log(index);
-        setNotifications(notifications.splice(index, 1));
-      }, 3000);
+        clearTimeout(inTimer);
+      }, 2000);
+    }
+
+    if (status === 'unmounted') {
+      removeNotification(data);
     }
   }, [status]);
 

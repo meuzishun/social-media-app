@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { UserContext } from '../../../App';
+import { UserContext, NotificationsContext } from '../../../App';
 import {
   addUser,
   createFirebaseUser,
@@ -16,6 +16,7 @@ function Signup() {
   const [fileState, setFileState] = useState(null);
   const signupForm = useRef(null);
   const { setUser } = useContext(UserContext);
+  const { createNotification } = useContext(NotificationsContext);
   const navigate = useNavigate();
 
   const handleInputChange = (e) => {
@@ -135,6 +136,7 @@ function Signup() {
     const newUser = await addUser(user);
     setUser(newUser);
     navigate('/profile');
+    createNotification(`User ${newUser.username} has been created...`);
   };
 
   const handleLoginClick = () => {
