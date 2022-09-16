@@ -8,6 +8,7 @@ import SearchResult from './SearchResult';
 
 function AddFriendForm() {
   const [usernameSearch, setUsernameSearch] = useState(null);
+  const [searchAttempted, setSearchAttempted] = useState(false);
   const [searchResults, setSearchResults] = useState([]);
   const { user } = useContext(UserContext);
   const { setDisplayModal } = useContext(ModalContext);
@@ -21,6 +22,7 @@ function AddFriendForm() {
   const handleSearchSubmit = async (e) => {
     e.preventDefault();
     console.log(usernameSearch);
+    setSearchAttempted(true);
     const results = await getUsersByUsername(usernameSearch);
     const filteredResults = results.filter((result) => result.id !== user.id);
     setSearchResults(filteredResults);
@@ -62,6 +64,8 @@ function AddFriendForm() {
             <SearchResult key={result.id} result={result} />
           ))}
         </div>
+      ) : searchAttempted ? (
+        <p className={styles.noResultsMsg}>No users found</p>
       ) : null}
     </div>
   );
