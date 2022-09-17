@@ -1,5 +1,5 @@
 .timelinePage {
-  background-color: #fafafa;
+  background-color: var(--app-very-light-grey);
 }
 
 .timelineContainer {
@@ -14,5 +14,5 @@
 .timelineContainer > button {
   text-transform: capitalize;
   color: #fff;
-  background-color: green;
+  background-color: var(--app-green);
 }

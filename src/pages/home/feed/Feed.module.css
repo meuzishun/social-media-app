@@ -1,5 +1,5 @@
 .feedPage {
-  background-color: #fafafa;
+  background-color: var(--app-very-light-grey);
 }
 
 .feedContainer {

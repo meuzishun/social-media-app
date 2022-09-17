@@ -1,5 +1,5 @@
 .networkPage {
-  background-color: #fafafa;
+  background-color: var(--app-very-light-grey);
 }
 
 .networkContainer {
@@ -15,5 +15,5 @@
 .networkContainer > button {
   text-transform: capitalize;
   color: #fff;
-  background-color: green;
+  background-color: var(--app-green);
 }

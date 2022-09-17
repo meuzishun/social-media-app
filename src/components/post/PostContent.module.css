@@ -39,18 +39,18 @@
   width: 100%;
   margin-bottom: 0.5rem;
   border-radius: 1rem;
-  border: 2px solid rgb(0, 145, 255);
+  border: 2px solid var(--app-light-blue);
 }
 
 .postContent > .editBtn {
   grid-area: edit;
-  background-color: #666;
+  background-color: var(--app-medium-grey);
   color: #fff;
 }
 
 .postContent > .delBtn {
   grid-area: delete;
-  background-color: rgb(200, 0, 0);
+  background-color: var(--app-warning-red);
   color: #fff;
 }
 
@@ -75,6 +75,6 @@
 
 .postEditForm > .cancelBtn {
   grid-area: cancel;
-  background-color: #666;
+  background-color: var(--app-medium-grey);
   color: #fff;
 }

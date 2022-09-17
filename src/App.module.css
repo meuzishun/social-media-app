@@ -1,5 +1,11 @@
 :root {
-  --app-light-blue: rgb(0, 162, 255);
+  --app-light-blue: rgb(46, 119, 242);
+  --app-green: rgb(49, 162, 76);
+  --app-warning-red: rgb(221, 0, 0);
+  --app-very-light-grey: #fafafa;
+  --app-light-grey: rgb(190, 190, 190);
+  --app-medium-grey: #666;
+  --app-dark-grey: rgb(86, 86, 86);
 }
 
 .App {
@@ -9,7 +15,7 @@
 }
 
 .page {
-  background-color: #fafafa;
+  background-color: var(--app-very-light-grey);
 }
 
 label {

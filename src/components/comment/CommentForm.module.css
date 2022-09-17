@@ -1,5 +1,5 @@
 .addCommentBtn {
-  background-color: green;
+  background-color: var(--app-green);
   color: #fff;
   align-self: flex-end;
 }
@@ -30,6 +30,6 @@
 
 .addCommentForm > .cancelBtn {
   grid-area: cancel;
-  background-color: #666;
+  background-color: var(--app-medium-grey);
   color: #fff;
 }

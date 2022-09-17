@@ -44,13 +44,13 @@
 
 .replyContent > .editBtn {
   grid-area: edit;
-  background-color: #666;
+  background-color: var(--app-medium-grey);
   color: #fff;
 }
 
 .replyContent > .delBtn {
   grid-area: delete;
-  background-color: rgb(200, 0, 0);
+  background-color: var(--app-warning-red);
   color: #fff;
 }
 
@@ -75,6 +75,6 @@
 
 .replyEditForm > .cancelBtn {
   grid-area: cancel;
-  background-color: #666;
+  background-color: var(--app-medium-grey);
   color: #fff;
 }

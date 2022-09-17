@@ -31,7 +31,7 @@
   font-size: 0.8rem;
   padding: 0.15rem;
   bottom: -1.2rem;
-  color: red;
+  color: var(--app-warning-red);
   background-color: rgba(255, 0, 0, 0.1);
 }
 
@@ -45,5 +45,5 @@
 }
 
 .loginPage button[type='button'] {
-  background-color: #1ecc92;
+  background-color: var(--app-green);
 }

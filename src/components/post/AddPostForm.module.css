@@ -24,9 +24,9 @@
 }
 
 .addPostContainer button[type='submit'] {
-  background-color: green;
+  background-color: var(--app-green);
 }
 
 .addPostContainer button[type='button'] {
-  background-color: #555;
+  background-color: var(--app-medium-grey);
 }

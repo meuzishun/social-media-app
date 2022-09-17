@@ -46,7 +46,7 @@
 .friendContainer > .removeButton {
   grid-area: button;
   font-size: 0.75rem;
-  background-color: rgb(180, 0, 0);
+  background-color: var(--app-warning-red);
   color: #fff;
   justify-self: end;
   text-transform: capitalize;

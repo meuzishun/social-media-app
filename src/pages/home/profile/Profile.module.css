@@ -1,5 +1,5 @@
 .profilePage {
-  background-color: #fafafa;
+  background-color: var(--app-very-light-grey);
 }
 
 .profileContainer {
@@ -61,5 +61,5 @@
 
 .profileForm button[type='submit'] {
   color: #fff;
-  background-color: green;
+  background-color: var(--app-green);
 }

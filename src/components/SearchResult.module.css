@@ -21,5 +21,5 @@
 .singleResult > button {
   text-transform: capitalize;
   color: #fff;
-  background-color: green;
+  background-color: var(--app-green);
 }

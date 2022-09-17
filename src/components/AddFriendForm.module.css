@@ -1,6 +1,6 @@
 .formContainer {
   width: 500px;
-  background-color: #f8f8f8;
+  background-color: var(--app-very-light-grey);
   padding: 2rem;
   border-radius: 1rem;
   display: flex;
@@ -28,7 +28,7 @@
 }
 
 .addFriendForm > .buttonContainer > button[type='submit'] {
-  background-color: green;
+  background-color: var(--app-green);
   color: #fff;
 }
 

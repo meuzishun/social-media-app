@@ -67,7 +67,7 @@ header a:hover {
   padding: 0.5rem 1rem;
   border: none;
   border-radius: 1000px;
-  background-color: #ddd;
-  color: #333;
+  background-color: var(--app-light-grey);
+  color: var(--app-dark-grey);
   transition: all 200ms ease-in-out;
 }

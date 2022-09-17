@@ -44,7 +44,7 @@
 .signupPage button {
   font-size: 1rem;
   text-transform: capitalize;
-  background-color: rgb(0, 115, 255);
+  background-color: var(--app-light-blue);
   color: #fff;
 }
 
@@ -73,7 +73,7 @@
   padding: 0.15rem;
   bottom: 0rem;
   z-index: -1;
-  color: red;
+  color: var(--app-warning-red);
   background-color: rgba(255, 0, 0, 0.1);
 }
 
@@ -93,5 +93,5 @@
 
 .signupForm button[type='submit'] {
   color: #fff;
-  background-color: green;
+  background-color: var(--app-green);
 }
