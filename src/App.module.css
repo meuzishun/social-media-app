@@ -30,9 +30,14 @@ input {
 
 button {
   border: none;
+  color: #fff;
 }
 
-input:focus,
+input:focus {
+  box-shadow: 0.05rem 0.05rem 0.15rem rgba(0, 0, 0, 0.25) inset;
+  outline: none;
+}
+
 button:hover,
 button:focus {
   box-shadow: 0.15rem 0.15rem 0.3rem rgba(0, 0, 0, 0.25);

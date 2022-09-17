@@ -1,6 +1,7 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../App';
+import { NotificationsContext } from '../App';
 import {
   deleteFriendIdFromUser,
   getFileFromStorage,
@@ -9,6 +10,7 @@ import styles from './Friend.module.css';
 
 function Friend({ friend }) {
   const { user, setUser } = useContext(UserContext);
+  const { createNotification } = useContext(NotificationsContext);
   const [avatar, setAvatar] = useState(null);
   const navigate = useNavigate();
 
@@ -21,6 +23,7 @@ function Friend({ friend }) {
     setUser(alteredUser);
     console.log(`friend with id ${friend.id} has been removed`);
     navigate('/network');
+    createNotification(`${friend.username} removed from network`);
   };
 
   useEffect(() => {

@@ -42,6 +42,7 @@ export default function SearchResult({ result }) {
     setPopupContent(null);
     setDisplayModal(false);
     navigate('/network');
+    createNotification(`${friend.username} added to network`);
   };
 
   useEffect(() => {

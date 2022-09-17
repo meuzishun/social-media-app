@@ -17,15 +17,16 @@ function AddFriendForm() {
 
   const handleInputChange = (e) => {
     setUsernameSearch(e.target.value);
+    setSearchAttempted(false);
   };
 
   const handleSearchSubmit = async (e) => {
     e.preventDefault();
     console.log(usernameSearch);
-    setSearchAttempted(true);
     const results = await getUsersByUsername(usernameSearch);
     const filteredResults = results.filter((result) => result.id !== user.id);
     setSearchResults(filteredResults);
+    setSearchAttempted(true);
   };
 
   const handleCancelClick = () => {
