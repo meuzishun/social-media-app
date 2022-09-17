@@ -40,5 +40,5 @@
 
 .profileForm > .btnContainer > button[type='submit'] {
   color: #fff;
-  background-color: rgb(0, 119, 255);
+  background-color: var(--app-light-blue);
 }
