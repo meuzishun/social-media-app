@@ -32,6 +32,10 @@
   color: #fff;
 }
 
+.addFriendForm > .buttonContainer > button {
+  background-color: var(--app-medium-grey);
+}
+
 .addFriendForm > label {
   font-size: 0.75rem;
 }

@@ -36,6 +36,7 @@
 
 .profileForm > .btnContainer > button {
   text-transform: capitalize;
+  background-color: var(--app-medium-grey);
 }
 
 .profileForm > .btnContainer > button[type='submit'] {
