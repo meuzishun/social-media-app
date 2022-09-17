@@ -41,7 +41,7 @@
 }
 
 .loginPage button[type='submit'] {
-  background-color: #6190e8;
+  background-color: var(--app-light-blue);
 }
 
 .loginPage button[type='button'] {

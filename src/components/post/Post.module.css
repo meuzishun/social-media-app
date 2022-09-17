@@ -9,7 +9,7 @@
 
 .comments,
 .replies {
-  border-left: 0.25rem solid rgb(0, 149, 255);
+  border-left: 0.25rem solid var(--app-light-blue);
   padding-left: 1.75rem;
 }
 
@@ -21,7 +21,7 @@
 
 .showCommentsBtn,
 .hideCommentsBtn {
-  background-color: rgb(0, 149, 255);
+  background-color: var(--app-light-blue);
   color: #fff;
   align-self: center;
 }
