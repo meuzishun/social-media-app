@@ -7,7 +7,7 @@ function Notification({ data }) {
   const { removeNotification } = useContext(NotificationsContext);
 
   const [{ status, isMounted }, toggle] = useTransition({
-    timeout: 2000,
+    timeout: 1500,
     initialEntered: false,
     mountOnEnter: false,
     preEnter: true,
@@ -24,7 +24,7 @@ function Notification({ data }) {
       const inTimer = setTimeout(() => {
         toggle();
         clearTimeout(inTimer);
-      }, 500);
+      }, 250);
     }
 
     if (status === 'entered') {
