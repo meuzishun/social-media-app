@@ -1,11 +1,17 @@
 import React, { useContext, useState } from 'react';
 import { UserContext } from '../../App';
+import { ModalContext } from '../../App';
+import { ModalTransitionContext } from '../Modal';
+import { PopupContext } from '../../App';
 import { addPost, uploadFileToStorage } from '../../services/firebaseApp';
 import uniqid from 'uniqid';
 import styles from './AddPostForm.module.css';
 
 function AddPostForm({ hideNewPostForm, getAndSetUserPosts }) {
   const [inputState, setInputState] = useState(null);
+  const { setDisplayModal } = useContext(ModalContext);
+  const toggleModal = useContext(ModalTransitionContext);
+  const { setPopupContent } = useContext(PopupContext);
   const { user, setUser } = useContext(UserContext);
   const [fileState, setFileState] = useState(null);
 
@@ -31,8 +37,13 @@ function AddPostForm({ hideNewPostForm, getAndSetUserPosts }) {
       await uploadFileToStorage(fileState, postData.file);
     }
     await addPost(postData);
-    hideNewPostForm();
+    // hideNewPostForm();
+    toggleModal();
     getAndSetUserPosts();
+  };
+
+  const handleCancelClick = () => {
+    toggleModal();
   };
 
   const handleFileChange = (e) => {
@@ -43,6 +54,7 @@ function AddPostForm({ hideNewPostForm, getAndSetUserPosts }) {
 
   return (
     <div className={styles.addPostContainer}>
+      <h3>create post</h3>
       <form onSubmit={handleAddPostSubmit}>
         <label htmlFor='postContent'>content</label>
         <input
@@ -63,7 +75,7 @@ function AddPostForm({ hideNewPostForm, getAndSetUserPosts }) {
         ></input>
         <div className={styles.btnContainer}>
           <button type='submit'>submit</button>
-          <button type='button' onClick={hideNewPostForm}>
+          <button type='button' onClick={handleCancelClick}>
             cancel
           </button>
         </div>

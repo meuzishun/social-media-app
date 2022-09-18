@@ -74,7 +74,7 @@ function App() {
       })
       .then((user) => {
         setUser(user);
-        navigate('/network');
+        navigate('/timeline');
         setNotifications((prev) => {
           return [
             ...prev,
