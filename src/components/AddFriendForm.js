@@ -1,7 +1,6 @@
 import React, { useContext, useState, useRef, useEffect } from 'react';
 import { UserContext } from '../App';
-import { ModalContext } from '../App';
-import { PopupContext } from '../App';
+import { ModalTransitionContext } from './Modal';
 import { getUsersByUsername } from '../services/firebaseApp';
 import styles from './AddFriendForm.module.css';
 import SearchResult from './SearchResult';
@@ -11,8 +10,7 @@ function AddFriendForm() {
   const [searchAttempted, setSearchAttempted] = useState(false);
   const [searchResults, setSearchResults] = useState([]);
   const { user } = useContext(UserContext);
-  const { setDisplayModal } = useContext(ModalContext);
-  const { setPopupContent } = useContext(PopupContext);
+  const toggleModal = useContext(ModalTransitionContext);
   const searchInputRef = useRef(null);
 
   const handleInputChange = (e) => {
@@ -30,8 +28,7 @@ function AddFriendForm() {
   };
 
   const handleCancelClick = () => {
-    setPopupContent(null);
-    setDisplayModal(false);
+    toggleModal();
   };
 
   useEffect(() => {

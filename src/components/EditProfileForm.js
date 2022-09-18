@@ -1,6 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { UserContext } from '../App';
 import { ModalContext } from '../App';
+import { ModalTransitionContext } from './Modal';
 import { PopupContext } from '../App';
 import {
   updateCurrentFirebaseUser,
@@ -12,6 +13,7 @@ import styles from './EditProfileForm.module.css';
 function EditProfileForm() {
   const { user, setUser } = useContext(UserContext);
   const { setDisplayModal } = useContext(ModalContext);
+  const toggleModal = useContext(ModalTransitionContext);
   const { setPopupContent } = useContext(PopupContext);
   const [userState, setUserState] = useState(user);
   const [fileState, setFileState] = useState(null);
@@ -47,8 +49,7 @@ function EditProfileForm() {
 
   const handleCancelClick = () => {
     setUserState(user); //? Is this needed?
-    setPopupContent(null);
-    setDisplayModal(false);
+    toggleModal();
   };
 
   return (

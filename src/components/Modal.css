@@ -9,11 +9,30 @@
 
   display: grid;
   place-content: start center;
+  transition: all 500ms ease-in-out;
 }
+
+.modalBackground.preEnter,
+.modalBackground.exiting,
+.modalBackground.exited {
+  opacity: 0;
+}
+
+/* .modalBackground.entering,
+.modalBackground.entered {
+  opacity: 1;
+} */
 
 .modalBackground > div {
   box-shadow: 1rem 1rem 3rem rgba(0, 0, 0, 0.85);
   margin-top: 10vh;
+  transition: all 500ms ease-in-out;
+}
+
+.modalBackground.preEnter > div,
+.modalBackground.exiting > div,
+.modalBackground.exited > div {
+  transform: translateY(-100vh);
 }
 
 /* .modalBackground > div {

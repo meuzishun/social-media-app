@@ -48,7 +48,7 @@ function App() {
   };
 
   const removeNotification = (notification) => {
-    console.log('removing notification...');
+    // console.log('removing notification...');
     const index = notifications.indexOf(notification);
     setNotifications((notifications) => {
       return [
@@ -85,7 +85,7 @@ function App() {
   }, []);
 
   useEffect(() => {
-    console.log(notifications); //? Why must we do this here? (see NotificationContainer.js)
+    // console.log(notifications); //? Why must we do this here? (see NotificationContainer.js)
   }, [notifications]);
 
   return (
