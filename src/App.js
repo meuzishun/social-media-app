@@ -67,21 +67,21 @@ function App() {
 
   useEffect(() => {
     //* FOR TESTING PURPOSES
-    navigate('/login');
-    // signInFirebaseUser('asmith@email.com', 'password')
-    //   .then((firebaseUser) => {
-    //     return getUserById(firebaseUser.uid);
-    //   })
-    //   .then((user) => {
-    //     setUser(user);
-    //     navigate('/network');
-    //     setNotifications((prev) => {
-    //       return [
-    //         ...prev,
-    //         { message: `User ${user.username} is signed in...`, id: 123 },
-    //       ];
-    //     });
-    //   });
+    // navigate('/login');
+    signInFirebaseUser('asmith@email.com', 'password')
+      .then((firebaseUser) => {
+        return getUserById(firebaseUser.uid);
+      })
+      .then((user) => {
+        setUser(user);
+        navigate('/network');
+        setNotifications((prev) => {
+          return [
+            ...prev,
+            { message: `User ${user.username} is signed in...`, id: 123 },
+          ];
+        });
+      });
   }, []);
 
   useEffect(() => {

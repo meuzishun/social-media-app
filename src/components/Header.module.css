@@ -1,8 +1,13 @@
+:root {
+  --header-side-padding: clamp(0.5rem, 2vw, 2rem);
+}
+
 header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0.5rem;
+  padding-top: 0.5rem;
+  padding: 0.5rem var(--header-side-padding);
   background-color: var(--app-light-blue);
   color: #fff;
   box-shadow: 0 0.15rem 0.15rem rgba(0, 0, 0, 0.25);
@@ -66,8 +71,8 @@ header a:hover {
   text-transform: capitalize;
   padding: 0.5rem 1rem;
   border: none;
-  border-radius: 1000px;
-  background-color: var(--app-light-grey);
-  color: var(--app-dark-grey);
+  /* border-radius: 1000px; */
+  background-color: var(--app-dark-grey);
+  color: var(--app-very-light-grey);
   transition: all 200ms ease-in-out;
 }
