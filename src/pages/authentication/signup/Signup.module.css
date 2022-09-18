@@ -44,8 +44,8 @@
 .signupPage button {
   font-size: 1rem;
   text-transform: capitalize;
-  background-color: var(--app-light-blue);
-  color: #fff;
+  background-color: #fff;
+  color: var(--app-light-blue);
 }
 
 .signupForm {
