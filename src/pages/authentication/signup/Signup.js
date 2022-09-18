@@ -8,7 +8,6 @@ import {
   uploadFileToStorage,
   updateCurrentFirebaseUser,
 } from '../../../services/firebaseApp';
-import uniqid from 'uniqid';
 import styles from './Signup.module.css';
 
 function Signup() {
