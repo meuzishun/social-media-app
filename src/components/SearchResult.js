@@ -51,7 +51,7 @@ export default function SearchResult({ result }) {
 
   return (
     <div className={styles.singleResult}>
-      <img src={avatarUrl} alt='userAvatar' />
+      {avatarUrl ? <img src={avatarUrl} alt='userAvatar' /> : null}
       <p className={styles.userSearch}>{result.username}</p>
       <button onClick={handleAddFriendSubmit} data-username={result.username}>
         add friend
