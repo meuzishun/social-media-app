@@ -244,6 +244,7 @@ function Signup() {
             name='avatar'
             accept='image/png, image/jpeg'
             onChange={handleFileChange}
+            required
           ></input>
         </div>
         <button type='submit'>create account</button>
