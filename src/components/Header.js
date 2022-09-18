@@ -26,7 +26,7 @@ function Header() {
         <h1>akebook</h1>
       </div>
       <div className={styles.userContainer}>
-        <img src={avatar} alt='user avatar' />
+        {avatar ? <img src={avatar} alt='user avatar' /> : null}
         <p>{user.username}</p>
       </div>
       <nav>

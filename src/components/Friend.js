@@ -32,7 +32,9 @@ function Friend({ friend }) {
 
   return (
     <div className={styles.friendContainer}>
-      <img src={avatar} alt='avatar' className={styles.avatar} />
+      {avatar ? (
+        <img src={avatar} alt='avatar' className={styles.avatar} />
+      ) : null}
       <h3 className={styles.username}>{friend.username}</h3>
       <p className={styles.name}>{friend.fullName}</p>
       <p className={styles.email}>{friend.email}</p>

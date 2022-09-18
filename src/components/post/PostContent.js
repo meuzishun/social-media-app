@@ -72,7 +72,9 @@ function PostContent({ postState, setPostState }) {
     <>
       {author ? (
         <div className={styles.postContent}>
-          <img src={avatar} alt='avatar' className={styles.avatar} />
+          {avatar ? (
+            <img src={avatar} alt='avatar' className={styles.avatar} />
+          ) : null}
           <p className={styles.username}>{author.username}</p>
           <hr />
           {!editMode ? (

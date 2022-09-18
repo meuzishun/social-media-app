@@ -25,7 +25,7 @@ function Profile() {
     <div className={styles.profilePage}>
       {user ? (
         <div className={styles.profileContainer}>
-          <img src={avatar} alt='user avatar' />
+          {avatar ? <img src={avatar} alt='user avatar' /> : null}
           <h1>name: {user.fullName}</h1>
           <h2>username: {user.username}</h2>
           <p>email: {user.email}</p>
