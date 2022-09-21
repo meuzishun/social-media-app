@@ -84,9 +84,9 @@ function App() {
       });
   }, []);
 
-  useEffect(() => {
-    // console.log(notifications); //? Why must we do this here? (see NotificationContainer.js)
-  }, [notifications]);
+  // useEffect(() => {
+  // console.log(notifications); //? Why must we do this here? (see NotificationContainer.js)
+  // }, [notifications]);
 
   return (
     <div className={styles.App}>

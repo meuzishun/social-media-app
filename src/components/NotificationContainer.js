@@ -6,10 +6,6 @@ import { NotificationsContext } from '../App';
 function NotificationContainer() {
   const { notifications } = useContext(NotificationsContext);
 
-  // useEffect(() => {
-  //   console.log(notifications); //? Why does this not work?
-  // }, [notifications]);
-
   return (
     <div className={styles.notificationContainer}>
       {notifications.map((notification) => (
