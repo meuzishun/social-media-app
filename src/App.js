@@ -32,7 +32,6 @@ export const PopupContext = createContext();
 export const NotificationsContext = createContext();
 
 function App() {
-  //* Hooks
   const [user, setUser] = useState(null);
   const [displayModal, setDisplayModal] = useState(false);
   const [popupContent, setPopupContent] = useState(null);
