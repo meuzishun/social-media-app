@@ -20,7 +20,6 @@ import styles from './App.module.css';
 //* Database imports
 import {
   getUserById,
-  getUserByUsername,
   getUsersByIdList,
   signInFirebaseUser,
 } from './services/firebaseApp';
