@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { UserContext } from '../../../App';
 import { ModalContext } from '../../../App';
-import { ModalTransitionContext } from '../../../components/Modal';
 import { PopupContext } from '../../../App';
 import AddPostForm from '../../../components/post/AddPostForm';
 import Post from '../../../components/post/Post';
@@ -11,26 +10,12 @@ import styles from './Timeline.module.css';
 function Timeline() {
   const { user } = useContext(UserContext);
   const { setDisplayModal } = useContext(ModalContext);
-  const toggleModal = useContext(ModalTransitionContext);
   const { setPopupContent } = useContext(PopupContext);
   const [posts, setPosts] = useState(null);
-  const [viewNewPostForm, setViewNewPostForm] = useState(false);
 
   const showNewPostForm = () => {
-    setPopupContent(
-      <AddPostForm
-        hideNewPostForm={hideNewPostForm}
-        getAndSetUserPosts={getAndSetUserPosts}
-      />
-    );
+    setPopupContent(<AddPostForm getAndSetUserPosts={getAndSetUserPosts} />);
     setDisplayModal(true);
-    setViewNewPostForm(true);
-  };
-
-  const hideNewPostForm = () => {
-    console.log('get rid of it!');
-    // toggleModal();
-    // setViewNewPostForm(false);
   };
 
   const getAndSetUserPosts = () => {
