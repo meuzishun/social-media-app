@@ -12,14 +12,9 @@ function Notification({ data }) {
     mountOnEnter: false,
     preEnter: true,
     unmountOnExit: true,
-    onStateChange: (e) => {
-      // console.log(e.current);
-    },
   });
 
   useEffect(() => {
-    // console.log(status);
-
     if (status === 'exited') {
       const inTimer = setTimeout(() => {
         toggle();
