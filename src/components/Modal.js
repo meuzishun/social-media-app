@@ -15,9 +15,6 @@ function Modal(props) {
     mountOnEnter: false,
     preEnter: true,
     unmountOnExit: true,
-    onStateChange: (e) => {
-      // console.log(e.current);
-    },
   });
 
   useEffect(() => {
