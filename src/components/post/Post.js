@@ -20,20 +20,14 @@ function Post({ post }) {
   };
 
   const handleShowCommentsClick = () => {
-    // commentsContainer.current.classList.remove('hidden');
     commentsContainer.current.style = 'display: block;';
-    // hideCommentsBtn.current.classList.remove('hidden');
     hideCommentsBtn.current.style = 'display: block;';
-    // showCommentsBtn.current.classList.add('hidden');
     showCommentsBtn.current.style = 'display: none;';
   };
 
   const handleHideCommentsClick = () => {
-    // commentsContainer.current.classList.add('hidden');
     commentsContainer.current.style = 'display: none;';
-    // hideCommentsBtn.current.classList.add('hidden');
     hideCommentsBtn.current.style = 'display: none;';
-    // showCommentsBtn.current.classList.remove('hidden');
     showCommentsBtn.current.style = 'display: block;';
   };
 
