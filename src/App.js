@@ -63,22 +63,7 @@ function App() {
   }, [user]);
 
   useEffect(() => {
-    //* FOR TESTING PURPOSES
-    // navigate('/signup');
-    signInFirebaseUser('asmith@email.com', 'password')
-      .then((firebaseUser) => {
-        return getUserById(firebaseUser.uid);
-      })
-      .then((user) => {
-        setUser(user);
-        navigate('/timeline');
-        setNotifications((prev) => {
-          return [
-            ...prev,
-            { message: `User ${user.username} is signed in...`, id: 123 },
-          ];
-        });
-      });
+    navigate('/login');
   }, []);
 
   return (
